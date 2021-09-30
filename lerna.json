@@ -1,0 +1,15 @@
+{
+  "version": "independent",
+  "npmClient": "pnpm",
+  "command": {
+    "publish": {
+      "ignoreChanges": [
+      ],
+      "message": "chore(release): publish"
+    }
+  },
+  "packages": [
+    "packages/*",
+    "packages/plugins/*"
+  ]
+}
