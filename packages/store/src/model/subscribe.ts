@@ -68,10 +68,9 @@ const combineSubscribe = (
 
     const unsubsribeStore = store.subscribe(() => {
       if (changed) {
+        changed = false;
         handlers.forEach(() => handler());
       }
-
-      changed = false;
     });
 
     return () => {
