@@ -22,7 +22,7 @@ const createContext = (store: Store) => {
     }
 
     Object.assign(reducers, _reducers);
-
+    Object.keys(_reducers).forEach(key => mountingModelNames.delete(key));
     store.replaceReducer(combineReducers(reducers));
   };
 
@@ -32,7 +32,6 @@ const createContext = (store: Store) => {
   const addModel: Context['apis']['addModel'] = (model, mountedModel) => {
     mountedModels.set(model, mountedModel);
     subscriptions.set(model, createSubscribe(context, model));
-    mountingModelNames.delete(mountedModel.name);
   };
 
   const getModel: Context['apis']['getModel'] = model => {
