@@ -46,5 +46,9 @@
   "sideEffects": false,
   "peerDependencies": {
     "@modern-js-reduck/store": "^0.1.0"
+  },
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

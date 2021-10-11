@@ -50,5 +50,9 @@
   "peerDependencies": {
     "@modern-js-reduck/plugin-xstate": "*",
     "@modern-js-reduck/store": "*"
+  },
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }
