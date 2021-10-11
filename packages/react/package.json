@@ -48,7 +48,7 @@
   "peerDependencies": {
     "react": "^17.0.2"
   },
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }

@@ -41,7 +41,7 @@
   "peerDependencies": {
     "@modern-js-reduck/store": "^0.1.1"
   },
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }
