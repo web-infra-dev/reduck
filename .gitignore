@@ -38,3 +38,7 @@ output_resource/
 **/*/adapters/**/index.js
 
 pnpm-lock.yaml
+
+**/*/tsconfig.temp.json
+
+.changeset/pre.json

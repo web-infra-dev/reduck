@@ -6,8 +6,10 @@
     "setup": "npm run reset && pnpm install",
     "reset": "lerna clean --yes && rm -rf node_modules",
     "lint": "modern lint",
-    "bump": "modern deploy bump",
-    "tags": "modern deploy tag"
+    "change": "modern change",
+    "bump": "modern bump",
+    "pre": "modern pre",
+    "release": "modern release"
   },
   "engines": {
     "node": ">=12.13.0"
@@ -46,7 +48,8 @@
   ],
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "packages/**/*"
     ]
   },
   "devDependencies": {
