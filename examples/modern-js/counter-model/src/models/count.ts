@@ -10,7 +10,7 @@ const countModel = model("count").define({
         ...state,
         value: state.value + 1
       };
-    }
+    },
   }
 });
 
