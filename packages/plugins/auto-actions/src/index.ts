@@ -30,7 +30,7 @@ declare module '@modern-js-reduck/store' {
       ? ArrayDisptachActions<M['_']['state']>
       : M['_']['state'] extends Record<string, any>
       ? ObjectDispatchActions<M['_']['state']>
-      : never;
+      : Record<string, unknown>;
   }
 }
 
