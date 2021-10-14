@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-reduck/plugin-xstate",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.5",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -29,8 +29,8 @@
   "devDependencies": {
     "@modern-js/module-tools": "^1.0.0-rc.1",
     "@modern-js/plugin-testing": "^1.0.0-rc.1",
-    "@modern-js-reduck/react": "^1.0.0-rc.1",
-    "@modern-js-reduck/store": "^1.0.0-rc.1",
+    "@modern-js-reduck/react": "^1.0.0-rc.5",
+    "@modern-js-reduck/store": "^1.0.0-rc.5",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/jest": "^26",
@@ -45,7 +45,7 @@
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "^0.1.0"
+    "@modern-js-reduck/store": "^1.0.0-rc.5"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
