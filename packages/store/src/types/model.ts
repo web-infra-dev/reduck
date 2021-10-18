@@ -4,7 +4,8 @@ export type Action<State, Payload = any> = (
   state: State,
   payload: Payload,
   ...extraArgs: any[]
-) => State;
+) => // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+State | void;
 
 export interface Actions<State> {
   [key: string]: Action<State> | Actions<State>;
