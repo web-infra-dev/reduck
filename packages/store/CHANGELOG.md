@@ -1,5 +1,15 @@
 # @modern-js-reduck/store
 
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- release: rc.7
+- 26d5144: fix(type): actions can return void
+- 9452589: fix: ts type
+- 1085d2d: fix: use model State type
+- 1085d2d: fix: model<State> when State passed use State
+
 ## 1.0.0-next.7
 
 ### Patch Changes
