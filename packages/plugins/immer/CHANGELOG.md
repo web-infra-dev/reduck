@@ -1,5 +1,23 @@
 # @modern-js-reduck/plugin-immutable
 
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- ac4124f: release: rc.7
+- 26d5144: fix(type): actions can return void
+- 9452589: fix: ts type
+- 1085d2d: fix: use model State type
+- fix: model type
+- 1085d2d: fix: model<State> when State passed use State
+- Updated dependencies [ac4124f]
+- Updated dependencies [26d5144]
+- Updated dependencies [9452589]
+- Updated dependencies [1085d2d]
+- Updated dependencies [undefined]
+- Updated dependencies [1085d2d]
+  - @modern-js-reduck/store@1.0.0-rc.9
+
 ## 1.0.0-rc.8
 
 ### Patch Changes
