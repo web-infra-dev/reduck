@@ -1,5 +1,19 @@
 # @modern-js-reduck/plugin-effects
 
+## 1.0.0-next.7
+
+### Patch Changes
+
+- 26d5144: fix(type): actions can return void
+- 9452589: fix: ts type
+- fix: use model State type
+- fix: model<State> when State passed use State
+- Updated dependencies [26d5144]
+- Updated dependencies [9452589]
+- Updated dependencies [undefined]
+- Updated dependencies [undefined]
+  - @modern-js-reduck/store@1.0.0-next.7
+
 ## 1.0.0-rc.6
 
 ### Patch Changes

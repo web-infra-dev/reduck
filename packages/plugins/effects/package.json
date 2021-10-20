@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-reduck/plugin-effects",
-  "version": "1.0.0-rc.6",
+  "version": "1.0.0-next.7",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -28,7 +28,7 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@modern-js-reduck/store": "^1.0.0-rc.6",
+    "@modern-js-reduck/store": "^1.0.0-next.7",
     "@modern-js/module-tools": "^1.0.0-rc.1",
     "@modern-js/plugin-testing": "^1.0.0-rc.1",
     "@types/jest": "^26",
@@ -42,7 +42,7 @@
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "^1.0.0-rc.6"
+    "@modern-js-reduck/store": "^1.0.0-next.7"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
