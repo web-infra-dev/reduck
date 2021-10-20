@@ -1,3 +1,5 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import {
   Context,
   Model,
@@ -19,14 +21,14 @@ type ModelInitial<M extends Omit<ModelDesc<any>, 'name'>> = (
 
 export const initializerSymbol = Symbol('model initializer');
 
-const model = <State = any, MDO extends ModelDescOptions = any>(
+const model = <State = void, MDO extends ModelDescOptions = any>(
   name: string,
 ) => ({
   define: <
-    M extends Omit<ModelDesc<State, MDO>, 'name'> = Omit<
-      ModelDesc<State, MDO>,
+    M extends Omit<
+      ModelDesc<State extends void ? any : State, MDO>,
       'name'
-    >,
+    > = Omit<ModelDesc<State extends void ? any : State, MDO>, 'name'>,
   >(
     modelDesc: ModelInitial<M> | M,
   ) => {
@@ -67,7 +69,9 @@ const model = <State = any, MDO extends ModelDescOptions = any>(
       };
 
       response._name = name;
-      response._ = undefined as M;
+      response._ = undefined as M & {
+        state: State extends void ? M['state'] : State;
+      };
 
       delete response._;
 
