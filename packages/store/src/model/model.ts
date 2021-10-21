@@ -69,7 +69,7 @@ const model = <State = void, MDO extends ModelDescOptions = any>(
       };
 
       response._name = name;
-      response._ = undefined as M & {
+      response._ = undefined as Omit<M, 'state'> & {
         state: State extends void ? M['state'] : State;
       };
 
