@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "jest-chain-transform": "^0.0.3",
     "redux": "^4.1.1"
   },
   "devDependencies": {
