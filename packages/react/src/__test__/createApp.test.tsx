@@ -1,7 +1,13 @@
 import { model } from '@modern-js-reduck/store';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { useModel, Provider, createApp, useStaticModel } from '..';
+import {
+  useModel,
+  Provider,
+  createApp,
+  useStaticModel,
+  useLocalModel,
+} from '..';
 
 const countModel = model('name').define({
   state: {
@@ -38,7 +44,7 @@ describe('test createApp', () => {
     expect(_useModel).toBeTruthy();
   });
 
-  test('Global Provider and useModel should works', () => {
+  test('Global Provider and useModel should work', () => {
     const result = render(
       <Provider>
         <App />
@@ -52,11 +58,11 @@ describe('test createApp', () => {
     expect(result.getByText(2)).toBeInTheDocument();
   });
 
-  test('Local Provider and useModel should works', () => {
-    const { Provider: LocalProvider, useModel: useLocalModel } = createApp({});
+  test('Local Provider and useModel should work', () => {
+    const { Provider: LocalProvider, useModel: useLModel } = createApp({});
 
     const SubApp = () => {
-      const [state, actions] = useLocalModel(countModel);
+      const [state, actions] = useLModel(countModel);
 
       return (
         <>
@@ -125,5 +131,35 @@ describe('test createApp', () => {
 
     fireEvent.click(result.getByText('updateCount'));
     expect(currentCount).toBe(2);
+  });
+
+  test('useLocalModel should work', () => {
+    function Container() {
+      const [state, actions] = useLocalModel(countModel);
+      const [state1, actions1] = useLocalModel(countModel);
+
+      return (
+        <div>
+          <div>state: {state.value}</div>
+          <div>state1: {state1.value}</div>
+          <button type="button" onClick={() => actions.add()}>
+            actions add
+          </button>
+          <button type="button" onClick={() => actions1.add()}>
+            actions1 add
+          </button>
+        </div>
+      );
+    }
+
+    const result = render(<Container />);
+
+    fireEvent.click(result.getByText('actions add'));
+    expect(result.getByText('state: 2')).toBeInTheDocument();
+    expect(result.getByText('state1: 1')).toBeInTheDocument();
+
+    fireEvent.click(result.getByText('actions1 add'));
+    expect(result.getByText('state: 2')).toBeInTheDocument();
+    expect(result.getByText('state1: 2')).toBeInTheDocument();
   });
 });

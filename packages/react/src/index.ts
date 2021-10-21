@@ -1,5 +1,5 @@
 import createApp from './createApp';
 
-const { Provider, useModel, useStaticModel } = createApp({});
+const { Provider, useModel, useStaticModel, useLocalModel } = createApp({});
 
-export { Provider, useModel, createApp, useStaticModel };
+export { Provider, useModel, createApp, useStaticModel, useLocalModel };
