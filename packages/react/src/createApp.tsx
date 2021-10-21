@@ -37,9 +37,9 @@ const createApp = (config: Config) => {
   }>(null as any);
 
   const Provider = (
-    props: PropsWithChildren<{ store?: Store; _config?: Config }>,
+    props: PropsWithChildren<{ store?: Store; config?: Config }>,
   ) => {
-    const { children, store: storeFromProps, _config } = props;
+    const { children, store: storeFromProps, config: _config } = props;
     const store = storeFromProps || createStore({ ...config, ..._config });
     const batchManager = createBatchManager(store);
 
@@ -50,44 +50,51 @@ const createApp = (config: Config) => {
     );
   };
 
+  const createUseModel =
+    (store: Store, batchManager: ReturnType<typeof createBatchManager>) =>
+    (...args: any[]) => {
+      const initialValue = useMemo(() => store.use(...args), []);
+      const [modelValue, setModelValue] = useState(initialValue);
+
+      const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
+
+      useEffect(() => {
+        const unsubsribe = initialValue[2](() => {
+          const newValue = store.use(...args);
+
+          if (
+            !shadowEqual(lastValueRef.current[0], newValue[0]) ||
+            !shadowEqual(lastValueRef.current[1], newValue[1])
+          ) {
+            batchManager.pushUpdate(() => {
+              setModelValue(newValue);
+              lastValueRef.current = newValue;
+            });
+          }
+        });
+
+        batchManager.addModels(...args);
+
+        return () => {
+          unsubsribe();
+          batchManager.removeModels(...args);
+        };
+      }, []);
+
+      return modelValue;
+    };
+
   const useModel: Store['use'] = (...args: any[]) => {
     const context = useContext(Context);
 
     invariant(
       Boolean(context),
-      'You should wrap your Component in CreateApp().Provider.',
+      `You should wrap your Component in CreateApp().Provider.`,
     );
 
     const { store, batchManager } = context;
-    const initialValue = useMemo(() => store.use(...args), []);
-    const [modelValue, setModelValue] = useState(initialValue);
 
-    const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
-
-    useEffect(() => {
-      const unsubsribe = initialValue[2](() => {
-        const newValue = store.use(...args);
-
-        if (
-          !shadowEqual(lastValueRef.current[0], newValue[0]) ||
-          !shadowEqual(lastValueRef.current[1], newValue[1])
-        ) {
-          batchManager.pushUpdate(() => {
-            setModelValue(newValue);
-            lastValueRef.current = newValue;
-          });
-        }
-      });
-
-      batchManager.addModels(...args);
-
-      return () => {
-        unsubsribe();
-        batchManager.removeModels(...args);
-      };
-    }, []);
-
-    return modelValue;
+    return useMemo(() => createUseModel(store, batchManager), [store])(...args);
   };
 
   const useStaticModel: Store['use'] = (...args: any[]) => {
@@ -101,7 +108,8 @@ const createApp = (config: Config) => {
     const { store } = context;
     const [state, actions, subscribe] = useMemo(() => store.use(...args), []);
     const value = useRef<ReturnType<UseModel> | any>([
-      state,
+      // deep clone state in case mutate origin state accidentlly.
+      JSON.parse(JSON.stringify(state)),
       actions,
       subscribe,
     ]);
@@ -126,10 +134,27 @@ const createApp = (config: Config) => {
     return value.current;
   };
 
+  const useLocalModel: Store['use'] = (...args: any[]) => {
+    const [store, batchManager] = useMemo(() => {
+      const localStoreConfig = {
+        enhanders: config?.enhancers || [],
+        middlewares: config?.middlewares || [],
+        plugins: config?.plugins,
+      };
+
+      const reuckStore = createStore(localStoreConfig);
+
+      return [reuckStore, createBatchManager(reuckStore)];
+    }, []);
+
+    return useMemo(() => createUseModel(store, batchManager), [])(...args);
+  };
+
   return {
     Provider,
     useModel,
     useStaticModel,
+    useLocalModel,
   };
 };
 
