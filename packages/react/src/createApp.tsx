@@ -31,6 +31,8 @@ const shadowEqual = (a: any, b: any) => {
 };
 
 const createApp = (config: Config) => {
+  let configFromProvider: Config | null = null;
+
   const Context = createContext<{
     store: Store;
     batchManager: ReturnType<typeof createBatchManager>;
@@ -42,6 +44,7 @@ const createApp = (config: Config) => {
     const { children, store: storeFromProps, config: _config } = props;
     const store = storeFromProps || createStore({ ...config, ..._config });
     const batchManager = createBatchManager(store);
+    configFromProvider = _config;
 
     return (
       <Context.Provider value={{ store, batchManager }}>
@@ -136,10 +139,12 @@ const createApp = (config: Config) => {
 
   const useLocalModel: Store['use'] = (...args: any[]) => {
     const [store, batchManager] = useMemo(() => {
+      const finalConfig = configFromProvider || config;
+
       const localStoreConfig = {
-        enhanders: config?.enhancers || [],
-        middlewares: config?.middlewares || [],
-        plugins: config?.plugins,
+        enhanders: finalConfig?.enhancers || [],
+        middlewares: finalConfig?.middlewares || [],
+        plugins: finalConfig?.plugins,
       };
 
       const reuckStore = createStore(localStoreConfig);
