@@ -66,9 +66,9 @@
     ]
   },
   "devDependencies": {
-    "@modern-js/monorepo-tools": "^1.0.0-rc.1",
-    "@modern-js/plugin-jarvis": "^1.0.0-rc.1",
-    "@modern-js/tsconfig": "^1.0.0-rc.1",
+    "@modern-js/monorepo-tools": "latest",
+    "@modern-js/plugin-jarvis": "latest",
+    "@modern-js/tsconfig": "latest",
     "@commitlint/config-conventional": "^13.2.0",
     "@commitlint/cli": "^13.2.0",
     "webpack": "^5.54.0"

@@ -38,14 +38,14 @@
     "dist/"
   ],
   "dependencies": {
-    "@modern-js/runtime": "^1.0.0-rc.0",
+    "@modern-js/runtime": "latest",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "@modern-js/plugin-testing": "^1.0.0-rc.9",
-    "@modern-js/app-tools": "^1.0.0-rc.0",
-    "@modern-js/plugin-jarvis": "^1.0.0-rc.0",
+    "@modern-js/plugin-testing": "latest",
+    "@modern-js/app-tools": "latest",
+    "@modern-js/plugin-jarvis": "latest",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
     "@types/react": "^17",
