@@ -57,7 +57,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": {
-    "url": "https://github.com/modern-js-dev/reduck/packages/plugins/devtools"
-  }
+  "repository": "modern-js-dev/reduck"
 }
