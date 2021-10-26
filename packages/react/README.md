@@ -30,4 +30,4 @@
 
 ## Contributing
 
-- [Contributing Guide](/modern-js-dev/reduck/blob/main/CONTRIBUTING.md)
+- [Contributing Guide](/CONTRIBUTING.md)
