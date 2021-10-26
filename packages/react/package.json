@@ -6,6 +6,18 @@
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/reduck/issues",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js",
+    "state",
+    "reduck"
+  ],
   "exports": {
     ".": {
       "node": "./dist/js/node/index.js",
@@ -50,6 +62,6 @@
     "access": "public"
   },
   "repository": {
-    "url": "https://github.com/modern-js-dev/reduck"
+    "url": "https://github.com/modern-js-dev/reduck/packages/react"
   }
 }

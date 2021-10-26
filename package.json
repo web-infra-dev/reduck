@@ -1,6 +1,19 @@
 {
   "private": true,
-  "name": "monorepo",
+  "name": "reduck-monorepo",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/reduck/issues",
+  "repository": "modern-js-dev/reduck",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js",
+    "state",
+    "reduck"
+  ],
   "scripts": {
     "new": "modern new",
     "setup": "npm run reset && pnpm install",
