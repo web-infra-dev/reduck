@@ -67,7 +67,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": {
-    "url": "https://github.com/modern-js-dev/reduck/packages/plugins/xstate-immer"
-  }
+  "repository": "modern-js-dev/reduck"
 }
