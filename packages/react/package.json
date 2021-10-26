@@ -37,8 +37,8 @@
     "invariant": "^2.2.4"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.0.0-rc.1",
-    "@modern-js/plugin-testing": "^1.0.0-rc.1",
+    "@modern-js/module-tools": "latest",
+    "@modern-js/plugin-testing": "latest",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/invariant": "^2.2.34",

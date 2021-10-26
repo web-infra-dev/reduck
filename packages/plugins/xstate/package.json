@@ -39,8 +39,8 @@
     "xstate": "^4.23.1"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.0.0-rc.1",
-    "@modern-js/plugin-testing": "^1.0.0-rc.1",
+    "@modern-js/module-tools": "latest",
+    "@modern-js/plugin-testing": "latest",
     "@modern-js-reduck/react": "^1.0.0-rc.10",
     "@modern-js-reduck/store": "^1.0.0-rc.10",
     "@testing-library/jest-dom": "^5.14.1",

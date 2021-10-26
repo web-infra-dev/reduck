@@ -38,8 +38,8 @@
     "@babel/runtime": "^7"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.0.0-rc.1",
-    "@modern-js/plugin-testing": "^1.0.0-rc.1",
+    "@modern-js/module-tools": "latest",
+    "@modern-js/plugin-testing": "latest",
     "@modern-js-reduck/store": "^1.0.0-rc.10",
     "@types/jest": "^26",
     "@types/node": "^14",
