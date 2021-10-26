@@ -30,4 +30,4 @@
 
 ## Contributing
 
-- [Contributing Guide](/contributing.md)
+- [Contributing Guide](/CONTRIBUTING.md)
