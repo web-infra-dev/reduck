@@ -1,5 +1,11 @@
 # @modern-js-reduck/store
 
+## 1.0.1
+
+### Patch Changes
+
+- fix: fix git url
+
 ## 1.0.0
 
 ### Minor Changes
