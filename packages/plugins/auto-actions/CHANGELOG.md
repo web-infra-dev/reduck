@@ -1,5 +1,13 @@
 # @modern-js-reduck/plugin-auto-actions
 
+## 1.0.1
+
+### Patch Changes
+
+- fix: fix git url
+- Updated dependencies [undefined]
+  - @modern-js-reduck/store@1.0.1
+
 ## 1.0.0
 
 ### Minor Changes
