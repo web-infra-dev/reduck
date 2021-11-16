@@ -108,9 +108,15 @@ type GetModelsState<Models extends Model[]> = UnionToIntersection<
   MountedModel<Models[number]>['state']
 >;
 
-type GetModelsAction<Models extends Model[]> = UnionToIntersection<
-  MountedModel<Models[number]>['actions']
->;
+type GetModelsAction<Models extends Model[]> = Models extends [
+  infer Head,
+  ...infer Tail
+]
+  ? (Head extends Model
+      ? UnionToIntersection<Merge<GetActions<Head>, 'actions'>['actions']>
+      : Record<string, unknown>) &
+      (Tail extends Model[] ? GetModelsAction<Tail> : Record<string, unknown>)
+  : Record<string, unknown>;
 
 type GetModelsStateTuple<
   Models extends ModelType[],
