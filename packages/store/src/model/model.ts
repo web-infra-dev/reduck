@@ -15,17 +15,6 @@ type ModelInitialParams = [
 type ModelInitial<S> = (...args: ModelInitialParams) => ModelDescWithoutName<S>;
 
 export const initializerSymbol = Symbol('model initializer');
-
-type ModelInput<S, A> = {
-  name?: string;
-  state: S;
-  actions?: {
-    [k in keyof A]: A[k] extends (state: S, ...payload: infer P) => any
-      ? (state: S, ...payload: P) => S | void
-      : never;
-  };
-};
-
 type Fn = (...args: any[]) => any;
 type MActions = Record<string, Fn>;
 
@@ -93,10 +82,9 @@ const model = <State = void>(name: string) => ({
 
       response._name = name;
 
-      response._ = undefined as Omit<
-        ModelInput<State extends void ? DS : State, DA>,
-        'state'
-      > & { state: State extends void ? DS : State } & { ds: DS } & {
+      response._ = undefined as Omit<MModel<DS, DA, DA>, 'state'> & {
+        state: State extends void ? DS : State;
+      } & { ds: DS } & {
         da: DA;
       } & { st: State } & { ra: RA };
 
