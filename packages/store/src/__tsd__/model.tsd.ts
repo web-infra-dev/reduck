@@ -1,5 +1,3 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { expectType } from 'tsd';
 import { useModel } from '@modern-js/runtime/model';
 import { model } from '..';
@@ -13,10 +11,14 @@ describe('action and state manually type', () => {
         expectType<State>(state);
         return { count: state.count + n };
       },
+      empty(state) {
+        expectType<State>(state);
+      },
     },
   });
   expectType<string>(counter.name);
-  expectType<(s: State, n: number) => State | void>(counter._.actions.add);
+  expectType<(s: State, n: number) => State>(counter._.actions.add);
+  expectType<(s: State) => void>(counter._.actions.empty);
   const [state, actions] = useModel(counter);
   expectType<State>(state);
   expectType<(n: number) => void>(actions.add);
@@ -31,10 +33,14 @@ describe('action and state auto infer', () => {
         expectType<State>(state);
         return { count: state.count + n };
       },
+      empty(state) {
+        expectType<State>(state);
+      },
     },
   });
   expectType<string>(counter.name);
-  expectType<(s: State, n: number) => State | void>(counter._.actions.add);
+  expectType<(s: State, n: number) => State>(counter._.actions.add);
+  expectType<(s: State) => void>(counter._.actions.empty);
   const [state, actions] = useModel(counter);
   expectType<State>(state);
   expectType<(n: number) => void>(actions.add);
@@ -66,7 +72,7 @@ describe('action and state function Initial', () => {
     },
   }));
   const [state] = useModel(counter);
-  expectType<(s: { c: number }, n: number) => { c: number } | void>(
+  expectType<(s: { c: number }, n: number) => { c: number }>(
     counter._.actions.add,
   );
   expectType<number>(state.c);
