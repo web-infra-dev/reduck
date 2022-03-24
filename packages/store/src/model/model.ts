@@ -1,38 +1,35 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import {
-  Context,
-  Model,
-  ModelDesc,
-  OnMountHook,
-  ModelDescOptions,
-} from '@/types';
+import { Context, Model, ModelDesc, OnMountHook, Actions } from '@/types';
 
-type ModelInitial<M extends Omit<ModelDesc<any>, 'name'>> = (
+type ModelDescWithoutName<S> = Omit<ModelDesc<S, any>, 'name'>;
+
+type ModelInitialParams = [
   context: Context,
-  {
-    use,
-    onMount,
-  }: {
+  hook: {
     use: Context['apis']['useModel'];
     onMount: OnMountHook;
   },
-) => M;
+];
+
+type ModelInitial<S> = (...args: ModelInitialParams) => ModelDescWithoutName<S>;
 
 export const initializerSymbol = Symbol('model initializer');
 
-const model = <State = void, MDO extends ModelDescOptions = any>(
-  name: string,
-) => ({
+const model = <State = void>(name: string) => ({
   define: <
-    M extends Omit<
-      ModelDesc<State extends void ? any : State, MDO>,
-      'name'
-    > = Omit<ModelDesc<State extends void ? any : State, MDO>, 'name'>,
+    DS,
+    M extends ModelDescWithoutName<
+      State extends void ? DS : State
+    > = ModelDescWithoutName<State extends void ? DS : State>,
   >(
-    modelDesc: ModelInitial<M> | M,
+    modelDesc:
+      | (M & { state: State extends void ? DS : State })
+      | ((
+          ...args: ModelInitialParams
+        ) => M & { state: State extends void ? DS : State }),
   ) => {
-    let modelInitializer: ModelInitial<M>;
+    let modelInitializer: ModelInitial<State extends void ? DS : State>;
 
     if (typeof modelDesc === 'function') {
       modelInitializer = modelDesc;
@@ -42,7 +39,9 @@ const model = <State = void, MDO extends ModelDescOptions = any>(
 
     const modelCache = new Map<string, ReturnType<typeof createResponse>>();
 
-    const createResponse = (initialLizer: ModelInitial<M>) => {
+    const createResponse = (
+      initialLizer: ModelInitial<State extends void ? DS : State>,
+    ) => {
       /**
        * Use to change model namespace when mount model
        * @example
@@ -69,8 +68,19 @@ const model = <State = void, MDO extends ModelDescOptions = any>(
       };
 
       response._name = name;
-      response._ = undefined as Omit<M, 'state'> & {
-        state: State extends void ? M['state'] : State;
+      response._ = undefined as Omit<
+        {
+          state: DS;
+          actions?: Actions<DS>;
+        },
+        'state'
+      > & {
+        state: State extends void
+          ? {
+              state: DS;
+              actions?: Actions<DS>;
+            }['state']
+          : State;
       };
 
       delete response._;
@@ -90,6 +100,7 @@ const model = <State = void, MDO extends ModelDescOptions = any>(
 
 export const getModelInitializer = (_model: Model) => _model[initializerSymbol];
 
-export const isModel = (_model: any) => Boolean(getModelInitializer(_model));
+export const isModel = (_model: any): _model is Model =>
+  Boolean(getModelInitializer(_model));
 
 export default model;
