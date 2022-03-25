@@ -41,7 +41,6 @@ const model = <State = void>(
     M extends Desc<S, State> & { state: S } = Desc<S, State> & { state: S },
     Resp = {
       _name: string;
-      name: string;
       _: Omit<M, 'state'> & { state: State extends void ? S : State };
     },
   >(
@@ -58,7 +57,6 @@ const model = <State = void>(
       M extends Desc<S, State> & { state: S } = Desc<S, State> & { state: S },
       Resp = {
         _name: string;
-        name: string;
         _: Omit<M, 'state'> & { state: State extends void ? S : State };
       },
     >(
