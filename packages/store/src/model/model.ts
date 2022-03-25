@@ -15,33 +15,67 @@ type ModelInitialParams = [
 type ModelInitial<S> = (...args: ModelInitialParams) => ModelDescWithoutName<S>;
 
 export const initializerSymbol = Symbol('model initializer');
-type Fn = (...args: any[]) => any;
-type MActions = Record<string, Fn>;
 
-type MModel<S, A extends MActions, SS> = {
-  state: S;
-  name?: string;
-  actions?: {
-    [k in keyof A]: A[k] extends (
-      state: SS extends void ? S : SS,
-      ...payload: infer P
-    ) => any
-      ? (
-          state: SS extends void ? S : SS,
-          ...payload: P
-        ) => SS extends void ? S | void : SS | void
-      : A[k];
-  };
+type ActionWithState<S> = (s: S, ...args: any[]) => S | void;
+interface ActionsDeep<S> {
+  [k: string]: ActionsDeep<S> | ActionWithState<S>;
+}
+
+type Desc<S, State> = {
+  actions?: ActionsDeep<State extends void ? S : State>;
 };
 
-const model = <State = void>(name: string) => ({
-  define: <DS, DA extends MActions, RA>(
-    modelDesc:
-      | MModel<DS, DA, State>
-      | ((
-          ...args: ModelInitialParams
-        ) => MModel<State extends void ? DS : State, DA, State>),
-  ) => {
+type DropState<A extends ActionsDeep<any>> = {
+  [k in keyof A]: A[k] extends Record<string, ActionWithState<any>>
+    ? DropState<A[k]>
+    : A[k] extends (s: any, ...p: infer P) => any
+    ? (...p: P) => void
+    : () => void;
+};
+
+const model = <State = void>(
+  name: string,
+): {
+  define: (<
+    S,
+    M extends Desc<S, State> & { state: S } = Desc<S, State> & { state: S },
+    Resp = {
+      _name: string;
+      name: string;
+      _: Omit<M, 'state'> & { state: State extends void ? S : State };
+    },
+  >(
+    c: (...args: any[]) => M & { state: S },
+  ) => Resp &
+    ((ns: string) => Resp & ((ns: string) => Resp)) & { m: M } & M & {
+      state: S;
+    } & {
+      rawDispatch: M['actions'];
+      dispatch: DropState<M['actions']>;
+    }) &
+    (<
+      S,
+      M extends Desc<S, State> & { state: S } = Desc<S, State> & { state: S },
+      Resp = {
+        _name: string;
+        name: string;
+        _: Omit<M, 'state'> & { state: State extends void ? S : State };
+      },
+    >(
+      c: M & { state: S },
+    ) => Resp & {
+      (ns: string): Resp & ((ns: string) => Resp);
+      _name: string;
+      name: string;
+      _: Omit<M, 'state'> & { state: State extends void ? S : State };
+    } & {
+      m: M;
+    } & M & { state: S } & {
+        rawDispatch: M['actions'];
+        dispatch: DropState<M['actions']>;
+      });
+} => ({
+  define(modelDesc) {
     let modelInitializer: ModelInitial<any>;
 
     if (typeof modelDesc === 'function') {
@@ -52,9 +86,7 @@ const model = <State = void>(name: string) => ({
 
     const modelCache = new Map<string, ReturnType<typeof createResponse>>();
 
-    const createResponse = (
-      initialLizer: ModelInitial<State extends void ? DS : State>,
-    ) => {
+    const createResponse = (initialLizer: ModelInitial<any>) => {
       /**
        * Use to change model namespace when mount model
        * @example
@@ -82,21 +114,13 @@ const model = <State = void>(name: string) => ({
 
       response._name = name;
 
-      response._ = undefined as Omit<MModel<DS, DA, DA>, 'state'> & {
-        state: State extends void ? DS : State;
-      } & { ds: DS } & {
-        da: DA;
-      } & { st: State } & { ra: RA };
-
-      delete response._;
-
       Object.defineProperty(response, initializerSymbol, {
         configurable: false,
         enumerable: false,
         value: initialLizer,
       });
 
-      return response;
+      return response as any;
     };
 
     return createResponse(modelInitializer);
