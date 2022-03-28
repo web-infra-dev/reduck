@@ -1,5 +1,3 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { Context, Model, ModelDesc, OnMountHook } from '@/types';
 
 type ModelDescWithoutName<S> = Omit<ModelDesc<S, any>, 'name'>;
@@ -44,7 +42,7 @@ const model = <State = void>(
       _: Omit<M, 'state'> & { state: State extends void ? S : State };
     },
   >(
-    c: (...args: any[]) => M & { state: S },
+    c: (...args: ModelInitialParams) => M & { state: S },
   ) => Resp &
     ((ns: string) => Resp & ((ns: string) => Resp)) & { m: M } & M & {
       state: S;
