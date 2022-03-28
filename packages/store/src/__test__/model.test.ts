@@ -38,6 +38,7 @@ describe('test model', () => {
       },
     });
 
+    store.use(countModel('counter1'))[1].add();
     expect(store.getState()).toEqual({
       counter: {
         value: 1,
