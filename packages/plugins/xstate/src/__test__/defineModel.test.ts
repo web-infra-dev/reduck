@@ -59,12 +59,12 @@ describe('define machine model', () => {
       }),
       machineOptions: {
         actions: {
-          waitAction: (ctx, event) => {
+          waitAction: (ctx: any, event: any) => {
             expect(event.type).toBe('STOP');
           },
         },
         services: {
-          walkService: (ctx, event) => () =>
+          walkService: (ctx: any, event: any) => () =>
             new Promise(resolve => {
               setTimeout(() => {
                 expect(event.type).toBe('WALK');
