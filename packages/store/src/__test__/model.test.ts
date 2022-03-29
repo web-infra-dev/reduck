@@ -27,8 +27,7 @@ describe('test model', () => {
   });
 
   test('model(name) will return a new model', () => {
-    const r = countModel('counter1');
-    store.use(r);
+    store.use(countModel('counter1'));
     expect(store.getState()).toEqual({
       counter: {
         value: 1,

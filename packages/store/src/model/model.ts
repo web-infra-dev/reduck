@@ -1,4 +1,4 @@
-import { Context, Model, ModelDesc, OnMountHook } from '@/types';
+import { Context, Model, ModelDesc, OnMountHook, Actions } from '@/types';
 
 type ModelDescWithoutName<S> = Omit<ModelDesc<S, any>, 'name'>;
 
@@ -14,29 +14,18 @@ type ModelInitial<S> = (...args: ModelInitialParams) => ModelDescWithoutName<S>;
 
 export const initializerSymbol = Symbol('model initializer');
 
-type ActionWithState<S> = (s: S, ...args: any[]) => S | void;
-interface ActionsDeep<S> {
-  [k: string]: ActionsDeep<S> | ActionWithState<S>;
-}
-
-type Desc<S, State> = {
-  actions?: ActionsDeep<State extends void ? S : State>;
+type ActionDesc<S, State> = {
+  actions?: Actions<State extends void ? S : State>;
 };
 
-type DropState<A extends ActionsDeep<any>> = {
-  [k in keyof A]: A[k] extends Record<string, ActionWithState<any>>
-    ? DropState<A[k]>
-    : A[k] extends (s: any, ...p: infer P) => any
-    ? (...p: P) => void
-    : () => void;
-};
-
-const model = <State = void>(
+type ModelFn = <State = void>(
   name: string,
-): {
+) => {
   define: (<
     S,
-    M extends Desc<S, State> & { state: S } = Desc<S, State> & { state: S },
+    M extends ActionDesc<S, State> & { state: S } = ActionDesc<S, State> & {
+      state: S;
+    },
     Resp = {
       _name: string;
       _: Omit<M, 'state'> & { state: State extends void ? S : State };
@@ -44,15 +33,14 @@ const model = <State = void>(
   >(
     c: (...args: ModelInitialParams) => M & { state: S },
   ) => Resp &
-    ((ns: string) => Resp & ((ns: string) => Resp)) & { m: M } & M & {
-      state: S;
-    } & {
-      rawDispatch: M['actions'];
-      dispatch: DropState<M['actions']>;
+    ((ns: string) => Resp & ((ns: string) => Resp)) & {
+      state: State extends void ? S : State;
     }) &
     (<
       S,
-      M extends Desc<S, State> & { state: S } = Desc<S, State> & { state: S },
+      M extends ActionDesc<S, State> & { state: S } = ActionDesc<S, State> & {
+        state: S;
+      },
       Resp = {
         _name: string;
         _: Omit<M, 'state'> & { state: State extends void ? S : State };
@@ -62,15 +50,10 @@ const model = <State = void>(
     ) => Resp & {
       (ns: string): Resp & ((ns: string) => Resp);
       _name: string;
-      name: string;
       _: Omit<M, 'state'> & { state: State extends void ? S : State };
-    } & {
-      m: M;
-    } & M & { state: S } & {
-        rawDispatch: M['actions'];
-        dispatch: DropState<M['actions']>;
-      });
-} => ({
+    });
+};
+const model: ModelFn = name => ({
   define(modelDesc) {
     let modelInitializer: ModelInitial<any>;
 

@@ -18,6 +18,7 @@ const countModel = model<{ value: number }>('counter').define({
 describe('createStore', () => {
   test('create store works', () => {
     const store = createStore();
+
     expect(store.getState()).toEqual({});
   });
 

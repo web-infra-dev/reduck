@@ -44,8 +44,6 @@ const counterInfer = model('counter').define({
 describe('action and state manually type', () => {
   expectType<string>(counterManual.name);
 
-  // expectType 是严格相等, expectType<'a' | 'b'>('a') 会报错
-  // 对于union来说, 使用expectAssignable更合理
   expectAssignable<(s: StateManual, n: number) => StateManual>(
     counterManual._.actions.add,
   );
