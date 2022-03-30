@@ -52,7 +52,7 @@ const filter = <T extends any[]>(
   return newState;
 };
 
-type ArrayDisptachActions<T extends any[]> = {
+type ArrayDispatchActions<T extends any[]> = {
   push: (payload: T[0]) => void;
   pop: () => void;
   shift: () => void;
@@ -65,4 +65,4 @@ type ArrayDisptachActions<T extends any[]> = {
 };
 
 export { push, pop, shift, unshift, concat, splice, filter };
-export type { ArrayDisptachActions };
+export type { ArrayDispatchActions };

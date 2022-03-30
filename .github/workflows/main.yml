@@ -28,9 +28,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: install pnpm
         run: npm i -g pnpm
-        
+
       - name: build
         run: pnpm i
-        
+
       - name: test
-        run: pnpm -r test
+        run: pnpm -r test & pnpm -r test-type

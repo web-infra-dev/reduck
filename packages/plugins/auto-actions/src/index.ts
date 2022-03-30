@@ -2,7 +2,7 @@ import { createPlugin } from '@modern-js-reduck/store';
 import { Model } from '@modern-js-reduck/store/dist/types/types';
 import { getType, mergeActions } from './utils';
 import * as primitiveActions from './primitive';
-import { ArrayDisptachActions } from './array';
+import { ArrayDispatchActions } from './array';
 import * as arrayActions from './array';
 import { ObjectDispatchActions, createObjectActions } from './object';
 
@@ -27,7 +27,7 @@ declare module '@modern-js-reduck/store' {
       | symbol
       ? ExractDispatchAction<typeof primitiveActions, M['_']['state']>
       : M['_']['state'] extends any[]
-      ? ArrayDisptachActions<M['_']['state']>
+      ? ArrayDispatchActions<M['_']['state']>
       : M['_']['state'] extends Record<string, any>
       ? ObjectDispatchActions<M['_']['state']>
       : Record<string, unknown>;
