@@ -36,7 +36,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "redux-devtools-extension": "^2.13.9"
+    "redux-devtools-extension": "^2.13.9",
+    "redux": "^4.1.1"
   },
   "devDependencies": {
     "@modern-js/module-tools": "latest",
