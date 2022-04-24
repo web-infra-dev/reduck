@@ -40,12 +40,10 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "pnpm exec eslint --fix --color --cache --quiet",
-      "git add"
+      "pnpm exec eslint --fix --color --cache --quiet"
     ],
     "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
-      "pnpm exec eslint --fix --color --cache --quiet",
-      "git add"
+      "pnpm exec eslint --fix --color --cache --quiet"
     ]
   },
   "eslintConfig": {
