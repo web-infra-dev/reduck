@@ -73,7 +73,7 @@ declare module '@modern-js-reduck/store' {
           > & {
             state: Interpreter<TContext, any, TEvent>['state'];
           }
-        : never;
+        : StateMachine<any, any, any>;
     };
   }
 
@@ -92,7 +92,7 @@ declare module '@modern-js-reduck/store' {
             infer TEvent
           >
         ? Interpreter<TContext, any, TEvent>['send']
-        : never;
+        : (event: any) => void;
     };
   }
 }
