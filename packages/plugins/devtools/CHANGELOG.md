@@ -1,5 +1,13 @@
 # @modern-js-reduck/plugin-devtools
 
+## 1.0.3
+
+### Patch Changes
+
+- bump dep
+- Updated dependencies [2b7d19f]
+  - @modern-js-reduck/store@1.0.4
+
 ## 1.0.1
 
 ### Patch Changes

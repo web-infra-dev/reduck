@@ -1,5 +1,11 @@
 # @modern-js-reduck/store
 
+## 1.0.4
+
+### Patch Changes
+
+- 2b7d19f: fix: merge actions bug when use mutiple models
+
 ## 1.0.1
 
 ### Patch Changes
