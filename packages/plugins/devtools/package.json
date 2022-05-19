@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-reduck/plugin-devtools",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "files": [
     "dist"
   ],
@@ -45,7 +45,7 @@
   "devDependencies": {
     "@modern-js/module-tools": "latest",
     "@modern-js/plugin-testing": "latest",
-    "@modern-js-reduck/store": "^1.0.1",
+    "@modern-js-reduck/store": "^1.0.4",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
@@ -55,7 +55,7 @@
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "^1.0.1"
+    "@modern-js-reduck/store": "^1.0.4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
