@@ -8,7 +8,7 @@ const testModel = model('name').define({
 const testModel1 = model('name1').define({
   state: 0,
   actions: {
-    setState(_state, payload) {
+    setState(_state, payload: number) {
       return payload + 1;
     },
   },

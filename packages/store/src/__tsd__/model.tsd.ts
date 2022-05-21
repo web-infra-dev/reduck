@@ -8,6 +8,8 @@ const counterManual = model<StateManual>('counter').define({
   actions: {
     add(state, n: number) {
       expectType<StateManual>(state);
+      // FIXME: ESlint 校验时，无法正确获取参数 state 的类型信息，识别为 any
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       return { count: state.count + n, name: 'a' };
     },
     empty(state) {
@@ -27,6 +29,8 @@ const counterInfer = model('counter').define({
   actions: {
     add(state, n: number) {
       expectType<StateInfer>(state);
+      // FIXME: ESlint 校验时，无法正确获取参数 state 的类型信息，识别为 any
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       return { count: state.count + n, name: 'b' };
     },
     empty(state) {
@@ -75,6 +79,8 @@ describe('action and state function Initial', () => {
     actions: {
       add(state, payload: number) {
         expectType<number>(state.c);
+        // FIXME: ESlint 校验时，无法正确获取参数 state 的类型信息，识别为 any
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         return { c: state.c + payload };
       },
       test: {
@@ -82,6 +88,8 @@ describe('action and state function Initial', () => {
           return s;
         },
         b(s, p: number) {
+          // FIXME: ESlint 校验时，无法正确获取参数 state 的类型信息，识别为 any
+          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
           return { ...s, c: s.c + p };
         },
       },

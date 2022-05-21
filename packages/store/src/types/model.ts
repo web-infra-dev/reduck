@@ -4,8 +4,7 @@ export type Action<State, Payload = any> = (
   state: State,
   payload: Payload,
   ...extraArgs: any[]
-) => // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-State | void;
+) => State | void;
 
 export interface Actions<State> {
   [key: string]: Action<State> | Actions<State>;
@@ -110,7 +109,7 @@ type GetModelsState<Models extends Model[]> = UnionToIntersection<
 
 type GetModelsAction<Models extends Model[]> = Models extends [
   infer Head,
-  ...infer Tail
+  ...infer Tail,
 ]
   ? (Head extends Model
       ? UnionToIntersection<Merge<GetActions<Head>, 'actions'>['actions']>
