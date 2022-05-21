@@ -22,16 +22,11 @@
     "change": "modern change",
     "bump": "modern bump",
     "pre": "modern pre",
-    "release": "modern release"
+    "release": "modern release",
+    "prepare": "husky install"
   },
   "engines": {
     "node": ">=12.13.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "commitlint": {
     "extends": [
@@ -69,6 +64,7 @@
     "@modern-js/monorepo-tools": "^1.4.6",
     "@modern-js/plugin-jarvis": "^1.2.12",
     "@modern-js/tsconfig": "^1.2.0",
+    "husky": "^8.0.0",
     "webpack": "^5.54.0"
   }
 }
