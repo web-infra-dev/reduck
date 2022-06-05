@@ -9,16 +9,16 @@ const createSubscribe = (context: Context, model: Model) => {
 
   const { name } = mountedModel;
   let lastState = null;
-  let unsubsribeStore: ReturnType<typeof context.store.subscribe>;
+  let unsubscribeStore: ReturnType<typeof context.store.subscribe>;
   const handlers = new Set<any>();
 
   const setupSubscribeStore = () => {
     // Already subscribed store
-    if (unsubsribeStore) {
-      return unsubsribeStore;
+    if (unsubscribeStore) {
+      return unsubscribeStore;
     }
 
-    unsubsribeStore = context.store.subscribe(() => {
+    unsubscribeStore = context.store.subscribe(() => {
       const curState = context.store.getState()[name];
 
       if (lastState !== curState) {
@@ -28,18 +28,18 @@ const createSubscribe = (context: Context, model: Model) => {
       }
     });
 
-    return unsubsribeStore;
+    return unsubscribeStore;
   };
 
   return (handler: () => void) => {
-    unsubsribeStore = setupSubscribeStore();
+    unsubscribeStore = setupSubscribeStore();
     handlers.add(handler);
 
     return () => {
       handlers.delete(handler);
       if (handlers.size === 0) {
-        unsubsribeStore?.();
-        unsubsribeStore = null;
+        unsubscribeStore?.();
+        unsubscribeStore = null;
       }
     };
   };
@@ -56,17 +56,17 @@ const combineSubscribe = (
   return (handler: () => void) => {
     handlers.add(handler);
 
-    const disposelist = [];
+    const disposer = [];
 
     subscribes.forEach(subscribe => {
-      disposelist.push(
+      disposer.push(
         subscribe(() => {
           changed = true;
         }),
       );
     });
 
-    const unsubsribeStore = store.subscribe(() => {
+    const unsubscribeStore = store.subscribe(() => {
       if (changed) {
         changed = false;
         handlers.forEach(() => handler());
@@ -74,8 +74,8 @@ const combineSubscribe = (
     });
 
     return () => {
-      unsubsribeStore();
-      disposelist.forEach(dispose => dispose());
+      unsubscribeStore();
+      disposer.forEach(dispose => dispose());
     };
   };
 };

@@ -65,7 +65,7 @@ const model: ModelFn = name => ({
 
     const modelCache = new Map<string, ReturnType<typeof createResponse>>();
 
-    const createResponse = (initialLizer: ModelInitial<any>) => {
+    const createResponse = (initializer: ModelInitial<any>) => {
       /**
        * Use to change model namespace when mount model
        * @example
@@ -79,7 +79,7 @@ const model: ModelFn = name => ({
         }
 
         const clonedModelInitializer = (...args: [Context, any]) => {
-          const result = initialLizer(...args);
+          const result = initializer(...args);
 
           return result;
         };
@@ -96,7 +96,7 @@ const model: ModelFn = name => ({
       Object.defineProperty(response, initializerSymbol, {
         configurable: false,
         enumerable: false,
-        value: initialLizer,
+        value: initializer,
       });
 
       return response as any;

@@ -67,7 +67,7 @@ const parseModelParams = (context: Context, _models: any) => {
         '[object Object]'
       ) {
         throw new Error(
-          `You cant use mutiple model one of which's state is primitive data`,
+          `You cant use multiple model one of which's state is primitive data`,
         );
       }
     });
