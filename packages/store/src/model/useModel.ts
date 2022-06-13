@@ -43,22 +43,16 @@ function createUseModel(context: Context): UseModel {
 const parseModelParams = (context: Context, _models: any) => {
   const models = Array.isArray(_models) ? _models : [_models];
   const actualModels = [];
-  let stateSelector: any = null;
-  let actionSelector: any = null;
+  const selectors = [];
 
   for (const model of models) {
-    if (typeof model === 'function' && !isModel(model)) {
-      if (!stateSelector) {
-        stateSelector = model;
-      } else if (!actionSelector) {
-        actionSelector = model;
-      }
-
-      continue;
+    if (isModel(model)) {
+      actualModels.push(model);
+    } else {
+      selectors.push(model);
     }
-
-    actualModels.push(model);
   }
+  let [stateSelector, actionSelector] = selectors;
 
   if (actualModels.length > 1) {
     actualModels.forEach(m => {

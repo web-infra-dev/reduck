@@ -2,7 +2,7 @@ import { Store } from '@modern-js-reduck/store';
 import { unstable_batchedUpdates } from 'react-dom';
 import { Model } from '@modern-js-reduck/store/dist/types/types';
 
-const isModel = (model: Model | any) => Boolean(model._name);
+const isModel = (model: Model | any) => Boolean(model?._name);
 
 const combineSubscribe = (
   store: Store,
