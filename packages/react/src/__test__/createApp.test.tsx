@@ -162,4 +162,47 @@ describe('test createApp', () => {
     expect(result.getByText('state: 2')).toBeInTheDocument();
     expect(result.getByText('state1: 2')).toBeInTheDocument();
   });
+
+  test('Global Provider and useModel with Array should work', () => {
+    const modelA = model('a').define({
+      state: {
+        a: 1,
+      },
+    });
+    const modelB = model('b').define({
+      state: {
+        b: 2,
+      },
+      actions: {
+        add(state) {
+          return { b: state.b + 1 };
+        },
+      },
+    });
+    const App = () => {
+      const [state, actions] = useModel([modelA, modelB]);
+
+      return (
+        <>
+          <div>{state.a}</div>
+          <div>{state.b}</div>
+          <button type="button" onClick={() => actions.add()}>
+            add
+          </button>
+        </>
+      );
+    };
+    const result = render(
+      <Provider>
+        <App />
+      </Provider>,
+    );
+
+    expect(result.getByText(1)).toBeInTheDocument();
+    expect(result.getByText(2)).toBeInTheDocument();
+
+    fireEvent.click(result.getByText('add'));
+
+    expect(result.getByText(3)).toBeInTheDocument();
+  });
 });
