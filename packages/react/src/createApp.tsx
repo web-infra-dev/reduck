@@ -55,7 +55,8 @@ const createApp = (config: Config) => {
 
   const createUseModel =
     (store: Store, batchManager: ReturnType<typeof createBatchManager>) =>
-    (...args: any[]) => {
+    (..._args: any[]) => {
+      const args = _args.flat();
       const initialValue = useMemo(() => store.use(...args), []);
       const [modelValue, setModelValue] = useState(initialValue);
 
