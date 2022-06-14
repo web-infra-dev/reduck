@@ -8,6 +8,8 @@ const count1Model = model('count1').define({
     add(state) {
       return {
         ...state,
+        // FIXME: ESlint 校验时，无法正确获取参数 state 的类型信息，识别为 any
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         value: state.value + 1,
       };
     },
@@ -22,6 +24,8 @@ const count2Model = model('count2').define({
     add1(state) {
       return {
         ...state,
+        // FIXME: ESlint 校验时，无法正确获取参数 state 的类型信息，识别为 any
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         value: state.value + 1,
       };
     },

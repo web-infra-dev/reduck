@@ -16,7 +16,7 @@ export const plugin = createPlugin(() => ({
     return modelDesc;
 
     /**
-     * tranverse for immerifing actions
+     * traverse for immerifing actions
      */
     function traverse(obj: any) {
       Object.keys(obj).forEach(key => {

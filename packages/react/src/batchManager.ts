@@ -14,17 +14,17 @@ const combineSubscribe = (
   return (handler: () => void) => {
     handlers.add(handler);
 
-    const disposelist: any[] = [];
+    const disposer: any[] = [];
 
     subscribes.forEach(subscribe => {
-      disposelist.push(
+      disposer.push(
         subscribe(() => {
           changed = true;
         }),
       );
     });
 
-    const unsubsribeStore = store.subscribe(() => {
+    const unsubscribeStore = store.subscribe(() => {
       if (changed) {
         handlers.forEach(() => handler());
       }
@@ -33,8 +33,8 @@ const combineSubscribe = (
     });
 
     return () => {
-      unsubsribeStore();
-      disposelist.forEach(dispose => dispose());
+      unsubscribeStore();
+      disposer.forEach(dispose => dispose());
     };
   };
 };
@@ -47,7 +47,7 @@ const createBatchManager = (store: Store) => {
   const updateList: (() => void)[] = [];
 
   // listen to models in using
-  const setupSubsribe = () => {
+  const setupSubscribe = () => {
     if (typeof unsubscribe === 'function') {
       unsubscribe();
     }
@@ -101,7 +101,7 @@ const createBatchManager = (store: Store) => {
       }
     });
 
-    setupSubsribe();
+    setupSubscribe();
   };
 
   // add models to listen

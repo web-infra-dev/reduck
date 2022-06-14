@@ -6,11 +6,11 @@ import { ArrayDispatchActions } from './array';
 import * as arrayActions from './array';
 import { ObjectDispatchActions, createObjectActions } from './object';
 
-type ExractDispatchAction<T, State> = {
+type ExtractDispatchAction<T, State> = {
   [key in keyof T]: T[key] extends (state: any) => any
     ? () => void
     : T[key] extends (state: any, payload: any) => any
-    ? (paylod: State) => void
+    ? (payload: State) => void
     : never;
 };
 
@@ -25,7 +25,7 @@ declare module '@modern-js-reduck/store' {
       | ((...args: any[]) => any)
       | RegExp
       | symbol
-      ? ExractDispatchAction<typeof primitiveActions, M['_']['state']>
+      ? ExtractDispatchAction<typeof primitiveActions, M['_']['state']>
       : M['_']['state'] extends any[]
       ? ArrayDispatchActions<M['_']['state']>
       : M['_']['state'] extends Record<string, any>

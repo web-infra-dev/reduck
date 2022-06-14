@@ -1,11 +1,15 @@
 import { model, createStore } from '..';
 
-const countModel = model<{ value: number }>('counter').define({
+interface State {
+  value: number;
+}
+
+const countModel = model<State>('counter').define({
   state: {
     value: 1,
   },
   actions: {
-    add(state) {
+    add(state: State) {
       return {
         ...state,
         value: state.value + 1,

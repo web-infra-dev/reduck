@@ -63,7 +63,7 @@ const createApp = (config: Config) => {
       const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
 
       useEffect(() => {
-        const unsubsribe = initialValue[2](() => {
+        const unsubscribe = initialValue[2](() => {
           const newValue = store.use(...args);
 
           if (
@@ -80,7 +80,7 @@ const createApp = (config: Config) => {
         batchManager.addModels(...args);
 
         return () => {
-          unsubsribe();
+          unsubscribe();
           batchManager.removeModels(...args);
         };
       }, []);
@@ -112,7 +112,7 @@ const createApp = (config: Config) => {
     const { store } = context;
     const [state, actions, subscribe] = useMemo(() => store.use(...args), []);
     const value = useRef<ReturnType<UseModel> | any>([
-      // deep clone state in case mutate origin state accidentlly.
+      // deep clone state in case mutate origin state accidentally.
       JSON.parse(JSON.stringify(state)),
       actions,
       subscribe,
@@ -143,14 +143,14 @@ const createApp = (config: Config) => {
       const finalConfig = configFromProvider || config;
 
       const localStoreConfig = {
-        enhanders: finalConfig?.enhancers || [],
+        enhancers: finalConfig?.enhancers || [],
         middlewares: finalConfig?.middlewares || [],
         plugins: finalConfig?.plugins,
       };
 
-      const reuckStore = createStore(localStoreConfig);
+      const reduckStore = createStore(localStoreConfig);
 
-      return [reuckStore, createBatchManager(reuckStore)];
+      return [reduckStore, createBatchManager(reduckStore)];
     }, []);
 
     return useMemo(() => createUseModel(store, batchManager), [])(...args);

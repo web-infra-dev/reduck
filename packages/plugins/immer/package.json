@@ -42,10 +42,10 @@
     "immer": "^9.0.5"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "latest",
-    "@modern-js/plugin-testing": "latest",
     "@modern-js-reduck/store": "^1.0.1",
-    "@types/jest": "^26",
+    "@modern-js/module-tools": "^1.5.3",
+    "@modern-js/plugin-testing": "^1.5.5",
+    "@types/jest": "^27.5.1",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",

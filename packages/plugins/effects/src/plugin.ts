@@ -12,7 +12,7 @@ interface Effects {
 }
 
 declare module '@modern-js-reduck/store' {
-  // Add `effects` type when use model({effets}).
+  // Add `effects` type when use model({effects}).
   interface ModelDesc {
     effects?: Effects;
   }
@@ -24,7 +24,7 @@ declare module '@modern-js-reduck/store' {
 }
 
 /**
- * Generare dispatch action from effects definations.
+ * Generate dispatch action from effects definitions.
  */
 const createDispatchActionsFromEffects = (
   store: any,
@@ -47,7 +47,7 @@ const createDispatchActionsFromEffects = (
           });
 
         // Handled by promise middleware or redux thunk
-        // Otherwise, do not dispatch action, just exec the effect fuction.
+        // Otherwise, do not dispatch action, just exec the effect function.
         if (value instanceof Promise || typeof value === 'function') {
           return dispatch(value);
         }
