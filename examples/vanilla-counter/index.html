@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>reduck-vanilla-counter</title>
+  </head>
+  <body>
+    <script>
+      globalThis.process = { env: { NODE_ENV: "dev" } };
+    </script>
+    <div id="root"></div>
+    <script type="module">
+      import React from "https://esm.sh/react@17";
+      import ReactDOM from "https://esm.sh/react-dom@17";
+      import { model } from "https://esm.sh/@modern-js-reduck/store";
+      import {
+        Provider,
+        useModel,
+      } from "https://esm.sh/@modern-js-reduck/react";
+      const countModel = model("count").define({
+        state: {
+          count: 1,
+        },
+        actions: {
+          add(state) {
+            return {
+              count: state.count + 1,
+            };
+          },
+        },
+      });
+      function App() {
+        const [state, actions] = useModel(countModel);
+        return React.createElement(
+          "div",
+          null,
+          React.createElement("div", null, "counter: ", state.count),
+          React.createElement(
+            "button",
+            {
+              onClick: actions.add,
+            },
+            "add",
+          ),
+        );
+      }
+      ReactDOM.render(
+        React.createElement(
+          React.StrictMode,
+          null,
+          React.createElement(Provider, null, React.createElement(App, null)),
+        ),
+        document.getElementById("root"),
+      );
+    </script>
+  </body>
+</html>
