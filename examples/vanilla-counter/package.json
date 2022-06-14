@@ -1,0 +1,11 @@
+{
+  "name": "vanilla-counter",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "serve ./ -p 3000"
+  },
+  "dependencies": {
+    "serve": "latest"
+  }
+}
