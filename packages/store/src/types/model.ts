@@ -65,11 +65,16 @@ export interface GetActions<M extends Model> {
 export interface GetState<M extends Model> {
   state: M['_']['state'];
 }
-
+export type GetModelState<M extends Model = Model> = UnionToIntersection<
+  Merge<GetState<M>, 'state'>['state']
+>;
+export type GetModelActions<M extends Model = Model> = UnionToIntersection<
+  Merge<GetActions<M>, 'actions'>['actions']
+>;
 export type MountedModel<M extends Model = Model> = {
   name: string;
-  state: UnionToIntersection<Merge<GetState<M>, 'state'>['state']>;
-  actions: UnionToIntersection<Merge<GetActions<M>, 'actions'>['actions']>;
+  state: GetModelState<M>;
+  actions: GetModelActions<M>;
   modelDesc: ModelDesc;
 };
 

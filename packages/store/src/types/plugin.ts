@@ -1,6 +1,6 @@
-import { Store } from 'redux';
-import { Context, StoreConfig } from './app';
-import { Action, Model, ModelDesc, MountedModel } from './model';
+import type { Store } from 'redux';
+import type { Context, StoreConfig } from './app';
+import type { Action, Model, ModelDesc, MountedModel } from './model';
 
 export interface PluginContext {
   store: Store;

@@ -37,9 +37,11 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js-reduck/store": "^1.0.1",
+    "hoist-non-react-statics": "3.3.2",
     "invariant": "^2.2.4"
   },
   "devDependencies": {
+    "create-react-class": "15.7.0",
     "@modern-js/module-tools": "^1.5.3",
     "@modern-js/plugin-testing": "^1.5.5",
     "@testing-library/jest-dom": "^5.14.1",

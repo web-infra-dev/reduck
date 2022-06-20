@@ -30,7 +30,7 @@ const shadowEqual = (a: any, b: any) => {
   return Object.keys(a).every(key => a[key] === b[key]);
 };
 
-const createApp = (config: Config) => {
+export const createApp = (config: Config) => {
   let configFromProvider: Config | null = null;
 
   const Context = createContext<{
@@ -163,5 +163,3 @@ const createApp = (config: Config) => {
     useLocalModel,
   };
 };
-
-export default createApp;

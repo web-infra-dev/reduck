@@ -1,5 +1,4 @@
-import createApp from './createApp';
+export { createApp } from './createApp';
 
-const { Provider, useModel, useStaticModel, useLocalModel } = createApp({});
-
-export { Provider, useModel, createApp, useStaticModel, useLocalModel };
+export * from './hook';
+export * from './connect';
