@@ -8,6 +8,9 @@ export type {
   GetActions,
   GetState,
   ModelDescOptions,
+  GetModelState,
+  GetModelActions,
+  Model,
 } from '@/types';
 
 export { createStore, model, createPlugin };
