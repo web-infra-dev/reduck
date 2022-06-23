@@ -8,7 +8,7 @@ export interface PluginContext {
 
 export interface PluginLifeCycle {
   /**
-   * Before createStore, this hook will be revoked. Use to change config.
+   * Before createStore, this hook will be invoked. Use to change config.
    */
   config?: <T extends StoreConfig>(config: T) => T;
 
@@ -33,7 +33,7 @@ export interface PluginLifeCycle {
   ) => T;
 
   /**
-   * Revoke before useModel value return.
+   * invoke before useModel value return.
    * You can custom returned value in this hook.
    */
   useModel?: <T extends { state: any; actions: any }>(
@@ -50,7 +50,7 @@ export interface PluginLifeCycle {
   prepareModelDesc?: (modelDesc: ModelDesc) => ModelDesc;
 
   /**
-   * Revoke before reducer excute. You can wrap and return your reducer.
+   * invoke before reducer excute. You can wrap and return your reducer.
    */
   beforeReducer?: (reducer: Action<any>, { name: string }) => Action<any>;
 }

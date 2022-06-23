@@ -24,7 +24,7 @@ const mountModel = (context: Context, model: Model) => {
   });
   modelDesc.name = model._name;
 
-  modelDesc = context.pluginCore.revokePipeline('prepareModelDesc', modelDesc);
+  modelDesc = context.pluginCore.invokePipeline('prepareModelDesc', modelDesc);
 
   if (!checkModel(context, modelDesc, model)) {
     return;
@@ -49,7 +49,7 @@ const mountModel = (context: Context, model: Model) => {
     modelDesc,
   } as MountedModel;
 
-  ({ mountedModel } = context.pluginCore.revokePipeline(
+  ({ mountedModel } = context.pluginCore.invokePipeline(
     'modelMount',
     {
       modelDesc,
@@ -103,7 +103,7 @@ const createReducer = <S = any>(
     const reducer = flattenedActions[reduxAction.type];
 
     if (reducer) {
-      return context.pluginCore.revokePipeline(
+      return context.pluginCore.invokePipeline(
         'beforeReducer',
         flattenedActions[reduxAction.type],
         { name: reduxAction.type },
