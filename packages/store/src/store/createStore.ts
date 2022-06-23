@@ -14,9 +14,9 @@ const createStore = (props: StoreConfig = {}): Context['store'] => {
   // Load all avaliable plugins
   props?.plugins?.forEach(plugin => context.pluginCore.usePlugin(plugin));
 
-  const finialProps = context.pluginCore.revokePipeline('config', props);
+  const finalProps = context.pluginCore.invokePipeline('config', props);
 
-  const { initialState = {}, middlewares, enhancers = [] } = finialProps;
+  const { initialState = {}, middlewares, enhancers = [] } = finalProps;
 
   Object.assign(
     store,
@@ -34,7 +34,7 @@ const createStore = (props: StoreConfig = {}): Context['store'] => {
 
   store.use = context.apis.useModel;
 
-  context.pluginCore.revokeWaterFall('afterCreateStore', store);
+  context.pluginCore.invokeWaterFall('afterCreateStore', store);
 
   return store;
 };

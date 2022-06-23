@@ -11,7 +11,7 @@ export const createPluginCore = (pluginContext: PluginContext) => {
     usePlugin: (plugin: Plugin) => {
       lifeCycleList.push(plugin(pluginContext));
     },
-    revokePipeline: <S extends Stage>(
+    invokePipeline: <S extends Stage>(
       stage: S,
       bypassParams: Parameters<PluginLifeCycle[S]>[0],
       ...args: Parameters<PluginLifeCycle[S]> extends [any, ...infer T] ? T : []
@@ -26,7 +26,7 @@ export const createPluginCore = (pluginContext: PluginContext) => {
 
       return params;
     },
-    revokeWaterFall: <S extends Stage>(
+    invokeWaterFall: <S extends Stage>(
       stage: S,
       ...args: Parameters<PluginLifeCycle[S]>
     ) => {

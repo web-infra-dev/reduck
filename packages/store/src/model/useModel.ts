@@ -22,7 +22,7 @@ function createUseModel(context: Context): UseModel {
 
     let [state, actions] = [getState(), getActions()];
 
-    ({ state, actions } = context.pluginCore.revokePipeline(
+    ({ state, actions } = context.pluginCore.invokePipeline(
       'useModel',
       {
         state,

@@ -22,7 +22,7 @@ const createCountModel = (onMountCreator: (onMount: any, use: any) => void) =>
   });
 
 describe('test onMount hook', () => {
-  test('onMount hook should revoked when model mounted', () => {
+  test('onMount hook should invoked when model mounted', () => {
     const store = createStore();
     const fn = jest.fn();
     const onMountCreator = onMount => {
@@ -37,7 +37,7 @@ describe('test onMount hook', () => {
     expect(fn).toBeCalledTimes(1);
   });
 
-  test('onMount hook should revoked only once when store.use model multiple times', () => {
+  test('onMount hook should invoked only once when store.use model multiple times', () => {
     const store = createStore();
     const fn = jest.fn();
     const onMountCreator = onMount => {
