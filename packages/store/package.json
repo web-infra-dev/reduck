@@ -30,6 +30,23 @@
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
+    },
+    "./utils": {
+      "node": {
+        "import": "./dist/js/modern/utils/index.js",
+        "require": "./dist/js/node/utils/index.js"
+      },
+      "default": "./dist/js/treeshaking/utils/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "utils": [
+        "./dist/types/utils/index.d.ts"
+      ]
     }
   },
   "scripts": {

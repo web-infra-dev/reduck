@@ -38,8 +38,20 @@ const count2Model = model<{ value: number }>('count2').define((_, { use }) => {
   };
 });
 
+const count3Model = model<{ value: number }>('count3').define(() => {
+  return {
+    state: {
+      value: 1,
+    },
+    computed: {
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+      addOne: state => state.value + 1,
+    },
+  };
+});
+
 describe('test useModel', () => {
-  test("use model in model's action should work", () => {
+  test('actions should work', () => {
     const store = createStore();
 
     const [, actions] = store.use(count2Model);
@@ -72,6 +84,32 @@ describe('test useModel', () => {
     });
   });
 
+  test('state reference is same, when passing same single model without computed properties', () => {
+    const store = createStore();
+
+    const [count1State] = store.use(count1Model);
+    const [newCount1State] = store.use(count1Model);
+    expect(count1State).toBe(newCount1State);
+  });
+
+  test('state reference changes, when passing multiple models', () => {
+    const store = createStore();
+
+    const [state] = store.use([count1Model, count2Model]);
+    const [state2] = store.use([count1Model, count2Model]);
+    expect(state).not.toBe(state2);
+    expect(state).toEqual(state2);
+  });
+
+  test('state reference changes, when passing model with computed properties', () => {
+    const store = createStore();
+
+    const [count3State] = store.use(count3Model);
+    const [newCount3State] = store.use(count3Model);
+    expect(count3State).not.toBe(newCount3State);
+    expect(count3State).toEqual(newCount3State);
+  });
+
   test('use models with same name should get a warning', () => {
     const spy = jest.spyOn(console, 'info');
 
@@ -100,7 +138,7 @@ describe('test useModel', () => {
     expect(() => createStore().use(test)).toThrow(Error);
   });
 
-  test('use mltiple model with primitive state get error', () => {
+  test('use multiple model with primitive state get error', () => {
     const test = model('name').define({
       state: 1,
     });

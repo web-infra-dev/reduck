@@ -50,9 +50,12 @@ export interface PluginLifeCycle {
   prepareModelDesc?: (modelDesc: ModelDesc) => ModelDesc;
 
   /**
-   * invoke before reducer excute. You can wrap and return your reducer.
+   * invoke before reducer execute. You can wrap and return your reducer.
    */
-  beforeReducer?: (reducer: Action<any>, { name: string }) => Action<any>;
+  beforeReducer?: (
+    reducer: Action<any>,
+    { name: string, computedDescriptors: any },
+  ) => Action<any>;
 }
 
 export type Plugin = (context: PluginContext) => PluginLifeCycle;

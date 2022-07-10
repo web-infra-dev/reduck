@@ -62,7 +62,7 @@ const createContext = (store: Store) => {
     return model;
   };
 
-  // Get function to subsribe model
+  // Get function to subscribe model
   const getModelSubscribe: Context['apis']['getModelSubscribe'] = (
     model: Model,
   ) => subscriptions.get(model);
@@ -70,7 +70,7 @@ const createContext = (store: Store) => {
   const mountingModel = (name: string) => {
     if (mountingModelNames.has(name)) {
       throw new Error(
-        `Perhaps you mount a model named ${name} are in mounting already`,
+        `You are mounting the model: ${name} which is already in mounting process`,
       );
     }
 

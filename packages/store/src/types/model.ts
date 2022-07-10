@@ -24,6 +24,11 @@ export interface ModelDesc<State = any, MDO extends ModelDescOptions = any> {
    */
   state: State;
   /**
+   * Model computed properties
+   */
+  // FIXME: any
+  computed?: any;
+  /**
    * Model actions, it's a pure function with no effect
    */
   actions?: Actions<State>;
@@ -37,7 +42,7 @@ export type Model = {
   (name: string): any;
   _: Omit<ModelDesc, 'name'>;
   // model name
-  _name?: string;
+  _name: string;
 };
 
 type Merge<T extends Record<string, any>, K extends string> = {
@@ -65,9 +70,24 @@ export interface GetActions<M extends Model> {
 export interface GetState<M extends Model> {
   state: M['_']['state'];
 }
-export type GetModelState<M extends Model = Model> = UnionToIntersection<
-  Merge<GetState<M>, 'state'>['state']
->;
+
+/**
+ * GetComputed
+ * A type hook to resolve computed type from  Model
+ */
+export interface GetComputed<M extends Model> {
+  // FIXME: any
+  computed: { [key in keyof M['_']['computed']]: any };
+}
+
+export type GetModelState<M extends Model = Model> =
+  GetComputed<M>['computed'] extends Record<string, any>
+    ? UnionToIntersection<
+        | Merge<GetState<M>, 'state'>['state']
+        | Merge<GetComputed<M>, 'computed'>['computed']
+      >
+    : Merge<GetState<M>, 'state'>['state'];
+
 export type GetModelActions<M extends Model = Model> = UnionToIntersection<
   Merge<GetActions<M>, 'actions'>['actions']
 >;
