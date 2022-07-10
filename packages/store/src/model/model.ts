@@ -106,7 +106,8 @@ const model: ModelFn = name => ({
   },
 });
 
-export const getModelInitializer = (_model: Model) => _model[initializerSymbol];
+export const getModelInitializer = (_model: Model) =>
+  _model?.[initializerSymbol];
 
 export const isModel = (_model: any): _model is Model =>
   Boolean(getModelInitializer(_model));
