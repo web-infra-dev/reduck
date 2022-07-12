@@ -1,4 +1,4 @@
-import { expectType } from 'tsd';
+import { expectAssignable } from 'tsd';
 import { createStore, model } from '..';
 
 type StateA = {
@@ -38,13 +38,13 @@ describe('test selector', () => {
 
   test('select state should works', () => {
     const [state] = store.use(modelA);
-    expectType<StateA & { double: number }>(state);
+    expectAssignable<StateA & { double: number }>(state);
   });
 
   test('select actions should works', () => {
     const use = () => store.use(modelA, modelB);
     const [state] = use();
-    expectType<{
+    expectAssignable<{
       a: number;
       b: string;
       double: number;
