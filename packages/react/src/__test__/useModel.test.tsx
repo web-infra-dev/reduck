@@ -335,4 +335,89 @@ describe('useModel', () => {
     expect(userRenderCounter).toBeCalledTimes(2);
     expect(screen.getByTestId('withCount').textContent).toEqual('reduck2');
   });
+
+  test('state reference changes only when the corresponding model changes', () => {
+    const result = render(
+      <Provider>
+        <App />
+      </Provider>,
+    );
+
+    expect(result.getByText(1)).toBeInTheDocument();
+
+    fireEvent.click(result.getByText('add'));
+
+    expect(result.getByText(2)).toBeInTheDocument();
+    expect(countStateChange).toBeCalledTimes(1);
+    expect(userStateChange).toBeCalledTimes(0);
+
+    fireEvent.click(result.getByText('change'));
+
+    expect(result.getByText('reduck2')).toBeInTheDocument();
+    expect(countStateChange).toBeCalledTimes(1);
+    expect(userStateChange).toBeCalledTimes(1);
+
+    countStateChange.mockClear();
+    userStateChange.mockClear();
+  });
+
+  test('with multiple models', () => {
+    const result = render(
+      <Provider>
+        <App2 />
+      </Provider>,
+    );
+
+    fireEvent.click(result.getByText('re-render'));
+    expect(stateChange).toBeCalledTimes(0);
+
+    fireEvent.click(result.getByText('change'));
+    expect(result.getByText(1)).toBeInTheDocument();
+    expect(result.getByText('reduck1')).toBeInTheDocument();
+    expect(stateChange).toBeCalledTimes(1);
+
+    stateChange.mockClear();
+  });
+
+  test('computed properties', () => {
+    const result = render(
+      <Provider>
+        <App3 />
+      </Provider>,
+    );
+
+    expect(result.getByText(2)).toBeInTheDocument();
+    expect(result.getByText(3)).toBeInTheDocument();
+    expect(countStateChange).toBeCalledTimes(0);
+
+    fireEvent.click(result.getByText('add'));
+
+    expect(countStateChange).toBeCalledTimes(1);
+    expect(result.getByText(3)).toBeInTheDocument();
+    expect(result.getByText(4)).toBeInTheDocument();
+
+    fireEvent.click(result.getByText('change'));
+
+    expect(result.getByText('reduck2')).toBeInTheDocument();
+    expect(countStateChange).toBeCalledTimes(1);
+
+    countStateChange.mockClear();
+  });
+
+  test('computed property depend on other models', () => {
+    render(
+      <Provider>
+        <App />
+        <User />
+      </Provider>,
+    );
+
+    expect(userRenderCounter).toBeCalledTimes(1);
+    expect(screen.getByTestId('username').textContent).toEqual('reduck');
+    expect(screen.getByTestId('withCount').textContent).toEqual('reduck1');
+
+    fireEvent.click(screen.getByText('add'));
+    expect(userRenderCounter).toBeCalledTimes(2);
+    expect(screen.getByTestId('withCount').textContent).toEqual('reduck2');
+  });
 });
