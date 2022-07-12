@@ -15,7 +15,7 @@ import { createBatchManager } from './batchManager';
 type Config = Parameters<typeof createStore>[0];
 type Store = ReturnType<typeof createStore>;
 
-const shadowEqual = (a: any, b: any) => {
+const shallowEqual = (a: any, b: any) => {
   if (
     Object.prototype.toString.call(a) !== '[object Object]' ||
     Object.prototype.toString.call(b) !== '[object Object]'
@@ -63,12 +63,13 @@ export const createApp = (config: Config) => {
       const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
 
       useEffect(() => {
-        const unsubscribe = initialValue[2](() => {
+        const subscribe = initialValue[2];
+        const unsubscribe = subscribe(() => {
           const newValue = store.use(...args);
 
           if (
-            !shadowEqual(lastValueRef.current[0], newValue[0]) ||
-            !shadowEqual(lastValueRef.current[1], newValue[1])
+            !shallowEqual(lastValueRef.current[0], newValue[0]) ||
+            !shallowEqual(lastValueRef.current[1], newValue[1])
           ) {
             batchManager.pushUpdate(() => {
               setModelValue(newValue);
@@ -93,12 +94,16 @@ export const createApp = (config: Config) => {
 
     invariant(
       Boolean(context),
-      `You should wrap your Component in CreateApp().Provider.`,
+      `You should wrap your Component with Reduck Provider.`,
     );
 
     const { store, batchManager } = context;
 
-    return useMemo(() => createUseModel(store, batchManager), [store])(...args);
+    const _useModel = useMemo(
+      () => createUseModel(store, batchManager),
+      [store],
+    );
+    return _useModel(...args);
   };
 
   const useStaticModel: Store['use'] = (...args: any[]) => {
@@ -106,7 +111,7 @@ export const createApp = (config: Config) => {
 
     invariant(
       Boolean(context),
-      'You should wrap your Component in CreateApp().Provider.',
+      'You should wrap your Component with Reduck Provider.',
     );
 
     const { store } = context;

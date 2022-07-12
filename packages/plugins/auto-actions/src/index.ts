@@ -1,6 +1,7 @@
 import { createPlugin } from '@modern-js-reduck/store';
 import { Model } from '@modern-js-reduck/store/dist/types/types';
-import { getType, mergeActions } from './utils';
+import { getStateType } from '@modern-js-reduck/store/utils';
+import { mergeActions } from './utils';
 import * as primitiveActions from './primitive';
 import { ArrayDispatchActions } from './array';
 import * as arrayActions from './array';
@@ -37,7 +38,7 @@ declare module '@modern-js-reduck/store' {
 export default createPlugin(() => ({
   prepareModelDesc(modelDesc) {
     const initialState = modelDesc.state;
-    const type = getType(initialState);
+    const type = getStateType(initialState);
 
     if (type === 'primitive') {
       return mergeActions(modelDesc, primitiveActions);

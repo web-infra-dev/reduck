@@ -1,4 +1,5 @@
-import { Context, Model, ModelDesc, OnMountHook, Actions } from '@/types';
+import { Context, ModelDesc, OnMountHook, Actions } from '@/types';
+import { initializerSymbol } from '@/utils/misc';
 
 type ModelDescWithoutName<S> = Omit<ModelDesc<S, any>, 'name'>;
 
@@ -11,8 +12,6 @@ type ModelInitialParams = [
 ];
 
 type ModelInitial<S> = (...args: ModelInitialParams) => ModelDescWithoutName<S>;
-
-export const initializerSymbol = Symbol('model initializer');
 
 type ActionDesc<S, State> = {
   actions?: Actions<State extends void ? S : State>;
@@ -105,11 +104,5 @@ const model: ModelFn = name => ({
     return createResponse(modelInitializer);
   },
 });
-
-export const getModelInitializer = (_model: Model) =>
-  _model?.[initializerSymbol];
-
-export const isModel = (_model: any): _model is Model =>
-  Boolean(getModelInitializer(_model));
 
 export default model;

@@ -11,7 +11,7 @@ const createStore = (props: StoreConfig = {}): Context['store'] => {
   const store: any = {};
   const context = createContext(store);
 
-  // Load all avaliable plugins
+  // Load all available plugins
   props?.plugins?.forEach(plugin => context.pluginCore.usePlugin(plugin));
 
   const finalProps = context.pluginCore.invokePipeline('config', props);

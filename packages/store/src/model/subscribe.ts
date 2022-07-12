@@ -51,7 +51,7 @@ const combineSubscribe = (
 ) => {
   const { store } = context;
   let changed = false;
-  const handlers = new Set();
+  const handlers = new Set<any>();
 
   return (handler: () => void) => {
     handlers.add(handler);
@@ -69,7 +69,7 @@ const combineSubscribe = (
     const unsubscribeStore = store.subscribe(() => {
       if (changed) {
         changed = false;
-        handlers.forEach(() => handler());
+        handlers.forEach(h => h());
       }
     });
 

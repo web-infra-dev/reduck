@@ -1,5 +1,5 @@
 import { AnyAction as ReduxAction } from 'redux';
-import { getModelInitializer } from './model';
+import { memorize } from '@/utils/memoize';
 import {
   Context,
   ModelDesc,
@@ -8,7 +8,15 @@ import {
   Model,
   MountedModel,
   OnMountHook,
+  UseModel,
 } from '@/types';
+import {
+  getComputedDepModels,
+  getModelInitializer,
+  getStateType,
+  isModel,
+  StateType,
+} from '@/utils/misc';
 
 const mountModel = (context: Context, model: Model) => {
   if (context.apis.getModel(model)) {
@@ -31,7 +39,12 @@ const mountModel = (context: Context, model: Model) => {
   }
 
   const flattenedActions = flattenActions(modelDesc);
-  const reducer = createReducer(context, flattenedActions, modelDesc.state);
+  const reducer = createReducer(
+    context,
+    flattenedActions,
+    modelDesc.state,
+    modelDesc.computed,
+  );
 
   if (reducer) {
     context.apis.addReducers({ [modelDesc.name]: reducer });
@@ -87,6 +100,29 @@ const checkModel = (context: Context, modelDesc: ModelDesc, model: Model) => {
   return true;
 };
 
+const generateComputedDescriptors = (
+  computed: any = {},
+  useModel: UseModel,
+) => {
+  return Object.keys(computed).reduce(
+    (prev: PropertyDescriptorMap, name: string) => {
+      const selector = generateComputedSelector(name, computed[name], useModel);
+
+      prev[name] = {
+        get() {
+          // this refers to current modelState
+          return selector(this);
+        },
+        // MARK: not enumerable, avoid to get computed properties through rest(...) syntax. eg., reducer {...state}
+        enumerable: false,
+        configurable: true,
+      };
+      return prev;
+    },
+    {},
+  );
+};
+
 /**
  * Create reducer from model
  */
@@ -94,24 +130,99 @@ const createReducer = <S = any>(
   context: Context,
   flattenedActions: Record<string, Action<S>>,
   initialState: S,
+  computed?: any,
 ) => {
   if (!flattenedActions) {
     return null;
   }
 
+  let computedDescriptors =
+    computed && generateComputedDescriptors(computed, context.apis.useModel);
+
+  const depModels = getComputedDepModels(computed);
+
+  const isDepModelAction = (actionType: string) => {
+    return depModels.some(
+      model => actionType.split('/')[0] === model._name.toUpperCase(),
+    );
+  };
+
   return (state: S = initialState, reduxAction: ReduxAction) => {
-    const reducer = flattenedActions[reduxAction.type];
+    const actionType = reduxAction.type;
+    const reducer = flattenedActions[actionType];
+
+    let newState = state;
+    // make sure state and computed reference change when computed properties' depending models change
+    if (isDepModelAction(actionType)) {
+      newState = { ...state };
+      computedDescriptors =
+        computed &&
+        generateComputedDescriptors(computed, context.apis.useModel);
+    }
 
     if (reducer) {
-      return context.pluginCore.invokePipeline(
+      newState = context.pluginCore.invokePipeline(
         'beforeReducer',
         flattenedActions[reduxAction.type],
-        { name: reduxAction.type },
+        { name: reduxAction.type, computedDescriptors },
       )(state, reduxAction.payload, ...(reduxAction.extraArgs || []));
     }
 
-    return state;
+    if (computedDescriptors && getStateType(newState) !== StateType.Object) {
+      throw Error(`Only object type state can have computed properties.`);
+    }
+
+    return computedDescriptors
+      ? Object.defineProperties(newState, computedDescriptors)
+      : newState;
   };
+};
+
+const generateComputedSelector = (
+  name: string,
+  computed: any,
+  useModel: UseModel,
+) => {
+  let selector: (...args: any) => any;
+  let depModels: Model[] | undefined;
+
+  const _selector = (fn, ...args) => {
+    const result = fn(...args);
+    if (typeof result === 'function') {
+      return memorize((...args: any[]) => {
+        return result(...args);
+      });
+    } else {
+      return result;
+    }
+  };
+
+  if (typeof computed === 'function') {
+    selector = (state: any) => {
+      return _selector(computed, state);
+    };
+  } else if (Array.isArray(computed)) {
+    depModels = computed.slice(0, -1);
+    const userSelector = computed.slice(-1)[0];
+
+    if (
+      !depModels.every(m => isModel(m)) ||
+      typeof userSelector !== 'function'
+    ) {
+      throw new Error(
+        `The types of computed property parameters are not correct. Computed property name: ${name}`,
+      );
+    }
+
+    selector = (state: any) => {
+      return _selector(
+        userSelector,
+        state,
+        ...depModels.map(model => useModel(model)[0]),
+      );
+    };
+  }
+  return memorize(selector);
 };
 
 /**

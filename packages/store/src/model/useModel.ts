@@ -1,7 +1,7 @@
 import mountModel from './mountModel';
 import { combineSubscribe } from './subscribe';
-import { isModel } from './model';
-import { Context, UseModel } from '@/types';
+import { Context, Model, UseModel } from '@/types';
+import { getComputedDepModels, isModel } from '@/utils/misc';
 
 function createUseModel(context: Context): UseModel {
   function useModel(...args: any) {
@@ -15,10 +15,25 @@ function createUseModel(context: Context): UseModel {
       }
     });
 
-    const { getState, getActions, subscribe, actualModels } = parseModelParams(
+    const { getState, getActions, actualModels, subscribe } = parseModelParams(
       context,
       flattenedArgs,
     );
+
+    const computedArr = actualModels.map(m => {
+      const {
+        modelDesc: { computed },
+      } = context.apis.getModel(m);
+      return computed;
+    });
+
+    const computedDepModels = getComputedDepModels(computedArr);
+
+    computedDepModels.forEach(model => {
+      if (isModel(model)) {
+        mountModel(context, model);
+      }
+    });
 
     let [state, actions] = [getState(), getActions()];
 
@@ -67,28 +82,52 @@ const parseModelParams = (context: Context, _models: any) => {
     });
   }
 
-  stateSelector =
-    stateSelector ||
-    ((...states: any[]) => {
-      if (states.length === 1) {
-        return states[0];
-      }
+  const getStateWithComputed = (model: Model) => {
+    const {
+      state,
+      modelDesc: { computed },
+    } = context.apis.getModel(model);
 
-      return states.reduce((res, state) => Object.assign(res, state), {});
-    });
+    let computedState: any;
 
-  actionSelector =
+    if (computed) {
+      computedState = Object.keys(computed).reduce((curState, computedKey) => {
+        curState[computedKey] = state[computedKey];
+        return curState;
+      }, {});
+      // state reference always changes when model has computed properties
+      return { ...state, ...computedState };
+    }
+
+    return state;
+  };
+
+  const finalStateSelector = (...models: any[]) => {
+    if (stateSelector) {
+      return stateSelector(
+        ...actualModels.map(model => getStateWithComputed(model)),
+      );
+    }
+
+    if (models.length === 1) {
+      return getStateWithComputed(models[0]);
+    }
+
+    return models.reduce(
+      (res, model) => ({ ...res, ...getStateWithComputed(model) }),
+      {},
+    );
+  };
+
+  const finalActionSelector =
     actionSelector ||
     ((...actions: any[]) =>
       actions.reduce((res, action) => Object.assign(res, action), {}));
 
   return {
-    getState: () =>
-      stateSelector(
-        ...actualModels.map(model => context.apis.getModel(model)!.state),
-      ),
+    getState: () => finalStateSelector(...actualModels),
     getActions: () =>
-      actionSelector(
+      finalActionSelector(
         ...actualModels.map(model => context.apis.getModel(model)!.actions),
       ),
     subscribe: (handler: () => void) =>

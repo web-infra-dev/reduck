@@ -1,6 +1,10 @@
 import { createStore, model } from '..';
 
-const count1Model = model('count1').define({
+interface State {
+  value: number;
+}
+
+const count1Model = model<State>('count1').define({
   state: {
     value: 1,
   },
@@ -16,9 +20,18 @@ const count1Model = model('count1').define({
   },
 });
 
-const count2Model = model('count2').define({
+const count2Model = model<State>('count2').define({
   state: {
     value: 1,
+  },
+  computed: {
+    sum: [
+      count1Model,
+      (state, state2) => {
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+        return state.value + state2.value;
+      },
+    ],
   },
   actions: {
     add1(state) {
@@ -85,13 +98,33 @@ describe('test subscribe', () => {
     });
   });
 
-  test('unsubsribe should works', () => {
+  test('subscribe should works for computed property depending on other models', () => {
+    const store = createStore();
+
+    const [, action] = store.use(count1Model);
+    const [state2, , subscribe] = store.use(count2Model);
+
+    const fn = jest.fn();
+    subscribe(() => {
+      fn();
+    });
+
+    expect(fn).toBeCalledTimes(0);
+    action.add();
+    expect(fn).toBeCalledTimes(1);
+    const [updateState2] = store.use(count2Model);
+    // state from use is immutable
+    expect(state2.sum).toBe(2);
+    expect(updateState2.sum).toBe(3);
+  });
+
+  test('unsubscribe should works', () => {
     const store = createStore();
 
     const [, actions, subscribe] = store.use(count1Model);
     const fn = jest.fn();
 
-    const unsubsribe = subscribe(() => {
+    const unsubscribe = subscribe(() => {
       fn();
     });
 
@@ -99,7 +132,7 @@ describe('test subscribe', () => {
 
     expect(fn).toBeCalledTimes(1);
 
-    unsubsribe();
+    unsubscribe();
 
     expect(fn).toBeCalledTimes(1);
   });
