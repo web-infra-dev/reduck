@@ -71,13 +71,32 @@ export interface GetState<M extends Model> {
   state: M['_']['state'];
 }
 
+export interface Computed<State> {
+  [key: string]:
+    | ((state: State) => any)
+    | [...s: any, selector: (state: State, ...args: any) => any];
+}
+
+type GetComputedFromArray<A extends any> = A extends A
+  ? A extends { _: object }
+    ? never
+    : A extends (...args: any) => infer R
+    ? R
+    : any
+  : never;
+
 /**
  * GetComputed
  * A type hook to resolve computed type from  Model
  */
-export interface GetComputed<M extends Model> {
-  // FIXME: any
-  computed: { [key in keyof M['_']['computed']]: any };
+export interface GetComputed<M extends Model, C = M['_']['computed']> {
+  computed: {
+    [K in keyof C]: C[K] extends (...args: any[]) => infer R
+      ? R
+      : C[K] extends Array<infer A>
+      ? GetComputedFromArray<A>
+      : K;
+  };
 }
 
 export type GetModelState<M extends Model = Model> =

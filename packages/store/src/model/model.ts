@@ -1,4 +1,4 @@
-import { Context, ModelDesc, OnMountHook, Actions } from '@/types';
+import { Context, ModelDesc, OnMountHook, Actions, Computed } from '@/types';
 import { initializerSymbol } from '@/utils/misc';
 
 type ModelDescWithoutName<S> = Omit<ModelDesc<S, any>, 'name'>;
@@ -13,8 +13,9 @@ type ModelInitialParams = [
 
 type ModelInitial<S> = (...args: ModelInitialParams) => ModelDescWithoutName<S>;
 
-type ActionDesc<S, State> = {
+type ExtDesc<S, State> = {
   actions?: Actions<State extends void ? S : State>;
+  computed?: Computed<State extends void ? S : State>;
 };
 
 type ModelFn = <State = void>(
@@ -22,7 +23,7 @@ type ModelFn = <State = void>(
 ) => {
   define: (<
     S,
-    M extends ActionDesc<S, State> & { state: S } = ActionDesc<S, State> & {
+    M extends ExtDesc<S, State> & { state: S } = ExtDesc<S, State> & {
       state: S;
     },
     Resp = {
@@ -37,7 +38,7 @@ type ModelFn = <State = void>(
     }) &
     (<
       S,
-      M extends ActionDesc<S, State> & { state: S } = ActionDesc<S, State> & {
+      M extends ExtDesc<S, State> & { state: S } = ExtDesc<S, State> & {
         state: S;
       },
       Resp = {
