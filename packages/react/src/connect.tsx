@@ -2,17 +2,18 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable max-lines */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import type { ComponentType, NamedExoticComponent } from 'react';
-import { forwardRef } from 'react';
+import type { ComponentType, NamedExoticComponent } from "react";
+import { forwardRef } from "react";
+import { isModel } from "@modern-js-reduck/store/utils";
 
 import type {
   Model,
   GetModelActions,
   GetModelState,
-} from '@modern-js-reduck/store';
+} from "@modern-js-reduck/store";
 // @ts-expect-error
-import hoistNonReactStatics from 'hoist-non-react-statics';
-import { useModel } from './hook';
+import hoistNonReactStatics from "hoist-non-react-statics";
+import { useModel } from "./hook";
 
 export type Shared<InjectedProps, DecorationTargetProps> = {
   [P in Extract<
@@ -25,7 +26,7 @@ export type Shared<InjectedProps, DecorationTargetProps> = {
 
 export type ConnectedComponent<
   C extends ComponentType<any>,
-  P,
+  P
 > = NamedExoticComponent<JSX.LibraryManagedAttributes<C, P>>;
 
 // FIXME: hoistNonReactStatics type is complex
@@ -45,61 +46,60 @@ export type Matching<InjectedProps, DecorationTargetProps> = {
     : DecorationTargetProps[P];
 };
 export type InferableComponentEnhancerWithProps<TInjectedProps, TNeedsProps> = <
-  C extends ComponentType<Matching<TInjectedProps, GetProps<C>>>,
+  C extends ComponentType<Matching<TInjectedProps, GetProps<C>>>
 >(
-  component: C,
+  component: C
 ) => ConnectedComponent<
   C,
   Omit<GetProps<C>, keyof Shared<TInjectedProps, GetProps<C>>> & TNeedsProps
 >;
 // type Model = any
 
-type SelectActionsToProps4<S1, S2, S3, S4, ActionsToProps> = (
+type SelectActionsToProps4<S1, S2, S3, S4, OwnProps, ActionsToProps> = (
   s1: S1,
   s2: S2,
   s3: S3,
   s4: S4,
+  ownProps: OwnProps
 ) => ActionsToProps;
-type SelectActionsToProps3<S1, S2, S3, ActionsToProps> = (
+type SelectActionsToProps3<S1, S2, S3, OwnProps, ActionsToProps> = (
   s1: S1,
   s2: S2,
   s3: S3,
+  ownProps: OwnProps
 ) => ActionsToProps;
-type SelectActionsToProps2<S1, S2, ActionsToProps> = (
+type SelectActionsToProps2<S1, S2, OwnProps, ActionsToProps> = (
   s1: S1,
   s2: S2,
+  ownProps: OwnProps
 ) => ActionsToProps;
-type SelectActionsToProps1<S1, ActionsToProps> = (s1: S1) => ActionsToProps;
+type SelectActionsToProps1<S1, OwnProps, ActionsToProps> = (
+  s1: S1,
+  ownProps: OwnProps
+) => ActionsToProps;
 
 type SelectStateToProps4<S1, S2, S3, S4, OwnProps, StateToProps> = (
   s1: S1,
   s2: S2,
   s3: S3,
   s4: S4,
-  ownProps: OwnProps,
+  ownProps: OwnProps
 ) => StateToProps;
 type SelectStateToProps3<S1, S2, S3, OwnProps, StateToProps> = (
   s1: S1,
   s2: S2,
   s3: S3,
-  ownProps: OwnProps,
+  ownProps: OwnProps
 ) => StateToProps;
 type SelectStateToProps2<S1, S2, OwnProps, StateToProps> = (
   s1: S1,
   s2: S2,
-  ownProps: OwnProps,
+  ownProps: OwnProps
 ) => StateToProps;
 type SelectStateToProps1<S1, OwnProps, StateToProps> = (
   s1: S1,
-  ownProps: OwnProps,
+  ownProps: OwnProps
 ) => StateToProps;
-
-type MapStateToProps<OwnProps, StateToProps> = (
-  props: OwnProps,
-) => StateToProps | undefined;
-type MapActionToProps<OwnProps, ActionsToProps> = (
-  props: OwnProps,
-) => ActionsToProps;
 
 export interface ConnectOptions {
   forwardRef?: boolean;
@@ -109,7 +109,7 @@ export interface ConnectOptions {
 /* only models --- start */
 export function connect<OwnProps = {}, M1 extends Model = Model>(
   m1: [M1] | M1,
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<
   GetModelState<M1> & GetModelActions<M1>,
   OwnProps
@@ -118,10 +118,10 @@ export function connect<OwnProps = {}, M1 extends Model = Model>(
 export function connect<
   OwnProps = {},
   M1 extends Model = Model,
-  M2 extends Model = Model,
+  M2 extends Model = Model
 >(
   models: [M1, M2],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<
   GetModelActions<M1> &
     GetModelActions<M2> &
@@ -134,10 +134,10 @@ export function connect<
   OwnProps = {},
   M1 extends Model = Model,
   M2 extends Model = Model,
-  M3 extends Model = Model,
+  M3 extends Model = Model
 >(
   models: [M1, M2, M3],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<
   GetModelActions<M1> &
     GetModelActions<M2> &
@@ -152,10 +152,10 @@ export function connect<
   M1 extends Model = Model,
   M2 extends Model = Model,
   M3 extends Model = Model,
-  M4 extends Model = Model,
+  M4 extends Model = Model
 >(
   models: [M1, M2, M3, M4],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<
   GetModelActions<M1> &
     GetModelActions<M2> &
@@ -171,7 +171,7 @@ export function connect<
 // NOTICE: 为了支持 connect([...models])
 export function connect<OwnProps = {}>(
   models: Model[],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<any, OwnProps>;
 
 /* only models --- end */
@@ -180,13 +180,13 @@ export function connect<OwnProps = {}>(
 export function connect<
   OwnProps = {},
   M1 extends Model = Model,
-  StateToProps = {},
+  StateToProps = {}
 >(
   models: [
     M1,
-    SelectStateToProps1<GetModelActions<M1>, OwnProps, StateToProps>,
+    SelectStateToProps1<GetModelActions<M1>, OwnProps, StateToProps>
   ],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<
   StateToProps & GetModelState<M1>,
   OwnProps
@@ -196,21 +196,21 @@ export function connect<
   OwnProps = {},
   M1 extends Model = Model,
   StateToProps = {},
-  ActionsToProps = {},
+  ActionsToProps = {}
 >(
   models: [
     M1,
     SelectStateToProps1<GetModelState<M1>, OwnProps, StateToProps>,
-    SelectActionsToProps1<GetModelActions<M1>, ActionsToProps>,
+    SelectActionsToProps1<GetModelActions<M1>, OwnProps, ActionsToProps>
   ],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<StateToProps & ActionsToProps, OwnProps>;
 
 export function connect<
   OwnProps = {},
   M1 extends Model = Model,
   M2 extends Model = Model,
-  StateToProps = {},
+  StateToProps = {}
 >(
   models: [
     M1,
@@ -220,9 +220,9 @@ export function connect<
       GetModelActions<M2>,
       OwnProps,
       StateToProps
-    >,
+    >
   ],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<
   StateToProps & GetModelState<M1> & GetModelState<M2>,
   OwnProps
@@ -233,7 +233,7 @@ export function connect<
   M1 extends Model = Model,
   M2 extends Model = Model,
   StateToProps = {},
-  ActionsToProps = {},
+  ActionsToProps = {}
 >(
   models: [
     M1,
@@ -247,10 +247,11 @@ export function connect<
     SelectActionsToProps2<
       GetModelActions<M1>,
       GetModelActions<M2>,
+      OwnProps,
       ActionsToProps
-    >,
+    >
   ],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<StateToProps & ActionsToProps, OwnProps>;
 
 export function connect<
@@ -258,7 +259,7 @@ export function connect<
   M1 extends Model = Model,
   M2 extends Model = Model,
   M3 extends Model = Model,
-  StateToProps = {},
+  StateToProps = {}
 >(
   models: [
     M1,
@@ -270,9 +271,9 @@ export function connect<
       GetModelState<M3>,
       OwnProps,
       StateToProps
-    >,
+    >
   ],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<
   StateToProps & {
     actions: GetModelState<M1> & GetModelState<M2> & GetModelActions<M3>;
@@ -286,7 +287,7 @@ export function connect<
   M2 extends Model = Model,
   M3 extends Model = Model,
   StateToProps = {},
-  ActionsToProps = {},
+  ActionsToProps = {}
 >(
   models: [
     M1,
@@ -303,10 +304,11 @@ export function connect<
       GetModelState<M1>,
       GetModelState<M2>,
       GetModelActions<M3>,
+      OwnProps,
       ActionsToProps
-    >,
+    >
   ],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<StateToProps & ActionsToProps, OwnProps>;
 
 export function connect<
@@ -315,7 +317,7 @@ export function connect<
   M2 extends Model = Model,
   M3 extends Model = Model,
   M4 extends Model = Model,
-  StateToProps = {},
+  StateToProps = {}
 >(
   models: [
     M1,
@@ -329,9 +331,9 @@ export function connect<
       GetModelState<M4>,
       OwnProps,
       StateToProps
-    >,
+    >
   ],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<
   StateToProps & {
     actions: GetModelState<M1> &
@@ -349,7 +351,7 @@ export function connect<
   M3 extends Model = Model,
   M4 extends Model = Model,
   StateToProps = {},
-  ActionsToProps = {},
+  ActionsToProps = {}
 >(
   models: [
     M1,
@@ -369,53 +371,61 @@ export function connect<
       GetModelState<M2>,
       GetModelActions<M3>,
       GetModelActions<M4>,
+      OwnProps,
       ActionsToProps
-    >,
+    >
   ],
-  opt?: ConnectOptions,
+  opt?: ConnectOptions
 ): InferableComponentEnhancerWithProps<StateToProps & ActionsToProps, OwnProps>;
 /* models and selector --- end */
 
-/* compatible react-redux connect */
-export function connect<OwnProps = {}, StateToProps = {}>(
-  models: [MapStateToProps<OwnProps, StateToProps>],
-  opt?: ConnectOptions,
-): InferableComponentEnhancerWithProps<StateToProps & any, OwnProps>;
-
-export function connect<
-  OwnProps = any,
-  StateToProps = any,
-  ActionsToProps = any,
->(
-  models: [
-    MapStateToProps<OwnProps, StateToProps>,
-    MapActionToProps<OwnProps, ActionsToProps>,
-  ],
-  opt?: ConnectOptions,
-): InferableComponentEnhancerWithProps<StateToProps & ActionsToProps, OwnProps>;
-
-export function connect(...args: any[]) {
-  return (<P extends object>(C: ComponentType<P>) => withProxy(C, args)) as any;
+export function connect(models: any, opt?: ConnectOptions) {
+  return (<P extends object>(C: ComponentType<P>) =>
+    withProxy(C, models, opt)) as any;
 }
 
 function withProxy<P extends object, S extends object, A extends object>(
   C: any,
-  args: any,
+  models: any,
+  opt?: ConnectOptions
 ) {
-  const models: Model[] = [];
-  const config: ConnectOptions = {};
-  for (const i of args) {
-    if (Array.isArray(i)) {
-      models.push(...i);
-    } else if (typeof i === 'function') {
-      models.push(i);
-    } else if (i && typeof i === 'object' && Object.keys(i).length > 0) {
-      Object.assign(config, i);
+  const actualModels: Model[] = [];
+  const selectors: any[] = [];
+  const modelArr = Array.isArray(models) ? models : [models];
+
+  for (const model of modelArr) {
+    if (isModel(model)) {
+      actualModels.push(model);
+    } else {
+      selectors.push(model);
     }
   }
 
+  const config: ConnectOptions = {};
+  if (opt && typeof opt === "object" && Object.keys(opt).length > 0) {
+    Object.assign(config, opt);
+  }
+
   const Wrapper = (props: Omit<P, keyof (S & A)>, ref: any) => {
-    const [mapState, mapActions] = useModel(models);
+    const [stateSelector, actionSelector] = selectors;
+
+    let finalStateSelector;
+    let finalActionSelector;
+    if (stateSelector) {
+      finalStateSelector = (..._args: any[]) => stateSelector(..._args, props);
+    }
+    if (actionSelector) {
+      finalActionSelector =
+        actionSelector &&
+        ((..._args: any[]) => actionSelector(..._args, props));
+    }
+
+    const [mapState, mapActions] = useModel([
+      ...actualModels,
+      // FIXME: any
+      finalStateSelector as any,
+      finalActionSelector,
+    ]);
     const data = {
       ...mapState,
       ...mapActions,
