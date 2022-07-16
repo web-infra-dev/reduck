@@ -1,10 +1,10 @@
-import { model } from '@modern-js-reduck/store';
-import { render, fireEvent, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import { useRef, useState } from 'react';
-import { useModel, Provider } from '..';
+import { model } from "@modern-js-reduck/store";
+import { render, fireEvent, screen } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+import { useRef, useState } from "react";
+import { useModel, Provider } from "..";
 
-const modelA = model('modelA').define({
+const modelA = model("modelA").define({
   state: {
     a: 1,
   },
@@ -16,7 +16,7 @@ const modelA = model('modelA').define({
     },
   },
 });
-const modelB = model('modelB').define({
+const modelB = model("modelB").define({
   state: {
     b: 10,
   },
@@ -33,7 +33,7 @@ interface CountState {
   value: number;
 }
 
-const countModel = model('count').define({
+const countModel = model("count").define({
   state: {
     value: 1,
   },
@@ -52,9 +52,9 @@ const countModel = model('count').define({
   },
 });
 
-const userModel = model('user').define({
+const userModel = model("user").define({
   state: {
-    name: 'reduck',
+    name: "reduck",
   },
   computed: {
     withCount: [
@@ -104,7 +104,8 @@ const App = () => {
         type="button"
         onClick={() =>
           userActions.setName(`${userState.name}${countState.value}`)
-        }>
+        }
+      >
         change
       </button>
     </>
@@ -134,16 +135,18 @@ const App2 = () => {
       <div>{state.name}</div>
       <button
         type="button"
-        onClick={() => actions.setName(`${state.name}${state.value}`)}>
+        onClick={() => actions.setName(`${state.name}${state.value}`)}
+      >
         change
       </button>
       <button
         type="button"
         onClick={() => {
-          setFoo(pre => {
+          setFoo((pre) => {
             return pre + 1;
           });
-        }}>
+        }}
+      >
         re-render
       </button>
     </>
@@ -175,7 +178,8 @@ const App3 = () => {
       <div>{userState.name}</div>
       <button
         type="button"
-        onClick={() => userActions.setName(`${userState.name}${value}`)}>
+        onClick={() => userActions.setName(`${userState.name}${value}`)}
+      >
         change
       </button>
     </>
@@ -197,8 +201,15 @@ const User = () => {
   );
 };
 
-describe('useModel', () => {
-  test('useModel with actionSelectors', () => {
+describe("useModel", () => {
+  beforeEach(() => {
+    countStateChange.mockClear();
+    userStateChange.mockClear();
+    stateChange.mockClear();
+    userRenderCounter.mockClear();
+  });
+
+  test("useModel with actionSelectors", () => {
     const App = () => {
       const [state, actions] = useModel(
         modelA,
@@ -213,7 +224,7 @@ describe('useModel', () => {
               actionsB.incB();
             },
           };
-        },
+        }
       );
 
       return (
@@ -236,188 +247,174 @@ describe('useModel', () => {
     const result = render(
       <Provider>
         <App />
-      </Provider>,
+      </Provider>
     );
 
     expect(result.getByText(1)).toBeInTheDocument();
     expect(result.getByText(10)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText('incA'));
-    fireEvent.click(result.getByText('incB'));
+    fireEvent.click(result.getByText("incA"));
+    fireEvent.click(result.getByText("incB"));
     expect(result.getByText(2)).toBeInTheDocument();
     expect(result.getByText(11)).toBeInTheDocument();
-    fireEvent.click(result.getByText('incAB'));
+    fireEvent.click(result.getByText("incAB"));
     expect(result.getByText(3)).toBeInTheDocument();
     expect(result.getByText(12)).toBeInTheDocument();
   });
 
-  test('state reference changes only when the corresponding model changes', () => {
+  test("state reference changes only when the corresponding model changes", () => {
     const result = render(
       <Provider>
         <App />
-      </Provider>,
+      </Provider>
     );
 
     expect(result.getByText(1)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText('add'));
+    fireEvent.click(result.getByText("add"));
 
     expect(result.getByText(2)).toBeInTheDocument();
     expect(countStateChange).toBeCalledTimes(1);
     expect(userStateChange).toBeCalledTimes(0);
 
-    fireEvent.click(result.getByText('change'));
+    fireEvent.click(result.getByText("change"));
 
-    expect(result.getByText('reduck2')).toBeInTheDocument();
+    expect(result.getByText("reduck2")).toBeInTheDocument();
     expect(countStateChange).toBeCalledTimes(1);
     expect(userStateChange).toBeCalledTimes(1);
-
-    countStateChange.mockClear();
-    userStateChange.mockClear();
   });
 
-  test('with multiple models', () => {
+  test("with multiple models", () => {
     const result = render(
       <Provider>
         <App2 />
-      </Provider>,
+      </Provider>
     );
 
-    fireEvent.click(result.getByText('re-render'));
+    fireEvent.click(result.getByText("re-render"));
     expect(stateChange).toBeCalledTimes(0);
 
-    fireEvent.click(result.getByText('change'));
+    fireEvent.click(result.getByText("change"));
     expect(result.getByText(1)).toBeInTheDocument();
-    expect(result.getByText('reduck1')).toBeInTheDocument();
+    expect(result.getByText("reduck1")).toBeInTheDocument();
     expect(stateChange).toBeCalledTimes(1);
-
-    stateChange.mockClear();
   });
 
-  test('computed properties', () => {
+  test("computed properties", () => {
     const result = render(
       <Provider>
         <App3 />
-      </Provider>,
+      </Provider>
     );
 
     expect(result.getByText(2)).toBeInTheDocument();
     expect(result.getByText(3)).toBeInTheDocument();
     expect(countStateChange).toBeCalledTimes(0);
 
-    fireEvent.click(result.getByText('add'));
+    fireEvent.click(result.getByText("add"));
 
     expect(countStateChange).toBeCalledTimes(1);
     expect(result.getByText(3)).toBeInTheDocument();
     expect(result.getByText(4)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText('change'));
+    fireEvent.click(result.getByText("change"));
 
-    expect(result.getByText('reduck2')).toBeInTheDocument();
+    expect(result.getByText("reduck2")).toBeInTheDocument();
     expect(countStateChange).toBeCalledTimes(1);
-
-    countStateChange.mockClear();
   });
 
-  test('computed property depend on other models', () => {
+  test("computed property depend on other models", () => {
     render(
       <Provider>
         <App />
         <User />
-      </Provider>,
+      </Provider>
     );
 
     expect(userRenderCounter).toBeCalledTimes(1);
-    expect(screen.getByTestId('username').textContent).toEqual('reduck');
-    expect(screen.getByTestId('withCount').textContent).toEqual('reduck1');
+    expect(screen.getByTestId("username").textContent).toEqual("reduck");
+    expect(screen.getByTestId("withCount").textContent).toEqual("reduck1");
 
-    fireEvent.click(screen.getByText('add'));
+    fireEvent.click(screen.getByText("add"));
     expect(userRenderCounter).toBeCalledTimes(2);
-    expect(screen.getByTestId('withCount').textContent).toEqual('reduck2');
+    expect(screen.getByTestId("withCount").textContent).toEqual("reduck2");
   });
 
-  test('state reference changes only when the corresponding model changes', () => {
+  test("state reference changes only when the corresponding model changes", () => {
     const result = render(
       <Provider>
         <App />
-      </Provider>,
+      </Provider>
     );
 
     expect(result.getByText(1)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText('add'));
+    fireEvent.click(result.getByText("add"));
 
     expect(result.getByText(2)).toBeInTheDocument();
     expect(countStateChange).toBeCalledTimes(1);
     expect(userStateChange).toBeCalledTimes(0);
 
-    fireEvent.click(result.getByText('change'));
+    fireEvent.click(result.getByText("change"));
 
-    expect(result.getByText('reduck2')).toBeInTheDocument();
+    expect(result.getByText("reduck2")).toBeInTheDocument();
     expect(countStateChange).toBeCalledTimes(1);
     expect(userStateChange).toBeCalledTimes(1);
-
-    countStateChange.mockClear();
-    userStateChange.mockClear();
   });
 
-  test('with multiple models', () => {
+  test("with multiple models", () => {
     const result = render(
       <Provider>
         <App2 />
-      </Provider>,
+      </Provider>
     );
 
-    fireEvent.click(result.getByText('re-render'));
+    fireEvent.click(result.getByText("re-render"));
     expect(stateChange).toBeCalledTimes(0);
 
-    fireEvent.click(result.getByText('change'));
+    fireEvent.click(result.getByText("change"));
     expect(result.getByText(1)).toBeInTheDocument();
-    expect(result.getByText('reduck1')).toBeInTheDocument();
+    expect(result.getByText("reduck1")).toBeInTheDocument();
     expect(stateChange).toBeCalledTimes(1);
-
-    stateChange.mockClear();
   });
 
-  test('computed properties', () => {
+  test("computed properties", () => {
     const result = render(
       <Provider>
         <App3 />
-      </Provider>,
+      </Provider>
     );
 
     expect(result.getByText(2)).toBeInTheDocument();
     expect(result.getByText(3)).toBeInTheDocument();
     expect(countStateChange).toBeCalledTimes(0);
 
-    fireEvent.click(result.getByText('add'));
+    fireEvent.click(result.getByText("add"));
 
     expect(countStateChange).toBeCalledTimes(1);
     expect(result.getByText(3)).toBeInTheDocument();
     expect(result.getByText(4)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText('change'));
+    fireEvent.click(result.getByText("change"));
 
-    expect(result.getByText('reduck2')).toBeInTheDocument();
+    expect(result.getByText("reduck2")).toBeInTheDocument();
     expect(countStateChange).toBeCalledTimes(1);
-
-    countStateChange.mockClear();
   });
 
-  test('computed property depend on other models', () => {
+  test("computed property depend on other models", () => {
     render(
       <Provider>
         <App />
         <User />
-      </Provider>,
+      </Provider>
     );
 
     expect(userRenderCounter).toBeCalledTimes(1);
-    expect(screen.getByTestId('username').textContent).toEqual('reduck');
-    expect(screen.getByTestId('withCount').textContent).toEqual('reduck1');
+    expect(screen.getByTestId("username").textContent).toEqual("reduck");
+    expect(screen.getByTestId("withCount").textContent).toEqual("reduck1");
 
-    fireEvent.click(screen.getByText('add'));
+    fireEvent.click(screen.getByText("add"));
     expect(userRenderCounter).toBeCalledTimes(2);
-    expect(screen.getByTestId('withCount').textContent).toEqual('reduck2');
+    expect(screen.getByTestId("withCount").textContent).toEqual("reduck2");
   });
 });
