@@ -33,4 +33,4 @@ jobs:
         run: pnpm i
 
       - name: test
-        run: pnpm -r test & pnpm -r test-type
+        run: pnpm -r test --filter ./packages & pnpm -r test-type --filter ./packages
