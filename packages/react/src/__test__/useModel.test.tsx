@@ -1,7 +1,8 @@
+/* eslint-disable max-lines */
 import { model } from "@modern-js-reduck/store";
 import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useModel, Provider } from "..";
 
 const modelA = model("modelA").define({
@@ -417,4 +418,29 @@ describe("useModel", () => {
     expect(userRenderCounter).toBeCalledTimes(2);
     expect(screen.getByTestId("withCount").textContent).toEqual("reduck2");
   });
+
+  test("can re-render when state changes in the mounting process", () => {
+    const App = () => {
+      const [state, actions] = useModel(modelA);
+      const mountRef = useRef(false);
+      useEffect(() => {
+        mountRef.current = true;
+      }, []);
+
+      if (!mountRef.current) {
+        actions.incA();
+      }
+
+      return <div>{state.a}</div>;
+    };
+
+    render(
+      <Provider>
+        <App />
+      </Provider>
+    );
+
+    expect(screen.getByText(2)).toBeInTheDocument();
+  });
 });
+/* eslint-enable max-lines */

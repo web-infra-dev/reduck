@@ -3,7 +3,6 @@ import {
   createContext,
   useContext,
   PropsWithChildren,
-  useEffect,
   useState,
   useMemo,
   useRef,
@@ -11,6 +10,7 @@ import {
 import invariant from "invariant";
 import { UseModel } from "@modern-js-reduck/store/dist/types/types";
 import { createBatchManager } from "./batchManager";
+import { useIsomorphicLayoutEffect } from "./utils/useIsomorphicLayoutEffect";
 
 type Config = Parameters<typeof createStore>[0];
 type Store = ReturnType<typeof createStore>;
@@ -62,20 +62,33 @@ export const createApp = (config: Config) => {
 
       const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
 
-      useEffect(() => {
-        const subscribe = initialValue[2];
-        const unsubscribe = subscribe(() => {
+      useIsomorphicLayoutEffect(() => {
+        const checkForUpdates = (sync = false) => {
           const newValue = store.use(...args);
 
           if (!shallowEqual(lastValueRef.current[0], newValue[0])) {
-            batchManager.pushUpdate(() => {
+            if (sync) {
               setModelValue(newValue);
               lastValueRef.current = newValue;
-            });
+            } else {
+              batchManager.pushUpdate(() => {
+                setModelValue(newValue);
+                lastValueRef.current = newValue;
+              });
+            }
           }
-        });
+        };
 
+        const subscribe = initialValue[2];
+        const unsubscribe = subscribe(checkForUpdates);
+
+        // always invoke addModels to make sure batchedUpdates is the last listener,
+        // so that there are no missing component updates.
         batchManager.addModels(...args);
+
+        // Pull data from the store after first render in case the store has
+        // changed since we began.
+        checkForUpdates(true);
 
         return () => {
           unsubscribe();
@@ -120,7 +133,7 @@ export const createApp = (config: Config) => {
       subscribe,
     ]);
 
-    useEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       if (Object.prototype.toString.call(state) === "[object Object]") {
         return subscribe(() => {
           const [newState, newActions] = store.use(...args);
