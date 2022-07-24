@@ -264,7 +264,7 @@ const createDispatchActions = (
 
   forEachAction(modelDesc, path =>
     set(path, (payload: any, ...extraArgs: any[]) => {
-      context.store.dispatch({
+      return context.store.dispatch({
         type: path.join('/').toUpperCase(),
         payload,
         extraArgs,

@@ -9,12 +9,12 @@ const createCountModel = (onMountCreator: (onMount: any, use: any) => void) =>
         value: 1,
       },
       actions: {
-        addValue(state) {
+        addValue(state, value) {
           return {
             ...state,
             // FIXME: ESlint 校验时，无法正确获取参数 state 的类型信息，识别为 any
             // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-            value: state.value + 1,
+            value: state.value + value,
           };
         },
       },
@@ -63,9 +63,28 @@ describe('test onMount hook', () => {
 
         expect(state).toEqual({ value: 1 });
 
-        actions.addValue();
+        actions.addValue(1);
 
         expect(use(count)[0]).toEqual({ value: 2 });
+      });
+    };
+    const count = createCountModel(onMountCreator);
+    store.use(count);
+  });
+
+  test('actions should return correct value', () => {
+    const store = createStore();
+    const onMountCreator = (onMount, use) => {
+      onMount(() => {
+        const [, actions] = use(count);
+
+        const result = actions.addValue(1);
+
+        expect(result).toEqual({
+          type: 'COUNT/ADDVALUE',
+          payload: 1,
+          extraArgs: [],
+        });
       });
     };
     const count = createCountModel(onMountCreator);
