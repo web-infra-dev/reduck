@@ -3,7 +3,7 @@
 /* eslint-disable max-lines */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { ComponentType, NamedExoticComponent } from "react";
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import { isModel } from "@modern-js-reduck/store/utils";
 
 import type {
@@ -440,7 +440,7 @@ function withProxy<P extends object, S extends object, A extends object>(
   if (config.forwardRef) {
     return forwardRef(Wrapper);
   }
-  return Wrapper;
+  return memo(Wrapper);
 }
 
 export type GetConnectType<T> = T extends InferableComponentEnhancerWithProps<
