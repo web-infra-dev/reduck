@@ -41,8 +41,8 @@
   "devDependencies": {
     "@modern-js-reduck/react": "^1.0.1",
     "@modern-js-reduck/store": "^1.0.4",
-    "@modern-js/module-tools": "^1.5.3",
-    "@modern-js/plugin-testing": "^1.5.5",
+    "@modern-js/module-tools": "^1.7.1",
+    "@modern-js/plugin-testing": "^1.6.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/jest": "^27.5.1",

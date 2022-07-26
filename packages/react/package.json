@@ -41,9 +41,8 @@
     "invariant": "^2.2.4"
   },
   "devDependencies": {
-    "create-react-class": "15.7.0",
-    "@modern-js/module-tools": "^1.5.3",
-    "@modern-js/plugin-testing": "^1.5.5",
+    "@modern-js/module-tools": "^1.7.1",
+    "@modern-js/plugin-testing": "^1.6.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/invariant": "^2.2.34",
@@ -52,6 +51,7 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "@types/testing-library__jest-dom": "^5.14.1",
+    "create-react-class": "15.7.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "redux": "^4.1.1",
