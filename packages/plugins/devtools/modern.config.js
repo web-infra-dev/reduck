@@ -1,2 +1,3 @@
-/** @type {import('@modern-js/module-tools').UserConfig} */
-module.exports = {};
+const config = require('../../../common/config');
+
+module.exports = config;
