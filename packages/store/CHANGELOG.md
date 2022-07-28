@@ -1,5 +1,16 @@
 # @modern-js-reduck/store
 
+## 1.0.5
+
+### Patch Changes
+
+- ac05b04: fix: typos
+- 30b1167: fix: fix action return value
+- ed80d6e: build: build modern js dist
+- b33f42a: feat: computed properties
+- 9c09d2a: fix: fix `connect` missing component props
+- 51721bc: feat: `handleEffect` API
+
 ## 1.0.4
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js-reduck/plugin-xstate-immer
 
+## 1.0.2
+
+### Patch Changes
+
+- ed80d6e: build: build modern js dist
+- Updated dependencies [ac05b04]
+- Updated dependencies [30b1167]
+- Updated dependencies [ed80d6e]
+- Updated dependencies [b33f42a]
+- Updated dependencies [9c09d2a]
+- Updated dependencies [51721bc]
+  - @modern-js-reduck/store@1.0.5
+  - @modern-js-reduck/plugin-xstate@1.0.3
+
 ## 1.0.1
 
 ### Patch Changes
