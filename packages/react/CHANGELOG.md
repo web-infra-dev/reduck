@@ -1,5 +1,24 @@
 # @modern-js-reduck/react
 
+## 1.0.2
+
+### Patch Changes
+
+- c5883ba: fix: fix component not re-render in case store changes before subscription
+- 545a1b3: fix: ignore actions comparison when state changes
+- 15e7508: feat: set connect Component displayName
+- 7f178b7: fix: memo connect Hoc
+- ed80d6e: build: build modern js dist
+- b33f42a: feat: computed properties
+- 9c09d2a: fix: fix `connect` missing component props
+- Updated dependencies [ac05b04]
+- Updated dependencies [30b1167]
+- Updated dependencies [ed80d6e]
+- Updated dependencies [b33f42a]
+- Updated dependencies [9c09d2a]
+- Updated dependencies [51721bc]
+  - @modern-js-reduck/store@1.0.5
+
 ## 1.0.1
 
 ### Patch Changes

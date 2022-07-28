@@ -1,5 +1,20 @@
 # @modern-js-reduck/plugin-effects
 
+## 1.0.3
+
+### Patch Changes
+
+- ac05b04: fix: typos
+- ed80d6e: build: build modern js dist
+- 51721bc: feat: `handleEffect` API
+- Updated dependencies [ac05b04]
+- Updated dependencies [30b1167]
+- Updated dependencies [ed80d6e]
+- Updated dependencies [b33f42a]
+- Updated dependencies [9c09d2a]
+- Updated dependencies [51721bc]
+  - @modern-js-reduck/store@1.0.5
+
 ## 1.0.1
 
 ### Patch Changes

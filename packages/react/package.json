@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-reduck/react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "files": [
     "dist"
   ],
@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js-reduck/store": "^1.0.1",
+    "@modern-js-reduck/store": "^1.0.5",
     "hoist-non-react-statics": "3.3.2",
     "invariant": "^2.2.4"
   },
