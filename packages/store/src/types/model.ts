@@ -77,7 +77,7 @@ export interface Computed<State> {
     | [...s: any, selector: (state: State, ...args: any) => any];
 }
 
-type GetComputedFromArray<A extends any> = A extends A
+type GetComputedFromArray<A> = A extends A
   ? A extends { _: object }
     ? never
     : A extends (...args: any) => infer R

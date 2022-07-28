@@ -1,7 +1,7 @@
-import mountModel from "./mountModel";
-import { combineSubscribe } from "./subscribe";
-import { Context, Model, UseModel } from "@/types";
-import { getComputedDepModels, isModel } from "@/utils/misc";
+import mountModel from './mountModel';
+import { combineSubscribe } from './subscribe';
+import { Context, Model, UseModel } from '@/types';
+import { getComputedDepModels, isModel } from '@/utils/misc';
 
 function createUseModel(context: Context): UseModel {
   function useModel(...args: any) {
@@ -9,7 +9,7 @@ function createUseModel(context: Context): UseModel {
       ? [...args[0], ...args.slice(1)]
       : args;
 
-    flattenedArgs.forEach((model) => {
+    flattenedArgs.forEach(model => {
       if (isModel(model)) {
         mountModel(context, model);
       }
@@ -17,10 +17,10 @@ function createUseModel(context: Context): UseModel {
 
     const { getState, getActions, actualModels, subscribe } = parseModelParams(
       context,
-      flattenedArgs
+      flattenedArgs,
     );
 
-    const computedArr = actualModels.map((m) => {
+    const computedArr = actualModels.map(m => {
       const {
         modelDesc: { computed },
       } = context.apis.getModel(m);
@@ -29,7 +29,7 @@ function createUseModel(context: Context): UseModel {
 
     const computedDepModels = getComputedDepModels(computedArr);
 
-    computedDepModels.forEach((model) => {
+    computedDepModels.forEach(model => {
       if (isModel(model)) {
         mountModel(context, model);
       }
@@ -38,17 +38,15 @@ function createUseModel(context: Context): UseModel {
     let [state, actions] = [getState(), getActions()];
 
     ({ state, actions } = context.pluginCore.invokePipeline(
-      "useModel",
+      'useModel',
       {
         state,
         actions,
       },
       {
         models: actualModels,
-        mountedModels: actualModels.map((model) =>
-          context.apis.getModel(model)
-        ),
-      }
+        mountedModels: actualModels.map(model => context.apis.getModel(model)),
+      },
     ));
 
     return [state, actions, subscribe];
@@ -72,13 +70,13 @@ const parseModelParams = (context: Context, _models: any) => {
   const [stateSelector, actionSelector] = selectors;
 
   if (actualModels.length > 1) {
-    actualModels.forEach((m) => {
+    actualModels.forEach(m => {
       if (
         Object.prototype.toString.call(context.apis.getModel(m).state) !==
-        "[object Object]"
+        '[object Object]'
       ) {
         throw new Error(
-          `You cant use multiple model one of which's state is primitive data`
+          `You cant use multiple model one of which's state is primitive data`,
         );
       }
     });
@@ -107,7 +105,7 @@ const parseModelParams = (context: Context, _models: any) => {
   const finalStateSelector = (...models: any[]) => {
     if (stateSelector) {
       return stateSelector(
-        ...actualModels.map((model) => getStateWithComputed(model))
+        ...actualModels.map(model => getStateWithComputed(model)),
       );
     }
 
@@ -117,7 +115,7 @@ const parseModelParams = (context: Context, _models: any) => {
 
     return models.reduce(
       (res, model) => ({ ...res, ...getStateWithComputed(model) }),
-      {}
+      {},
     );
   };
 
@@ -130,12 +128,12 @@ const parseModelParams = (context: Context, _models: any) => {
     getState: () => finalStateSelector(...actualModels),
     getActions: () =>
       finalActionSelector(
-        ...actualModels.map((model) => context.apis.getModel(model)!.actions)
+        ...actualModels.map(model => context.apis.getModel(model)!.actions),
       ),
     subscribe: (handler: () => void) =>
       combineSubscribe(
         context,
-        ...actualModels.map((model) => context.apis.getModelSubscribe(model))
+        ...actualModels.map(model => context.apis.getModelSubscribe(model)),
       )(handler),
     actualModels,
   };

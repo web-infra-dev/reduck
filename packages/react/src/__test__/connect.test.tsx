@@ -1,14 +1,14 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { render, fireEvent } from "@testing-library/react";
-import { GetModelActions, model } from "@modern-js-reduck/store";
-import "@testing-library/jest-dom/extend-expect";
-import { useRef, forwardRef } from "react";
+import { render, fireEvent } from '@testing-library/react';
+import { GetModelActions, model } from '@modern-js-reduck/store';
+import '@testing-library/jest-dom/extend-expect';
+import { useRef, forwardRef } from 'react';
 // @ts-expect-error
-import createReactClass from "create-react-class";
-import { Provider, connect, GetConnectType } from "..";
+import createReactClass from 'create-react-class';
+import { Provider, connect, GetConnectType } from '..';
 
-const modelA = model("modelA").define({
+const modelA = model('modelA').define({
   state: {
     a: 1,
   },
@@ -22,7 +22,7 @@ const modelA = model("modelA").define({
   },
 });
 
-const modelB = model("modelB").define({
+const modelB = model('modelB').define({
   state: {
     b: 10,
   },
@@ -35,8 +35,8 @@ const modelB = model("modelB").define({
     },
   },
 });
-describe("test connect", () => {
-  test("connect should work with single model", () => {
+describe('test connect', () => {
+  test('connect should work with single model', () => {
     const modelConnect = connect([modelA]);
     type ConnectProps = GetConnectType<typeof modelConnect>;
     type OwnProps = {
@@ -56,25 +56,25 @@ describe("test connect", () => {
     });
     const result = render(
       <Provider>
-        <App title={"app"} />
-      </Provider>
+        <App title={'app'} />
+      </Provider>,
     );
 
     expect(result.getByText(1)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText("incA"));
+    fireEvent.click(result.getByText('incA'));
     expect(result.getByText(2)).toBeInTheDocument();
   });
-  test("connect should work with single model and mapState/mapActions", () => {
+  test('connect should work with single model and mapState/mapActions', () => {
     const modelConnect = connect([
       modelA,
-      (state) => {
+      state => {
         return {
           ...state,
           double: state.a * 2,
         };
       },
-      (actions) => {
+      actions => {
         return {
           ...actions,
           incDouble() {
@@ -106,21 +106,21 @@ describe("test connect", () => {
     });
     const result = render(
       <Provider>
-        <App title={"app"} />
-      </Provider>
+        <App title={'app'} />
+      </Provider>,
     );
 
     expect(result.getByText(1)).toBeInTheDocument();
     expect(result.getByText(2)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText("incA"));
+    fireEvent.click(result.getByText('incA'));
     expect(result.getByText(2)).toBeInTheDocument();
     expect(result.getByText(4)).toBeInTheDocument();
-    fireEvent.click(result.getByText("incDouble"));
+    fireEvent.click(result.getByText('incDouble'));
     expect(result.getByText(4)).toBeInTheDocument();
     expect(result.getByText(8)).toBeInTheDocument();
   });
-  test("connect should work with multi model", () => {
+  test('connect should work with multi model', () => {
     const modelConnect = connect([
       modelA,
       modelB,
@@ -164,31 +164,31 @@ describe("test connect", () => {
     });
     const result = render(
       <Provider>
-        <App title={"app"} />
-      </Provider>
+        <App title={'app'} />
+      </Provider>,
     );
 
     expect(result.getByText(1)).toBeInTheDocument();
     expect(result.getByText(10)).toBeInTheDocument();
     expect(result.getByText(11)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText("incA"));
+    fireEvent.click(result.getByText('incA'));
     expect(result.getByText(2)).toBeInTheDocument();
     expect(result.getByText(10)).toBeInTheDocument();
     expect(result.getByText(12)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText("incB"));
+    fireEvent.click(result.getByText('incB'));
     expect(result.getByText(2)).toBeInTheDocument();
     expect(result.getByText(11)).toBeInTheDocument();
     expect(result.getByText(13)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText("incAB"));
+    fireEvent.click(result.getByText('incAB'));
     expect(result.getByText(3)).toBeInTheDocument();
     expect(result.getByText(12)).toBeInTheDocument();
     expect(result.getByText(15)).toBeInTheDocument();
   });
 
-  test("connect with ref should work", () => {
+  test('connect with ref should work', () => {
     const modelConnect = connect([modelA], {
       forwardRef: true,
     });
@@ -201,7 +201,7 @@ describe("test connect", () => {
             <div ref={ref}>a</div>;
           </div>
         );
-      })
+      }),
     );
     const App = () => {
       const ref = useRef<any>();
@@ -210,7 +210,7 @@ describe("test connect", () => {
           <Counter ref={ref} />
           <button
             onClick={() => {
-              ref.current.innerHTML = "b";
+              ref.current.innerHTML = 'b';
             }}
           >
             click
@@ -221,18 +221,18 @@ describe("test connect", () => {
     const result = render(
       <Provider>
         <App />
-      </Provider>
+      </Provider>,
     );
 
-    expect(result.getByText("a")).toBeInTheDocument();
-    fireEvent.click(result.getByText("click"));
-    expect(result.getByText("b")).toBeInTheDocument();
+    expect(result.getByText('a')).toBeInTheDocument();
+    fireEvent.click(result.getByText('click'));
+    expect(result.getByText('b')).toBeInTheDocument();
   });
 
-  test("connect with static props should work", () => {
+  test('connect with static props should work', () => {
     const Component = createReactClass({
       statics: {
-        foo: "bar",
+        foo: 'bar',
       },
       render() {
         return null;
@@ -240,10 +240,10 @@ describe("test connect", () => {
     });
     const Wrapper = connect([modelA])(Component);
     // FIXME: infer static props
-    expect((Wrapper as any).foo).toEqual("bar");
+    expect((Wrapper as any).foo).toEqual('bar');
   });
 
-  test("connect should work with Component props", () => {
+  test('connect should work with Component props', () => {
     const modelConnect = connect([
       modelA,
       modelB,
@@ -256,7 +256,7 @@ describe("test connect", () => {
       (
         // FIXME: 类型推导失败
         actionsA: GetModelActions<typeof modelA>,
-        actionsB: GetModelActions<typeof modelB>
+        actionsB: GetModelActions<typeof modelB>,
       ) => {
         return {
           incAB() {
@@ -287,13 +287,13 @@ describe("test connect", () => {
     const result = render(
       <Provider>
         <App value={1} />
-      </Provider>
+      </Provider>,
     );
 
     expect(result.getByText(1)).toBeInTheDocument();
     expect(result.getByText(12)).toBeInTheDocument();
 
-    fireEvent.click(result.getByText("incAB"));
+    fireEvent.click(result.getByText('incAB'));
     expect(result.getByText(14)).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import { createStore } from "@modern-js-reduck/store";
+import { createStore } from '@modern-js-reduck/store';
 import {
   createContext,
   useContext,
@@ -6,19 +6,19 @@ import {
   useState,
   useMemo,
   useRef,
-} from "react";
-import invariant from "invariant";
-import { UseModel } from "@modern-js-reduck/store/dist/types/types";
-import { createBatchManager } from "./batchManager";
-import { useIsomorphicLayoutEffect } from "./utils/useIsomorphicLayoutEffect";
+} from 'react';
+import invariant from 'invariant';
+import { UseModel } from '@modern-js-reduck/store/dist/types/types';
+import { createBatchManager } from './batchManager';
+import { useIsomorphicLayoutEffect } from './utils/useIsomorphicLayoutEffect';
 
 type Config = Parameters<typeof createStore>[0];
 type Store = ReturnType<typeof createStore>;
 
 const shallowEqual = (a: any, b: any) => {
   if (
-    Object.prototype.toString.call(a) !== "[object Object]" ||
-    Object.prototype.toString.call(b) !== "[object Object]"
+    Object.prototype.toString.call(a) !== '[object Object]' ||
+    Object.prototype.toString.call(b) !== '[object Object]'
   ) {
     return a === b;
   }
@@ -27,7 +27,7 @@ const shallowEqual = (a: any, b: any) => {
     return false;
   }
 
-  return Object.keys(a).every((key) => a[key] === b[key]);
+  return Object.keys(a).every(key => a[key] === b[key]);
 };
 
 export const createApp = (config: Config) => {
@@ -39,7 +39,7 @@ export const createApp = (config: Config) => {
   }>(null as any);
 
   const Provider = (
-    props: PropsWithChildren<{ store?: Store; config?: Config }>
+    props: PropsWithChildren<{ store?: Store; config?: Config }>,
   ) => {
     const { children, store: storeFromProps, config: _config } = props;
     const store = storeFromProps || createStore({ ...config, ..._config });
@@ -99,29 +99,29 @@ export const createApp = (config: Config) => {
       return modelValue;
     };
 
-  const useModel: Store["use"] = (...args: any[]) => {
+  const useModel: Store['use'] = (...args: any[]) => {
     const context = useContext(Context);
 
     invariant(
       Boolean(context),
-      `You should wrap your Component with Reduck Provider.`
+      `You should wrap your Component with Reduck Provider.`,
     );
 
     const { store, batchManager } = context;
 
     const _useModel = useMemo(
       () => createUseModel(store, batchManager),
-      [store]
+      [store],
     );
     return _useModel(...args);
   };
 
-  const useStaticModel: Store["use"] = (...args: any[]) => {
+  const useStaticModel: Store['use'] = (...args: any[]) => {
     const context = useContext(Context);
 
     invariant(
       Boolean(context),
-      "You should wrap your Component with Reduck Provider."
+      'You should wrap your Component with Reduck Provider.',
     );
 
     const { store } = context;
@@ -134,7 +134,7 @@ export const createApp = (config: Config) => {
     ]);
 
     useIsomorphicLayoutEffect(() => {
-      if (Object.prototype.toString.call(state) === "[object Object]") {
+      if (Object.prototype.toString.call(state) === '[object Object]') {
         return subscribe(() => {
           const [newState, newActions] = store.use(...args);
 
@@ -153,7 +153,7 @@ export const createApp = (config: Config) => {
     return value.current;
   };
 
-  const useLocalModel: Store["use"] = (...args: any[]) => {
+  const useLocalModel: Store['use'] = (...args: any[]) => {
     const [store, batchManager] = useMemo(() => {
       const finalConfig = configFromProvider || config;
 

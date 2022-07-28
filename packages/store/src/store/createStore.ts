@@ -29,7 +29,7 @@ const createStore = (props: StoreConfig = {}): Context['store'] => {
           ...(enhancers || []),
         ].filter(Boolean),
       ),
-    ) as Context['store'],
+    ),
   );
 
   store.use = context.apis.useModel;
