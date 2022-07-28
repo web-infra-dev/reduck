@@ -108,7 +108,8 @@ describe('test createApp', () => {
             type="button"
             onClick={() => {
               currentCount = state.value;
-            }}>
+            }}
+          >
             updateCount
           </button>
         </>

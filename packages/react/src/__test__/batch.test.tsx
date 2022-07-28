@@ -39,7 +39,8 @@ describe('test batch', () => {
           <div
             onClick={() => {
               addValue1();
-            }}>
+            }}
+          >
             addValue1
           </div>
         </>
@@ -90,7 +91,8 @@ describe('test batch', () => {
           <div
             onClick={() => {
               addValue1();
-            }}>
+            }}
+          >
             addValue1
           </div>
         </>

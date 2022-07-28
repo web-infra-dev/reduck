@@ -27,7 +27,6 @@ const countModel = model<State>('counter').define({
     add(state) {
       return {
         ...state,
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         value: state.value + 1,
       };
     },
@@ -61,7 +60,6 @@ const count2Model = model<State>('counter2').define({
     add(state) {
       return {
         ...state,
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         value: state.value + 1,
       };
     },
