@@ -54,7 +54,6 @@
     "@types/react-dom": "^18",
     "@types/testing-library__jest-dom": "^5.14.1",
     "@types/use-sync-external-store": "^0.0.3",
-    "create-react-class": "15.7.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-17": "npm:react@^17",

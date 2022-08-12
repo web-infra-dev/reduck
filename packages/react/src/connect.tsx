@@ -439,11 +439,17 @@ function withProxy<P extends object, S extends object, A extends object>(
 
   Wrapper.displayName = `Connect(${C.displayName || C.name || 'Anonymous'})}`;
 
-  hoistNonReactStatics(Wrapper, C);
   if (config.forwardRef) {
-    return forwardRef(Wrapper);
+    const Forward = forwardRef(Wrapper);
+    const MemoForward = memo(Forward);
+    hoistNonReactStatics(MemoForward, C);
+    return MemoForward;
   }
-  return memo(Wrapper);
+
+  const MemoWrapper = memo(Wrapper);
+  // hoist must run after memo
+  hoistNonReactStatics(MemoWrapper, C);
+  return MemoWrapper;
 }
 
 export type GetConnectType<T> = T extends InferableComponentEnhancerWithProps<
