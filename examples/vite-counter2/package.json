@@ -1,5 +1,5 @@
 {
-  "name": "vite-counter",
+  "name": "vite-counter2",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@modern-js-reduck/react": "latest",
-    "@modern-js-reduck/store": "latest",
+    "@reduck/core": "latest",
+    "@reduck/plugin-immer": "latest",
     "react": "^18.0.2",
     "react-dom": "^18.0.2"
   },

@@ -230,14 +230,18 @@ describe('test connect', () => {
   });
 
   test('connect with static props should work', () => {
-    const Component = createReactClass({
-      statics: {
-        foo: 'bar',
-      },
-      render() {
-        return null;
-      },
-    });
+    // const Component = createReactClass({
+    //   statics: {
+    //     foo: 'bar',
+    //   },
+    //   render() {
+    //     return null;
+    //   },
+    // });
+    const Component = () => {
+      return null;
+    };
+    Component.foo = 'bar';
     const Wrapper = connect([modelA])(Component);
     // FIXME: infer static props
     expect((Wrapper as any).foo).toEqual('bar');

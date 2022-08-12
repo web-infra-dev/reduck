@@ -6,9 +6,11 @@ import {
   useState,
   useMemo,
   useRef,
+  useCallback,
 } from 'react';
 import invariant from 'invariant';
 import { UseModel } from '@modern-js-reduck/store/dist/types/types';
+import { useSyncExternalStore } from 'use-sync-external-store/shim';
 import { createBatchManager } from './batchManager';
 import { useIsomorphicLayoutEffect } from './utils/useIsomorphicLayoutEffect';
 
@@ -57,46 +59,68 @@ export const createApp = (config: Config) => {
     (store: Store, batchManager: ReturnType<typeof createBatchManager>) =>
     (..._args: any[]) => {
       const args = _args.flat();
-      const initialValue = useMemo(() => store.use(...args), []);
-      const [modelValue, setModelValue] = useState(initialValue);
+      const [initialValue, , subscribe] = store.use(...args);
 
       const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
 
-      useIsomorphicLayoutEffect(() => {
-        const checkForUpdates = (sync = false) => {
-          const newValue = store.use(...args);
+      const getSnapshot = () => {
+        const newValue = store.use(...args);
+        if (!shallowEqual(lastValueRef.current[0], newValue[0])) {
+          lastValueRef.current = newValue;
+          return newValue;
+        } else {
+          return lastValueRef.current;
+        }
+      };
 
-          if (!shallowEqual(lastValueRef.current[0], newValue[0])) {
-            if (sync) {
-              setModelValue(newValue);
-              lastValueRef.current = newValue;
-            } else {
-              batchManager.pushUpdate(() => {
-                setModelValue(newValue);
-                lastValueRef.current = newValue;
-              });
-            }
-          }
-        };
+      const selectedState = useSyncExternalStore(
+        subscribe,
+        useCallback(getSnapshot, [store, ...args]),
+      );
 
-        const subscribe = initialValue[2];
-        const unsubscribe = subscribe(checkForUpdates);
+      return selectedState;
 
-        // always invoke addModels to make sure batchedUpdates is the last listener,
-        // so that there are no missing component updates.
-        batchManager.addModels(...args);
+      // const args = _args.flat();
+      // const initialValue = useMemo(() => store.use(...args), []);
+      // const [modelValue, setModelValue] = useState(initialValue);
 
-        // Pull data from the store after first render in case the store has
-        // changed since we began.
-        checkForUpdates(true);
+      // const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
 
-        return () => {
-          unsubscribe();
-          batchManager.removeModels(...args);
-        };
-      }, []);
+      // useIsomorphicLayoutEffect(() => {
+      //   const checkForUpdates = (sync = false) => {
+      //     const newValue = store.use(...args);
 
-      return modelValue;
+      //     if (!shallowEqual(lastValueRef.current[0], newValue[0])) {
+      //       if (sync) {
+      //         setModelValue(newValue);
+      //         lastValueRef.current = newValue;
+      //       } else {
+      //         batchManager.pushUpdate(() => {
+      //           setModelValue(newValue);
+      //           lastValueRef.current = newValue;
+      //         });
+      //       }
+      //     }
+      //   };
+
+      //   const subscribe = initialValue[2];
+      //   const unsubscribe = subscribe(checkForUpdates);
+
+      //   // always invoke addModels to make sure batchedUpdates is the last listener,
+      //   // so that there are no missing component updates.
+      //   batchManager.addModels(...args);
+
+      //   // Pull data from the store after first render in case the store has
+      //   // changed since we began.
+      //   checkForUpdates(true);
+
+      //   return () => {
+      //     unsubscribe();
+      //     batchManager.removeModels(...args);
+      //   };
+      // }, []);
+
+      // return modelValue;
     };
 
   const useModel: Store['use'] = (...args: any[]) => {

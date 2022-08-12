@@ -1,7 +1,7 @@
 // import React from "react";
 import {createRoot} from "react-dom/client";
 import App from "./App";
-import { Provider } from "@modern-js-reduck/react";
+import { createApp } from "@reduck/core";
 
 // ReactDOM.render(
 //   <React.StrictMode>
@@ -11,6 +11,11 @@ import { Provider } from "@modern-js-reduck/react";
 //   </React.StrictMode>,
 //   document.getElementById("root")!
 // );
+
+const Provider = createApp({
+  disableLogger: true,
+})(App);
+
 
 
 createRoot(document.getElementById("root")!).render(
