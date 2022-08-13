@@ -10,6 +10,7 @@
   "dependencies": {
     "@modern-js-reduck/react": "latest",
     "@modern-js-reduck/store": "latest",
+    "@modern-js-reduck/plugin-immutable": "latest",
     "react": "^18.0.2",
     "react-dom": "^18.0.2"
   },
