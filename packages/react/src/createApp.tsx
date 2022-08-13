@@ -7,15 +7,17 @@ import {
   useMemo,
   useRef,
   useCallback,
+  useSyncExternalStore,
 } from 'react';
 import invariant from 'invariant';
 import { UseModel } from '@modern-js-reduck/store/dist/types/types';
-import { useSyncExternalStore } from 'use-sync-external-store/shim';
 import { createBatchManager } from './batchManager';
 import { useIsomorphicLayoutEffect } from './utils/useIsomorphicLayoutEffect';
 
 type Config = Parameters<typeof createStore>[0];
 type Store = ReturnType<typeof createStore>;
+
+const isReact18 = useSyncExternalStore !== undefined;
 
 const shallowEqual = (a: any, b: any) => {
   if (
@@ -56,10 +58,10 @@ export const createApp = (config: Config) => {
   };
 
   const createUseModel =
-    (store: Store, batchManager: ReturnType<typeof createBatchManager>) =>
+    (store: Store) =>
     (..._args: any[]) => {
       const args = _args.flat();
-      const [initialValue, , subscribe] = store.use(...args);
+      const initialValue = store.use(...args);
 
       const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
 
@@ -74,53 +76,59 @@ export const createApp = (config: Config) => {
       };
 
       const selectedState = useSyncExternalStore(
-        subscribe,
+        initialValue[2],
         useCallback(getSnapshot, [store, ...args]),
       );
 
       return selectedState;
+    };
 
-      // const args = _args.flat();
-      // const initialValue = useMemo(() => store.use(...args), []);
-      // const [modelValue, setModelValue] = useState(initialValue);
+  // for react 17
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const legacy_createUseModel =
+    (store: Store, batchManager: ReturnType<typeof createBatchManager>) =>
+    (..._args: any[]) => {
+      const args = _args.flat();
+      const initialValue = useMemo(() => store.use(...args), []);
+      const [modelValue, setModelValue] = useState(initialValue);
 
-      // const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
+      const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
 
-      // useIsomorphicLayoutEffect(() => {
-      //   const checkForUpdates = (sync = false) => {
-      //     const newValue = store.use(...args);
+      useIsomorphicLayoutEffect(() => {
+        const checkForUpdates = (sync = false) => {
+          const newValue = store.use(...args);
 
-      //     if (!shallowEqual(lastValueRef.current[0], newValue[0])) {
-      //       if (sync) {
-      //         setModelValue(newValue);
-      //         lastValueRef.current = newValue;
-      //       } else {
-      //         batchManager.pushUpdate(() => {
-      //           setModelValue(newValue);
-      //           lastValueRef.current = newValue;
-      //         });
-      //       }
-      //     }
-      //   };
+          if (!shallowEqual(lastValueRef.current[0], newValue[0])) {
+            if (sync) {
+              setModelValue(newValue);
+              lastValueRef.current = newValue;
+            } else {
+              batchManager.pushUpdate(() => {
+                setModelValue(newValue);
+                lastValueRef.current = newValue;
+              });
+            }
+          }
+        };
 
-      //   const subscribe = initialValue[2];
-      //   const unsubscribe = subscribe(checkForUpdates);
+        const subscribe = initialValue[2];
+        const unsubscribe = subscribe(checkForUpdates);
 
-      //   // always invoke addModels to make sure batchedUpdates is the last listener,
-      //   // so that there are no missing component updates.
-      //   batchManager.addModels(...args);
+        // always invoke addModels to make sure batchedUpdates is the last listener,
+        // so that there are no missing component updates.
+        batchManager.addModels(...args);
 
-      //   // Pull data from the store after first render in case the store has
-      //   // changed since we began.
-      //   checkForUpdates(true);
+        // Pull data from the store after first render in case the store has
+        // changed since we began.
+        checkForUpdates(true);
 
-      //   return () => {
-      //     unsubscribe();
-      //     batchManager.removeModels(...args);
-      //   };
-      // }, []);
+        return () => {
+          unsubscribe();
+          batchManager.removeModels(...args);
+        };
+      }, []);
 
-      // return modelValue;
+      return modelValue;
     };
 
   const useModel: Store['use'] = (...args: any[]) => {
@@ -133,10 +141,11 @@ export const createApp = (config: Config) => {
 
     const { store, batchManager } = context;
 
-    const _useModel = useMemo(
-      () => createUseModel(store, batchManager),
-      [store],
-    );
+    const _useModel = useMemo(() => {
+      return isReact18
+        ? createUseModel(store)
+        : legacy_createUseModel(store, batchManager);
+    }, [store]);
     return _useModel(...args);
   };
 
@@ -192,7 +201,11 @@ export const createApp = (config: Config) => {
       return [reduckStore, createBatchManager(reduckStore)];
     }, []);
 
-    return useMemo(() => createUseModel(store, batchManager), [])(...args);
+    return useMemo(() => {
+      return isReact18
+        ? createUseModel(store)
+        : legacy_createUseModel(store, batchManager);
+    }, [])(...args);
   };
 
   return {

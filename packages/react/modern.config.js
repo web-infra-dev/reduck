@@ -1,7 +1,6 @@
 const config = require('../../common/config');
 
 const react17Config = {
-  // ...tsStandardConfig,
   displayName: 'ReactDOM 17',
   moduleNameMapper: {
     '^react$': 'react-17',
@@ -11,18 +10,31 @@ const react17Config = {
 };
 
 const react18Config = {
-  // ...tsStandardConfig,
   displayName: 'ReactDOM 18',
-  // moduleNameMapper: {
-  //   '../../src/index': '<rootDir>/src/next',
-  // },
 };
 
 module.exports = {
   ...config,
   tools: {
-    jest: {
-      projects: [react17Config, react18Config],
+    jest: options => {
+      const { moduleNameMapper } = options;
+      delete options.moduleNameMapper;
+      return {
+        ...options,
+        projects: [
+          {
+            ...react17Config,
+            moduleNameMapper: {
+              ...moduleNameMapper,
+              ...react17Config.moduleNameMapper,
+            },
+          },
+          {
+            ...react18Config,
+            moduleNameMapper,
+          },
+        ],
+      };
     },
   },
 };
