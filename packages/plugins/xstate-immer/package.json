@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-reduck/plugin-xstate-immer",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "files": [
     "dist"
   ],
@@ -43,8 +43,8 @@
     "immer": "^9.0.5"
   },
   "devDependencies": {
-    "@modern-js-reduck/plugin-xstate": "^1.0.3",
-    "@modern-js-reduck/store": "^1.0.5",
+    "@modern-js-reduck/plugin-xstate": "^1.0.4",
+    "@modern-js-reduck/store": "^1.0.6",
     "@modern-js/module-tools": "^1.7.1",
     "@modern-js/plugin-testing": "^1.6.0",
     "@testing-library/jest-dom": "^5.14.1",

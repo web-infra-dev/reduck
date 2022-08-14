@@ -1,5 +1,13 @@
 # @modern-js-reduck/plugin-effects
 
+## 1.0.6
+
+### Patch Changes
+
+- feat: uniform package version
+- Updated dependencies
+  - @modern-js-reduck/store@1.0.6
+
 ## 1.0.3
 
 ### Patch Changes

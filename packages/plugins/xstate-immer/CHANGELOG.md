@@ -1,5 +1,14 @@
 # @modern-js-reduck/plugin-xstate-immer
 
+## 1.0.6
+
+### Patch Changes
+
+- feat: uniform package version
+- Updated dependencies
+  - @modern-js-reduck/plugin-xstate@1.0.4
+  - @modern-js-reduck/store@1.0.6
+
 ## 1.0.2
 
 ### Patch Changes

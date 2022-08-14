@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-reduck/plugin-effects",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "files": [
     "dist"
   ],
@@ -57,7 +57,7 @@
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "^1.0.5"
+    "@modern-js-reduck/store": "^1.0.6"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
