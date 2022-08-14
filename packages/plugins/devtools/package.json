@@ -43,7 +43,7 @@
     "redux": "^4.1.1"
   },
   "devDependencies": {
-    "@modern-js-reduck/store": "^1.0.5",
+    "@modern-js-reduck/store": "workspace:*",
     "@modern-js/module-tools": "^1.7.1",
     "@modern-js/plugin-testing": "^1.6.0",
     "@types/jest": "^27.5.1",
@@ -54,7 +54,7 @@
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "^1.0.5"
+    "@modern-js-reduck/store": "workspace:*"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
