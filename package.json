@@ -23,7 +23,8 @@
     "bump": "modern bump",
     "pre": "modern pre",
     "release": "modern release",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "preinstall": "only-allow-pnpm"
   },
   "engines": {
     "node": ">=12.13.0"
@@ -45,7 +46,10 @@
     "extends": [
       "@modern-js"
     ],
-    "ignorePatterns": ["dist", "lcov-report"]
+    "ignorePatterns": [
+      "dist",
+      "lcov-report"
+    ]
   },
   "eslintIgnore": [
     "node_modules/",
@@ -66,6 +70,7 @@
     "@modern-js/plugin-jarvis": "^1.2.14",
     "@modern-js/tsconfig": "^1.2.0",
     "husky": "^8.0.0",
-    "webpack": "^5.54.0"
+    "webpack": "^5.54.0",
+    "@modern-js-reduck/scripts": "workspace:*"
   }
 }

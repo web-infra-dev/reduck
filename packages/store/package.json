@@ -51,7 +51,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
     "build": "modern build",
     "test": "modern test",
@@ -71,7 +71,8 @@
     "@types/jest": "^27.5.1",
     "@types/node": "^14",
     "tsd": "latest",
-    "typescript": "latest"
+    "typescript": "latest",
+    "@modern-js-reduck/scripts": "workspace:*"
   },
   "modernSettings": {},
   "sideEffects": false,
