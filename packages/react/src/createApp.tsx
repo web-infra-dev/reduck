@@ -9,10 +9,19 @@ import {
 } from 'react';
 import invariant from 'invariant';
 import { UseModel } from '@modern-js-reduck/store/dist/types/types';
-import { createBatchManager } from './batchManager';
+import effectsPlugin from '@modern-js-reduck/plugin-effects';
+import immerPlugin from '@modern-js-reduck/plugin-immutable';
+import devToolsPlugin, {
+  DevToolsOptions,
+} from '@modern-js-reduck/plugin-devtools';
 import { useIsomorphicLayoutEffect } from './utils/useIsomorphicLayoutEffect';
+import { createBatchManager } from './batchManager';
 
-type Config = Parameters<typeof createStore>[0];
+export type Config =
+  | (Parameters<typeof createStore>[0] & {
+      devTools?: boolean | DevToolsOptions;
+    })
+  | undefined;
 type Store = ReturnType<typeof createStore>;
 
 const shallowEqual = (a: any, b: any) => {
@@ -30,21 +39,37 @@ const shallowEqual = (a: any, b: any) => {
   return Object.keys(a).every(key => a[key] === b[key]);
 };
 
-export const createApp = (config: Config) => {
-  let configFromProvider: Config | null = null;
+const getDefaultPlugins = (devToolsOptions?: DevToolsOptions | boolean) => {
+  const plugins = [immerPlugin, effectsPlugin];
+  if (devToolsOptions) {
+    plugins.push(
+      devToolsPlugin(
+        typeof devToolsOptions === 'object' ? devToolsOptions : undefined,
+      ),
+    );
+  }
+  return plugins;
+};
 
+export const createApp = (config: Config = {}) => {
+  let configFromProvider: Config;
   const Context = createContext<{
     store: Store;
     batchManager: ReturnType<typeof createBatchManager>;
   }>(null as any);
 
+  const defaultPlugins = getDefaultPlugins(config.devTools);
+
   const Provider = (
     props: PropsWithChildren<{ store?: Store; config?: Config }>,
   ) => {
     const { children, store: storeFromProps, config: _config } = props;
-    const store = storeFromProps || createStore({ ...config, ..._config });
+    configFromProvider = { ...config, ..._config };
+    // user setting would override default plugins
+    configFromProvider.plugins = configFromProvider.plugins || defaultPlugins;
+
+    const store = storeFromProps || createStore(configFromProvider);
     const batchManager = createBatchManager(store);
-    configFromProvider = _config;
 
     return (
       <Context.Provider value={{ store, batchManager }}>
@@ -155,7 +180,7 @@ export const createApp = (config: Config) => {
 
   const useLocalModel: Store['use'] = (...args: any[]) => {
     const [store, batchManager] = useMemo(() => {
-      const finalConfig = configFromProvider || config;
+      const finalConfig = configFromProvider;
 
       const localStoreConfig = {
         enhancers: finalConfig?.enhancers || [],
@@ -171,8 +196,14 @@ export const createApp = (config: Config) => {
     return useMemo(() => createUseModel(store, batchManager), [])(...args);
   };
 
+  const useStore: () => Store = () => {
+    const { store } = useContext(Context);
+    return store;
+  };
+
   return {
     Provider,
+    useStore,
     useModel,
     useStaticModel,
     useLocalModel,
