@@ -4,8 +4,6 @@ import { render, fireEvent } from '@testing-library/react';
 import { GetModelActions, model } from '@modern-js-reduck/store';
 import '@testing-library/jest-dom/extend-expect';
 import { useRef, forwardRef } from 'react';
-// @ts-expect-error
-import createReactClass from 'create-react-class';
 import { Provider, connect, GetConnectType } from '..';
 
 const modelA = model('modelA').define({
@@ -230,14 +228,10 @@ describe('test connect', () => {
   });
 
   test('connect with static props should work', () => {
-    const Component = createReactClass({
-      statics: {
-        foo: 'bar',
-      },
-      render() {
-        return null;
-      },
-    });
+    const Component = () => {
+      return null;
+    };
+    Component.foo = 'bar';
     const Wrapper = connect([modelA])(Component);
     // FIXME: infer static props
     expect((Wrapper as any).foo).toEqual('bar');
