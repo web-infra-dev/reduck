@@ -1,5 +1,5 @@
 import { model } from '@modern-js-reduck/store';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { useModel, Provider } from '..';
 
@@ -25,12 +25,11 @@ const countModel = model('name').define({
 });
 
 describe('test batch', () => {
-  test('once store change, update should batch in one render', () => {
+  test('once store change, update should batch in one render', async () => {
     let renderCount = 0;
 
     function SubApp() {
       renderCount += 1;
-
       const [{ value1 }, { addValue1 }] = useModel(countModel);
 
       return (
@@ -38,7 +37,13 @@ describe('test batch', () => {
           <div>value1:{value1}</div>
           <div
             onClick={() => {
-              addValue1();
+              // React 17 not auto batch updates in setTimeout.
+              // FIXME: In test environment, React 17 seems to always batch updates.
+              setTimeout(() => {
+                act(() => {
+                  addValue1();
+                });
+              }, 10);
             }}
           >
             addValue1
@@ -70,8 +75,9 @@ describe('test batch', () => {
     expect(result.getByText('value:2')).toBeInTheDocument();
 
     fireEvent.click(result.getByText('addValue1'));
+
+    await screen.findByText('value1:2');
     expect(renderCount).toBe(3);
-    expect(result.getByText('value1:2')).toBeInTheDocument();
   });
 
   test('state selector should reduce the rerender times', () => {

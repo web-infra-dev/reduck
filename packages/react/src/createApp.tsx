@@ -6,6 +6,8 @@ import {
   useState,
   useMemo,
   useRef,
+  useCallback,
+  useSyncExternalStore,
 } from 'react';
 import invariant from 'invariant';
 import { UseModel } from '@modern-js-reduck/store/dist/types/types';
@@ -23,6 +25,8 @@ export type Config =
     })
   | undefined;
 type Store = ReturnType<typeof createStore>;
+
+const isReact18 = useSyncExternalStore !== undefined;
 
 const shallowEqual = (a: any, b: any) => {
   if (
@@ -79,6 +83,34 @@ export const createApp = (config: Config = {}) => {
   };
 
   const createUseModel =
+    (store: Store) =>
+    (..._args: any[]) => {
+      const args = _args.flat();
+      const initialValue = store.use(...args);
+
+      const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
+
+      const getSnapshot = () => {
+        const newValue = store.use(...args);
+        if (!shallowEqual(lastValueRef.current[0], newValue[0])) {
+          lastValueRef.current = newValue;
+          return newValue;
+        } else {
+          return lastValueRef.current;
+        }
+      };
+
+      const selectedState = useSyncExternalStore(
+        initialValue[2],
+        useCallback(getSnapshot, [store, ...args]),
+      );
+
+      return selectedState;
+    };
+
+  // for react 17
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const legacy_createUseModel =
     (store: Store, batchManager: ReturnType<typeof createBatchManager>) =>
     (..._args: any[]) => {
       const args = _args.flat();
@@ -134,10 +166,11 @@ export const createApp = (config: Config = {}) => {
 
     const { store, batchManager } = context;
 
-    const _useModel = useMemo(
-      () => createUseModel(store, batchManager),
-      [store],
-    );
+    const _useModel = useMemo(() => {
+      return isReact18
+        ? createUseModel(store)
+        : legacy_createUseModel(store, batchManager);
+    }, [store]);
     return _useModel(...args);
   };
 
@@ -193,7 +226,11 @@ export const createApp = (config: Config = {}) => {
       return [reduckStore, createBatchManager(reduckStore)];
     }, []);
 
-    return useMemo(() => createUseModel(store, batchManager), [])(...args);
+    return useMemo(() => {
+      return isReact18
+        ? createUseModel(store)
+        : legacy_createUseModel(store, batchManager);
+    }, [])(...args);
   };
 
   const useStore: () => Store = () => {
