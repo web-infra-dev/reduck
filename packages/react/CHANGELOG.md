@@ -1,5 +1,16 @@
 # @modern-js-reduck/react
 
+## 1.0.6
+
+### Patch Changes
+
+- feat: uniform package version
+- Updated dependencies
+  - @modern-js-reduck/plugin-devtools@1.0.5
+  - @modern-js-reduck/plugin-effects@1.0.4
+  - @modern-js-reduck/plugin-immutable@1.0.3
+  - @modern-js-reduck/store@1.0.6
+
 ## 1.0.2
 
 ### Patch Changes

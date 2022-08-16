@@ -4,3 +4,4 @@ packages:
   - 'features/**'
   - 'packages/**'
   - 'examples/**'
+  - 'scripts'

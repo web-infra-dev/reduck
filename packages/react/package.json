@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-reduck/react",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "files": [
     "dist"
   ],
@@ -29,14 +29,17 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
     "build": "modern build",
     "test": "modern test"
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js-reduck/store": "^1.0.5",
+    "@modern-js-reduck/store": "workspace:*",
+    "@modern-js-reduck/plugin-effects": "workspace:*",
+    "@modern-js-reduck/plugin-immutable": "workspace:*",
+    "@modern-js-reduck/plugin-devtools": "workspace:*",
     "hoist-non-react-statics": "3.3.2",
     "invariant": "^2.2.4"
   },
@@ -57,7 +60,8 @@
     "react-17": "npm:react@^17",
     "react-dom-17": "npm:react-dom@^17",
     "redux": "^4.1.1",
-    "typescript": "^4"
+    "typescript": "^4",
+    "@modern-js-reduck/scripts": "workspace:*"
   },
   "modernSettings": {},
   "sideEffects": false,

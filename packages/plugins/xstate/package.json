@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-reduck/plugin-xstate",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -29,7 +29,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
     "build": "modern build",
     "test": "modern test"
@@ -39,25 +39,21 @@
     "xstate": "^4.23.1"
   },
   "devDependencies": {
-    "@modern-js-reduck/react": "^1.0.2",
-    "@modern-js-reduck/store": "^1.0.5",
+    "@modern-js-reduck/store": "workspace:*",
     "@modern-js/module-tools": "^1.7.1",
     "@modern-js/plugin-testing": "^1.6.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/jest": "^27.5.1",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
     "@types/testing-library__jest-dom": "^5.14.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "typescript": "^4"
+    "typescript": "^4",
+    "@modern-js-reduck/scripts": "workspace:*"
   },
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "^1.0.5"
+    "@modern-js-reduck/store": "workspace:*"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

@@ -1,0 +1,9 @@
+{
+  "name": "@modern-js-reduck/scripts",
+  "private": true,
+  "version": "0.0.0",
+  "main": "./src/index.js",
+  "bin": {
+    "only-allow-pnpm": "./bin/only-allow-pnpm.js"
+  }
+}
