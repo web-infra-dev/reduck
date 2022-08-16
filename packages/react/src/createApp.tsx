@@ -1,5 +1,5 @@
 import { createStore } from '@modern-js-reduck/store';
-import {
+import React, {
   createContext,
   useContext,
   PropsWithChildren,
@@ -7,7 +7,6 @@ import {
   useMemo,
   useRef,
   useCallback,
-  useSyncExternalStore,
 } from 'react';
 import invariant from 'invariant';
 import { UseModel } from '@modern-js-reduck/store/dist/types/types';
@@ -25,6 +24,9 @@ export type Config =
     })
   | undefined;
 type Store = ReturnType<typeof createStore>;
+
+// don't import from 'react' to suppress webpack warnings
+const { useSyncExternalStore } = React;
 
 const isReact18 = useSyncExternalStore !== undefined;
 
