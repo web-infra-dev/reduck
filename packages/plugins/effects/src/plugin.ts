@@ -19,7 +19,9 @@ declare module '@modern-js-reduck/store' {
 
   // Overload GetActions interface to add actions type to useModel's return
   interface GetActions<M extends Model> {
-    effectsActions: M['_']['effects'] & Record<string, unknown>;
+    effectsActions: M['_']['effects'] & {
+      [key in keyof M['_']['actions']]: unknown;
+    };
   }
 }
 
