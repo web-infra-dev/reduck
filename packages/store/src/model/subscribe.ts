@@ -8,7 +8,7 @@ const createSubscribe = (context: Context, model: Model) => {
   }
 
   const { name } = mountedModel;
-  let lastState = null;
+  let lastState = context.store.getState()[name];
   let unsubscribeStore: ReturnType<typeof context.store.subscribe>;
   const handlers = new Set<any>();
 
@@ -31,7 +31,7 @@ const createSubscribe = (context: Context, model: Model) => {
     return unsubscribeStore;
   };
 
-  return (handler: () => void) => {
+  const ret = (handler: () => void) => {
     unsubscribeStore = setupSubscribeStore();
     handlers.add(handler);
 
@@ -43,6 +43,11 @@ const createSubscribe = (context: Context, model: Model) => {
       }
     };
   };
+
+  // manually unsubscribe when model is unmounted
+  ret.getUnsubscribe = () => unsubscribeStore;
+
+  return ret;
 };
 
 const combineSubscribe = (

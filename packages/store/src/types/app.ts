@@ -12,7 +12,10 @@ export interface Context {
   /**
    * Store instance
    */
-  store: ReduxStore & { use: ReturnType<typeof createUseModel> };
+  store: ReduxStore & {
+    use: ReturnType<typeof createUseModel>;
+    unmount: (model: Model) => void;
+  };
   apis: {
     addReducers: (reducers: Record<string, Reducer>) => void;
     addModel: <M extends Model>(model: M, mountModel: MountedModel<M>) => void;
@@ -32,6 +35,11 @@ export interface Context {
      * Tag that model with name is `param name` is in mounting.
      */
     mountingModel: (modelname: string) => void;
+
+    /**
+     * Unmount model
+     */
+    unmountModel: (model: Model) => void;
   };
   pluginCore: ReturnType<typeof createPluginCore>;
 }
