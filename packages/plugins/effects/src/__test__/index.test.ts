@@ -32,9 +32,16 @@ const todoModel = model('todo').define((_, { use }) => ({
     loadThunk() {
       const actions = use(todoModel)[1];
 
+      // cannot get `dispatch` and `getState` params, thunk effect not work correctlly
+      // maybe we could only support promise effect?
       return () => {
         actions.load.fulfilled(['2']);
       };
+    },
+
+    voidEffect() {
+      // do some effect thing, for example: localStorage.setItem('hello', 'reduck');
+      return 'success';
     },
   },
 }));
@@ -77,5 +84,18 @@ describe('reduck effects plugin', () => {
     actions.loadThunk();
 
     expect(store.use(todoModel)[0]).toEqual({ items: ['2'] });
+  });
+
+  test('void effect', () => {
+    const store = createStore({
+      plugins: [plugin],
+      middlewares: [logger],
+    });
+
+    const [, actions] = store.use(todoModel);
+
+    const res = actions.voidEffect();
+
+    expect(res).toEqual('success');
   });
 });
