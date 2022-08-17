@@ -33,6 +33,7 @@ const createStore = (props: StoreConfig = {}): Context['store'] => {
   );
 
   store.use = context.apis.useModel;
+  store.unmount = context.apis.unmountModel;
 
   context.pluginCore.invokeWaterFall('afterCreateStore', store);
 

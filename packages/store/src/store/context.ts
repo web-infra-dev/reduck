@@ -4,10 +4,15 @@ import { Context, Model, MountedModel } from '@/types';
 import { createPluginCore } from '@/plugin';
 import { createSubscribe } from '@/model/subscribe';
 
+const dummyReducer = '__REDUCK_DUMMY_REDUCER__';
+
 const createContext = (store: Store) => {
   const reducers: Record<string, Reducer> = {};
   const mountedModels = new Map<Model, MountedModel>();
-  const subscriptions = new WeakMap<Model>();
+  const subscriptions = new WeakMap<
+    Model,
+    ReturnType<typeof createSubscribe>
+  >();
   const mountingModelNames = new Set<string>();
   let lastState: any;
 
@@ -19,6 +24,11 @@ const createContext = (store: Store) => {
       store.subscribe(() => {
         lastState = store.getState();
       });
+    }
+
+    // remove dummy reducer we may add when unmountting a model
+    if (reducers[dummyReducer]) {
+      delete reducers[dummyReducer];
     }
 
     Object.assign(reducers, _reducers);
@@ -77,6 +87,30 @@ const createContext = (store: Store) => {
     mountingModelNames.add(name);
   };
 
+  const unmountModel = (model: Model) => {
+    if (!getModel(model)) {
+      return;
+    }
+
+    const subscription = subscriptions.get(model);
+    subscription.getUnsubscribe()?.();
+
+    mountedModels.delete(model);
+    subscriptions.delete(model);
+
+    delete lastState[model._name];
+    delete reducers[model._name];
+
+    // redux cannot accept empty reducers, so we fake one.
+    if (Object.keys(reducers).length === 0) {
+      reducers[dummyReducer] = () => {
+        return null;
+      };
+    }
+
+    store.replaceReducer(combineReducers(reducers));
+  };
+
   const pluginCore = createPluginCore({ store });
 
   /**
@@ -91,6 +125,7 @@ const createContext = (store: Store) => {
       getModelSubscribe,
       getModelByName,
       mountingModel,
+      unmountModel,
     },
     pluginCore,
   } as Context;
