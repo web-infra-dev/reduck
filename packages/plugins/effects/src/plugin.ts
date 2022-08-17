@@ -54,7 +54,7 @@ const createDispatchActionsFromEffects = (
           return dispatch(value);
         }
 
-        return null;
+        return value;
       });
     } else {
       Object.keys(_effects).forEach(key => {
@@ -75,7 +75,7 @@ const plugin = createPlugin(context => ({
       middlewares: [
         ...(storeConfig.middlewares || []),
         createPromise({ promiseTypeDelimiter: '/' }),
-        thunk,
+        thunk, // currently thunk cannot work with reduck correctlly, maybe we can just remove this style of effects
       ],
     };
   },
