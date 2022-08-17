@@ -147,8 +147,11 @@ type ExtractDispatchActions<A extends Actions<any> = Actions<any>> = {
 
 type ModelType = Model;
 
-type GetModelsState<Models extends Model[]> = UnionToIntersection<
-  MountedModel<Models[number]>['state']
+// eslint-disable-next-line @typescript-eslint/ban-types
+type ExcludeEmpty<T> = T extends infer P & {} ? P : T;
+
+type GetModelsState<Models extends Model[]> = ExcludeEmpty<
+  UnionToIntersection<MountedModel<Models[number]>['state']>
 >;
 
 type GetModelsAction<Models extends Model[]> = Models extends [
