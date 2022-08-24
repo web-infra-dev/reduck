@@ -12,6 +12,7 @@ import invariant from 'invariant';
 import { UseModel } from '@modern-js-reduck/store/dist/types/types';
 import effectsPlugin from '@modern-js-reduck/plugin-effects';
 import immerPlugin from '@modern-js-reduck/plugin-immutable';
+import autoActionsPlugin from '@modern-js-reduck/plugin-auto-actions';
 import devToolsPlugin, {
   DevToolsOptions,
 } from '@modern-js-reduck/plugin-devtools';
@@ -21,6 +22,7 @@ import { createBatchManager } from './batchManager';
 export type Config =
   | (Parameters<typeof createStore>[0] & {
       devTools?: boolean | DevToolsOptions;
+      autoActions?: boolean;
     })
   | undefined;
 type Store = ReturnType<typeof createStore>;
@@ -45,8 +47,19 @@ const shallowEqual = (a: any, b: any) => {
   return Object.keys(a).every(key => a[key] === b[key]);
 };
 
-const getDefaultPlugins = (devToolsOptions?: DevToolsOptions | boolean) => {
+const getDefaultPlugins = (config: Config) => {
+  const defaultConfig = {
+    devTools: true,
+    autoActions: true,
+  };
+
+  const finalConfig = { ...defaultConfig, ...config };
+
   const plugins = [immerPlugin, effectsPlugin];
+  if (finalConfig.autoActions) {
+    plugins.push(autoActionsPlugin);
+  }
+  const devToolsOptions = finalConfig.devTools;
   if (devToolsOptions) {
     plugins.push(
       devToolsPlugin(
@@ -64,7 +77,7 @@ export const createApp = (config: Config = {}) => {
     batchManager: ReturnType<typeof createBatchManager>;
   }>(null as any);
 
-  const defaultPlugins = getDefaultPlugins(config.devTools);
+  const defaultPlugins = getDefaultPlugins(config);
 
   const Provider = (
     props: PropsWithChildren<{ store?: Store; config?: Config }>,
