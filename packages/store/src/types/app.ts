@@ -46,7 +46,6 @@ export interface Context {
 
 export interface StoreConfig {
   initialState?: Record<string, any>;
-  reducer?: Reducer;
   middlewares?: Middleware[];
   models?: Model[];
   plugins?: Plugin[];
