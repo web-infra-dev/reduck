@@ -17,7 +17,7 @@
   "scripts": {
     "new": "modern new",
     "setup": "npm run reset && pnpm install",
-    "reset": "lerna clean --yes && rm -rf node_modules",
+    "reset": "pnpm -r exec rm -rf node_modules",
     "lint": "modern lint",
     "change": "modern change",
     "bump": "modern bump",
