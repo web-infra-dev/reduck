@@ -16,7 +16,12 @@ const createStore = (props: StoreConfig = {}): Context['store'] => {
 
   const finalProps = context.pluginCore.invokePipeline('config', props);
 
-  const { initialState = {}, middlewares, enhancers = [] } = finalProps;
+  const {
+    initialState = {},
+    middlewares,
+    enhancers = [],
+    models = [],
+  } = finalProps;
 
   Object.assign(
     store,
@@ -34,6 +39,10 @@ const createStore = (props: StoreConfig = {}): Context['store'] => {
 
   store.use = context.apis.useModel;
   store.unmount = context.apis.unmountModel;
+
+  if (models.length > 0) {
+    store.use(models);
+  }
 
   context.pluginCore.invokeWaterFall('afterCreateStore', store);
 
