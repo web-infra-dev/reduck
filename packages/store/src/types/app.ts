@@ -5,6 +5,10 @@ import { createUseModel } from '@/model/useModel';
 import { createPluginCore } from '@/plugin';
 import { createSubscribe } from '@/model/subscribe';
 
+export interface ReduckContext {
+  store: Context['store'];
+}
+
 /**
  * Context of reduck app
  */

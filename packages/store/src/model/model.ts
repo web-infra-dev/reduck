@@ -1,10 +1,17 @@
-import { Context, ModelDesc, OnMountHook, Actions, Computed } from '@/types';
+import {
+  ReduckContext,
+  Context,
+  ModelDesc,
+  OnMountHook,
+  Actions,
+  Computed,
+} from '@/types';
 import { initializerSymbol } from '@/utils/misc';
 
 type ModelDescWithoutName<S> = Omit<ModelDesc<S, any>, 'name'>;
 
 type ModelInitialParams = [
-  context: Context,
+  context: ReduckContext,
   hook: {
     use: Context['apis']['useModel'];
     onMount: OnMountHook;
