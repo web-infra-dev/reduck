@@ -3,7 +3,6 @@ import { Context } from './app';
 export type Action<State, Payload = any> = (
   state: State,
   payload: Payload,
-  ...extraArgs: any[]
 ) => State | void;
 
 export interface Actions<State> {

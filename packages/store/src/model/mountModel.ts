@@ -165,7 +165,7 @@ const createReducer = <S = any>(
         'beforeReducer',
         flattenedActions[reduxAction.type],
         { name: reduxAction.type, computedDescriptors },
-      )(state, reduxAction.payload, ...(reduxAction.extraArgs || []));
+      )(state, reduxAction.payload);
     }
 
     if (computedDescriptors && getStateType(newState) !== StateType.Object) {
@@ -263,11 +263,10 @@ const createDispatchActions = (
   };
 
   forEachAction(modelDesc, path =>
-    set(path, (payload: any, ...extraArgs: any[]) => {
+    set(path, (payload: any) => {
       return context.store.dispatch({
         type: path.join('/').toUpperCase(),
         payload,
-        extraArgs,
       });
     }),
   );
