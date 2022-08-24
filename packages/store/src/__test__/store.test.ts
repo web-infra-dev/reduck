@@ -46,4 +46,17 @@ describe('createStore', () => {
       counter: { value: 2 },
     });
   });
+
+  test('mount models in createStore', () => {
+    const store = createStore({ models: [countModel] });
+
+    expect(store.getState()).toEqual({ counter: { value: 1 } });
+
+    const [, actions] = store.use(countModel);
+    actions.add();
+
+    expect(store.getState()).toEqual({
+      counter: { value: 2 },
+    });
+  });
 });
