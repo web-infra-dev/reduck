@@ -1,6 +1,7 @@
 {
   "name": "@modern-js-reduck/plugin-xstate-immer",
   "version": "1.0.6",
+  "private": true,
   "files": [
     "dist"
   ],
