@@ -34,3 +34,9 @@ jobs:
 
       - name: test
         run: pnpm -r test --filter ./packages && pnpm -r test-type --filter ./packages
+
+      - name: Collect coverage
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+

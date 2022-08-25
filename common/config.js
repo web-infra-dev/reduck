@@ -19,5 +19,12 @@ module.exports = {
         }
       }
     },
+    jest: {
+      collectCoverage: true,
+      collectCoverageFrom: [
+        '<rootDir>/**/src/**/*.{ts,tsx}',
+        '!<rootDir>/**/src/types/**/*.{ts,tsx}',
+      ],
+    },
   },
 };

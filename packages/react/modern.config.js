@@ -21,6 +21,7 @@ module.exports = {
       delete options.moduleNameMapper;
       return {
         ...options,
+        collectCoverage: true,
         projects: [
           {
             ...react17Config,
