@@ -1,5 +1,13 @@
 .DS_Store
 
+__test__
+*.test.ts
+*.test.js
+*.test.tsx
+*.test.jsx
+__tsd__
+*.tsd.ts
+
 .pnp
 .pnp.js
 .env.*.local
@@ -32,6 +40,6 @@ output_resource/
 !.vscode/extensions.json
 .idea/
 
-**/*/api/typings/auto-generated
-**/*/adapters/**/index.ts
-**/*/adapters/**/index.js
+
+
+
