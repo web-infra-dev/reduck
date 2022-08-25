@@ -83,6 +83,7 @@ describe('test onMount hook', () => {
         expect(result).toEqual({
           type: 'COUNT/ADDVALUE',
           payload: 1,
+          extraArgs: [],
         });
       });
     };
