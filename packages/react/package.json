@@ -40,6 +40,7 @@
     "@modern-js-reduck/plugin-effects": "workspace:*",
     "@modern-js-reduck/plugin-immutable": "workspace:*",
     "@modern-js-reduck/plugin-devtools": "workspace:*",
+    "@modern-js-reduck/plugin-auto-actions": "workspace:*",
     "hoist-non-react-statics": "3.3.2",
     "invariant": "^2.2.4"
   },
