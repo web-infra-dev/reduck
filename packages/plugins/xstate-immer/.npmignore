@@ -1,16 +1,12 @@
 .DS_Store
 
-.pnp
-.pnp.js
-.env.*.local
-.history
-.rts*
-*.log*
-*.pid
-*.pid.*
-*.report
-*.lcov
-lib-cov
+__test__
+*.test.ts
+*.test.js
+*.test.tsx
+*.test.jsx
+__tsd__
+*.tsd.ts
 
 node_modules/
 .npm
