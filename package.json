@@ -72,11 +72,5 @@
     "husky": "^8.0.0",
     "webpack": "^5.54.0",
     "@modern-js-reduck/scripts": "workspace:*"
-  },
-  "pnpm": {
-    "overrides": {
-      "@modern-js-reduck/store": "workspace:*",
-      "@modern-js-reduck/plugin-auto-actions": "workspace:*"
-    }
   }
 }
