@@ -78,7 +78,7 @@ export const createApp = (config: Config = {}) => {
   }>(null as any);
 
   const defaultPlugins = getDefaultPlugins(config);
-
+  let store: Store;
   const Provider = (
     props: PropsWithChildren<{ store?: Store; config?: Config }>,
   ) => {
@@ -87,7 +87,7 @@ export const createApp = (config: Config = {}) => {
     // user setting would override default plugins
     configFromProvider.plugins = configFromProvider.plugins || defaultPlugins;
 
-    const store = storeFromProps || createStore(configFromProvider);
+    store = storeFromProps || createStore(configFromProvider);
     const batchManager = createBatchManager(store);
 
     return (
@@ -248,14 +248,13 @@ export const createApp = (config: Config = {}) => {
     }, [])(...args);
   };
 
-  const useStore: () => Store = () => {
-    const { store } = useContext(Context);
+  const getStore: () => Store = () => {
     return store;
   };
 
   return {
     Provider,
-    useStore,
+    getStore,
     useModel,
     useStaticModel,
     useLocalModel,
