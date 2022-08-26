@@ -1,6 +1,6 @@
-import { useModel } from "@modern-js-reduck/react";
-import todos from "../models/todos";
-import TodoList from "../components/TodoList";
+import { useModel } from '@modern-js-reduck/react';
+import todos from '../models/todos';
+import TodoList from '../components/TodoList';
 
 const VisibleTodoList = () => {
   const [{ visibleTodos }, { toggleTodo }] = useModel(todos);
@@ -9,4 +9,3 @@ const VisibleTodoList = () => {
 };
 
 export default VisibleTodoList;
-

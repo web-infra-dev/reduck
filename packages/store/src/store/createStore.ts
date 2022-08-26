@@ -3,6 +3,7 @@ import {
   compose,
   createStore as createReduxStore,
   Reducer,
+  StoreEnhancerStoreCreator,
 } from 'redux';
 import { createContext } from './context';
 import type { Context, StoreConfig } from '@/types';
@@ -28,7 +29,7 @@ const createStore = (props: StoreConfig = {}): Context['store'] => {
     createReduxStore(
       (state => state) as Reducer,
       initialState,
-      compose(
+      compose<StoreEnhancerStoreCreator<unknown>>(
         ...[
           middlewares ? applyMiddleware(...middlewares) : undefined,
           ...(enhancers || []),

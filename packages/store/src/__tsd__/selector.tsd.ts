@@ -1,5 +1,6 @@
 import { expectType } from 'tsd';
 import { createStore, model } from '..';
+import { ReduxAction } from '@/types';
 
 const count1Model = model('count1').define({
   state: {
@@ -47,7 +48,7 @@ type State = {
 describe('test selector', () => {
   const store = createStore();
 
-  test('select state should works', () => {
+  test('select state should work', () => {
     const [state] = store.use(count1Model, count2Model, (state1, state2) => ({
       one: state1.value,
       two: state2.value,
@@ -55,7 +56,7 @@ describe('test selector', () => {
     expectType<State>(state);
   });
 
-  test('select actions should works', () => {
+  test('select actions should work', () => {
     const use = () =>
       store.use(
         count1Model,
@@ -75,10 +76,10 @@ describe('test selector', () => {
     const [state, actions] = use();
     expectType<State>(state);
     expectType<{
-      oneAdd: () => void;
-      twoAdd: () => void;
-      oneSub: (n: number) => void;
-      twoSub: (n: number) => void;
+      oneAdd: () => ReduxAction<undefined>;
+      twoAdd: () => ReduxAction<undefined>;
+      oneSub: (n: number) => ReduxAction<number>;
+      twoSub: (n: number) => ReduxAction<number>;
     }>(actions);
   });
 });
