@@ -25,6 +25,18 @@ declare module '@modern-js-reduck/store' {
   }
 }
 
+const isReduxPromiseFulfilled = (data: any) => {
+  return typeof data === 'object' && data.action && data.value;
+};
+
+const isPromise = (value: any) => {
+  if (value !== null && typeof value === 'object') {
+    return value && typeof value.then === 'function';
+  }
+
+  return false;
+};
+
 /**
  * Generate dispatch action from effects definitions.
  */
@@ -50,8 +62,15 @@ const createDispatchActionsFromEffects = (
 
         // Handled by promise middleware or redux thunk
         // Otherwise, do not dispatch action, just exec the effect function.
-        if (value instanceof Promise || typeof value === 'function') {
-          return dispatch(value);
+        if (isPromise(value) || typeof value === 'function') {
+          const res = dispatch(value);
+          if (isPromise(res)) {
+            // parse redux-promise result, return orginal value of the effect
+            return res.then((data: any) =>
+              isReduxPromiseFulfilled(data) ? data.value : data,
+            );
+          }
+          return res;
         }
 
         return value;
