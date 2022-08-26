@@ -42,7 +42,7 @@ const count2Model = model<State>('count2').define({
 });
 
 describe('test subscribe', () => {
-  test('subsribe should works for simple model', () => {
+  test('subsribe should work for simple model', () => {
     const store = createStore();
 
     const [, actions, subscribe] = store.use(count1Model);
@@ -57,7 +57,7 @@ describe('test subscribe', () => {
     expect(fn).toBeCalledTimes(1);
   });
 
-  test('subscribe should works for multiple model', () => {
+  test('subscribe should work for multiple model', () => {
     const store = createStore();
 
     const [, actions, subscribe] = store.use([count1Model, count2Model]);
@@ -94,7 +94,7 @@ describe('test subscribe', () => {
     });
   });
 
-  test('subscribe should works for computed property depending on other models', () => {
+  test('subscribe should work for computed property depending on other models', () => {
     const store = createStore();
 
     const [, action] = store.use(count1Model);
@@ -114,7 +114,7 @@ describe('test subscribe', () => {
     expect(updateState2.sum).toBe(3);
   });
 
-  test('unsubscribe should works', () => {
+  test('unsubscribe should work', () => {
     const store = createStore();
 
     const [, actions, subscribe] = store.use(count1Model);

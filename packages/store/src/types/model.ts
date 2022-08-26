@@ -1,5 +1,11 @@
 import { Context } from './app';
 
+export interface ReduxAction<Payload = any> {
+  type: string;
+  payload: Payload;
+  extraArgs: any[];
+}
+
 export type Action<State, Payload = any> = (
   state: State,
   payload: Payload,
@@ -35,7 +41,7 @@ export interface ModelDesc<State = any, MDO extends ModelDescOptions = any> {
 }
 
 export interface DispatchActions {
-  [key: string]: ((payload: any) => void) | DispatchActions;
+  [key: string]: ((payload: any) => ReduxAction) | DispatchActions;
 }
 
 export type Model = {
@@ -74,16 +80,14 @@ export interface GetState<M extends Model> {
 export interface Computed<State> {
   [key: string]:
     | ((state: State) => any)
-    | [...s: any, selector: (state: State, ...args: any) => any];
+    | [...s: Model[], selector: (state: State, ...args: any) => any];
 }
 
-type GetComputedFromArray<A> = A extends A
-  ? A extends { _: object }
-    ? never
-    : A extends (...args: any) => infer R
-    ? R
-    : any
-  : never;
+type GetComputedFromArray<A> = A extends { _: object }
+  ? never
+  : A extends (...args: any) => infer R
+  ? R
+  : any;
 
 /**
  * GetComputed
@@ -139,9 +143,9 @@ type ExtractDispatchActions<A extends Actions<any> = Actions<any>> = {
   [key in keyof A]: A[key] extends Actions<any>
     ? ExtractDispatchActions<A[key]>
     : A[key] extends () => any
-    ? () => void
+    ? () => ReduxAction<undefined>
     : A[key] extends (S: any, ...args: infer S) => any
-    ? (...args: S) => void
+    ? (...args: S) => ReduxAction<S[0]>
     : never;
 };
 

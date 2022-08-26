@@ -16,13 +16,13 @@ const countModel = model<{ value: number }>('counter').define({
 });
 
 describe('createStore', () => {
-  test('create store works', () => {
+  test('create store should work', () => {
     const store = createStore();
 
     expect(store.getState()).toEqual({});
   });
 
-  test('store use model works', () => {
+  test('store use model should work', () => {
     const store = createStore();
     const [state] = store.use(countModel);
 
@@ -32,7 +32,7 @@ describe('createStore', () => {
     });
   });
 
-  test('model actions should works', () => {
+  test('model actions should work', () => {
     const store = createStore();
     const [state, actions] = store.use(countModel);
 

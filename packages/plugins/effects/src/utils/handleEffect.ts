@@ -72,10 +72,16 @@ const objectGet = (obj: Record<any, any>, paths: string | string[]) => {
   return result;
 };
 
-export default function handleEffect(config: Config = {}): {
-  pending: (state: any) => any;
-  fulfilled: (state: any, payload: any) => any;
-  rejected: (state: any, error: any) => any;
+export default function handleEffect<
+  State = any,
+  Payload = any,
+  Error = string,
+>(
+  config: Config = {},
+): {
+  pending: (state: State) => State | void;
+  fulfilled: (state: State, payload: Payload) => State | void;
+  rejected: (state: State, error: Error) => State | void;
 } {
   const {
     ns,

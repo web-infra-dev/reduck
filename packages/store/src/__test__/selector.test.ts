@@ -31,7 +31,7 @@ const count2Model = model('count2').define({
 describe('test selector', () => {
   const store = createStore();
 
-  test('select state should works', () => {
+  test('select state should work', () => {
     const [state] = store.use(count1Model, count2Model, (state1, state2) => ({
       one: state1.value,
       two: state2.value,
@@ -40,7 +40,7 @@ describe('test selector', () => {
     expect(state).toEqual({ one: 1, two: 10 });
   });
 
-  test('select actions should works', () => {
+  test('select actions should work', () => {
     const use = () =>
       store.use(
         count1Model,

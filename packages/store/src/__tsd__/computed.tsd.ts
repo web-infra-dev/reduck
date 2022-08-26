@@ -1,15 +1,15 @@
-import { expectAssignable } from 'tsd';
+import { expectType } from 'tsd';
 import { createStore, model } from '..';
 
 type StateA = {
   a: number;
 };
-const modelA = model('modelA').define({
+const modelA = model<StateA>('modelA').define({
   state: {
     a: 1,
   },
   computed: {
-    double(s: StateA) {
+    double(s) {
       return s.a + 1;
     },
   },
@@ -19,36 +19,32 @@ type StateB = {
   b: string;
 };
 
-const modelB = model('modelB').define({
+const modelB = model<StateB>('modelB').define({
   state: {
     b: '10',
   },
   computed: {
     str: [
       modelA,
-      (s: StateB, other: StateA) => {
+      (s, other: StateA) => {
         return s.b.repeat(other.a);
       },
     ],
   },
 });
 
-describe('test selector', () => {
+describe('test computed', () => {
   const store = createStore();
 
-  test('select state should works', () => {
+  test('basic usage', () => {
     const [state] = store.use(modelA);
-    expectAssignable<StateA & { double: number }>(state);
+    expectType<StateA & { double: number }>(state);
   });
 
-  test('select actions should works', () => {
+  test('depend on other models', () => {
     const use = () => store.use(modelA, modelB);
     const [state] = use();
-    expectAssignable<{
-      a: number;
-      b: string;
-      double: number;
-      str: string;
-    }>(state);
+    // state.str
+    expectType<StateA & StateB & { double: number } & { str: string }>(state);
   });
 });
