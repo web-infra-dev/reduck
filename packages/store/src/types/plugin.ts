@@ -54,7 +54,7 @@ export interface PluginLifeCycle {
    */
   beforeReducer?: (
     reducer: Action<any>,
-    { name: string, computedDescriptors: any },
+    options: { name: string; computedDescriptors: any },
   ) => Action<any>;
 }
 
