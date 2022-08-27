@@ -30,7 +30,7 @@ jobs:
         run: npm i -g pnpm@6
 
       - name: build
-        run: pnpm i
+        run: pnpm i --no-frozen-lockfile
 
       - name: test
         run: pnpm -r test --filter ./packages && pnpm -r test-type --filter ./packages
