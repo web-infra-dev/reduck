@@ -40,8 +40,7 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "redux": "^4.1.1",
-    "redux-promise-middleware": "^6.1.2",
-    "redux-thunk": "^2.3.0"
+    "redux-promise-middleware": "^6.1.2"
   },
   "devDependencies": {
     "@modern-js-reduck/store": "workspace:*",
