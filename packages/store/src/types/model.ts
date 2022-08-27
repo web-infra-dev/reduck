@@ -32,8 +32,7 @@ export interface ModelDesc<State = any, MDO extends ModelDescOptions = any> {
   /**
    * Model computed properties
    */
-  // FIXME: any
-  computed?: any;
+  computed?: Computed<State>;
   /**
    * Model actions, it's a pure function with no effect
    */
