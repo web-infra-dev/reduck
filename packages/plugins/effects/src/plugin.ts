@@ -1,7 +1,6 @@
 import { createPlugin } from '@modern-js-reduck/store';
 import { Model } from '@modern-js-reduck/store/dist/types/types';
 import { createPromise } from 'redux-promise-middleware';
-import thunk from 'redux-thunk';
 
 type AsyncEffect = (...args: any[]) => Promise<any>;
 type VoidEffect = (...args: any[]) => void;
@@ -92,9 +91,9 @@ const plugin = createPlugin(context => ({
     return {
       ...storeConfig,
       middlewares: [
-        ...(storeConfig.middlewares || []),
         createPromise({ promiseTypeDelimiter: '/' }),
-        thunk, // currently thunk cannot work with reduck correctlly, maybe we can just remove this style of effects
+        // middlewares from config are at the end
+        ...(storeConfig.middlewares || []),
       ],
     };
   },
