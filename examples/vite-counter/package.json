@@ -8,9 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@modern-js-reduck/react": "workspace:*",
-    "@modern-js-reduck/store": "workspace:*",
-    "@modern-js-reduck/plugin-immutable": "workspace:*",
+    "@modern-js-reduck/react": "*",
     "react": "^18.0.2",
     "react-dom": "^18.0.2"
   },

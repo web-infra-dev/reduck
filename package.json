@@ -48,7 +48,8 @@
     ],
     "ignorePatterns": [
       "dist",
-      "lcov-report"
+      "lcov-report",
+      "examples"
     ]
   },
   "eslintIgnore": [
