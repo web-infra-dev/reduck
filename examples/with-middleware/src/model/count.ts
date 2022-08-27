@@ -10,6 +10,7 @@ export const modelA = model('modelA').define({
     },
   },
 });
+
 export const modelB = model('modelB').define({
   state: {
     b: 1,

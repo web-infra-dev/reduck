@@ -30,5 +30,6 @@
 - [Contributing Guide](/CONTRIBUTING.md)
 
 # Examples
+- [todos](https://stackblitz.com/github/modern-js-dev/reduck/tree/main/examples/todos?file=src%2Findex.tsx&terminal=dev&title=todos)
 - [vanilla-counter](https://stackblitz.com/github/modern-js-dev/reduck/tree/main/examples/vanilla-counter?file=index.html&terminal=dev&title=vanilla-counter)
-- [vite-counter](https://stackblitz.com/github/modern-js-dev/reduck/tree/feat/example/examples/vite-counter?file=src%2FApp.tsx&terminal=dev&title=vite-counter)
+- [vite-counter](https://stackblitz.com/github/modern-js-dev/reduck/tree/main/examples/vite-counter?file=src%2FApp.tsx&terminal=dev&title=vite-counter)
