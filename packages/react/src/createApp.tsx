@@ -20,11 +20,13 @@ import { useIsomorphicLayoutEffect } from './utils/useIsomorphicLayoutEffect';
 import { createBatchManager } from './batchManager';
 
 export type Config =
-  | (Parameters<typeof createStore>[0] & {
-      devTools?: boolean | DevToolsOptions;
-      autoActions?: boolean;
-    })
+  | (Parameters<typeof createStore>[0] & PluginConfig)
   | undefined;
+
+export type PluginConfig = {
+  devTools?: boolean | DevToolsOptions;
+  autoActions?: boolean;
+};
 type Store = ReturnType<typeof createStore>;
 
 // don't import from 'react' to suppress webpack warnings
@@ -47,7 +49,7 @@ const shallowEqual = (a: any, b: any) => {
   return Object.keys(a).every(key => a[key] === b[key]);
 };
 
-const getDefaultPlugins = (config: Config) => {
+export const getDefaultPlugins = (config?: PluginConfig) => {
   const defaultConfig = {
     devTools: true,
     autoActions: true,
