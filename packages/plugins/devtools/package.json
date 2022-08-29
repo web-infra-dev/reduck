@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-reduck/plugin-devtools",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "files": [
     "dist"
   ],
@@ -54,7 +54,7 @@
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "workspace:*"
+    "@modern-js-reduck/store": "workspace:^1.1.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
