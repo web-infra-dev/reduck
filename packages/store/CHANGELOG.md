@@ -1,5 +1,7 @@
 # @modern-js-reduck/store
 
+## 1.1.0
+
 ## 1.0.6
 
 ### Patch Changes

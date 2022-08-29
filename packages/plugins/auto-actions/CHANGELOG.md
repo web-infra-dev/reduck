@@ -1,5 +1,15 @@
 # @modern-js-reduck/plugin-auto-actions
 
+## 1.1.0
+
+### Minor Changes
+
+- feat: the real v1.0
+
+### Patch Changes
+
+- @modern-js-reduck/store@1.1.0
+
 ## 1.0.6
 
 ### Patch Changes
