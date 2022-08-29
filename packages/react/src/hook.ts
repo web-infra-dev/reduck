@@ -1,6 +1,6 @@
 import { createApp } from './createApp';
 
-const { Provider, useModel, useStaticModel, useLocalModel, getStore } =
+const { Provider, useModel, useStaticModel, useLocalModel, useStore } =
   createApp({});
 
-export { Provider, useModel, useStaticModel, useLocalModel, getStore };
+export { Provider, useModel, useStaticModel, useLocalModel, useStore };
