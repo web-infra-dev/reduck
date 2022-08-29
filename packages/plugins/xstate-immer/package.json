@@ -60,8 +60,8 @@
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "workspace:*",
-    "@modern-js-reduck/plugin-xstate": "workspace:*"
+    "@modern-js-reduck/store": "workspace:^1.0.6",
+    "@modern-js-reduck/plugin-xstate": "workspace:^1.0.6"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
