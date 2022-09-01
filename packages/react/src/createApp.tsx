@@ -16,6 +16,7 @@ import autoActionsPlugin from '@modern-js-reduck/plugin-auto-actions';
 import devToolsPlugin, {
   DevToolsOptions,
 } from '@modern-js-reduck/plugin-devtools';
+import { isModel } from '@modern-js-reduck/store/utils';
 import { useIsomorphicLayoutEffect } from './utils/useIsomorphicLayoutEffect';
 import { createBatchManager } from './batchManager';
 
@@ -131,7 +132,10 @@ export const createApp = (config: Config = {}) => {
     (store: Store, batchManager: ReturnType<typeof createBatchManager>) =>
     (..._args: any[]) => {
       const args = _args.flat();
-      const initialValue = useMemo(() => store.use(...args), []);
+      // don't depend on stateSelectors and actionSelectors,
+      // since they are inline usually and their references always change
+      const deps = args.filter(item => isModel(item));
+      const initialValue = useMemo(() => store.use(...args), [store, ...deps]);
       const [modelValue, setModelValue] = useState(initialValue);
 
       const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
@@ -168,7 +172,7 @@ export const createApp = (config: Config = {}) => {
           unsubscribe();
           batchManager.removeModels(...args);
         };
-      }, []);
+      }, [initialValue, batchManager]);
 
       return modelValue;
     };
