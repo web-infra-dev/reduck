@@ -1,6 +1,6 @@
 import { Model } from '@/types';
 
-export const initializerSymbol = Symbol('model initializer');
+export const initializerSymbol = Symbol.for('__reduck_model_initializer__');
 
 export const getModelInitializer = (_model: Model) => _model[initializerSymbol];
 

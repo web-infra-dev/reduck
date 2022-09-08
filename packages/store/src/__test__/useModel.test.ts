@@ -105,20 +105,16 @@ describe('test useModel', () => {
     expect(count3State).toEqual(newCount3State);
   });
 
-  test('use models with same name should get a warning', () => {
-    const spy = jest.spyOn(console, 'info');
-
+  test('use models with same name would be ignored', () => {
     const store = createStore();
     const countModel = model('count1').define({
-      state: 1,
+      state: 2,
     });
-    store.use(count1Model, countModel);
 
-    expect(spy).toHaveBeenLastCalledWith(
-      'model named count1 has already mounted, so skip',
-    );
+    const [state] = store.use(count1Model, countModel);
 
-    spy.mockClear();
+    expect(store.getState()).toEqual({ count1: { value: 1 } });
+    expect(state).toEqual({ value: 1 });
   });
 
   test('use self in model will get error', () => {

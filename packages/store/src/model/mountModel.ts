@@ -24,7 +24,6 @@ const mountModel = (context: Context, model: Model) => {
   }
 
   const { onMount, trigger: triggerOnMount } = createOnMount();
-  context.apis.mountingModel(model._name);
 
   let modelDesc: ModelDesc = getModelInitializer(model)(context, {
     use: context.apis.useModel,
@@ -34,9 +33,11 @@ const mountModel = (context: Context, model: Model) => {
 
   modelDesc = context.pluginCore.invokePipeline('prepareModelDesc', modelDesc);
 
-  if (!checkModel(context, modelDesc, model)) {
+  if (!checkModel(context, modelDesc)) {
     return;
   }
+
+  context.apis.mountingModel(model._name);
 
   const flattenedActions = flattenActions(modelDesc);
   const reducer = createReducer(
@@ -78,22 +79,13 @@ const mountModel = (context: Context, model: Model) => {
   triggerOnMount();
 };
 
-const checkModel = (context: Context, modelDesc: ModelDesc, model: Model) => {
+const checkModel = (context: Context, modelDesc: ModelDesc) => {
   // model's name should be a string, which length > 0
   if (!modelDesc.name || typeof modelDesc.name !== 'string') {
     console.error(
       `model name expected is a valid string, but got ${modelDesc.name}`,
     );
 
-    return false;
-  }
-
-  const mountedModel = context.apis.getModelByName(modelDesc.name);
-
-  // model has mounted
-  if (mountedModel) {
-    console.info(`model named ${modelDesc.name} has already mounted, so skip`);
-    context.apis.addModel(model, mountedModel);
     return false;
   }
 
