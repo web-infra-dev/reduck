@@ -8,11 +8,8 @@ const dummyReducer = '__REDUCK_DUMMY_REDUCER__';
 
 const createContext = (store: Store) => {
   const reducers: Record<string, Reducer> = {};
-  const mountedModels = new Map<Model, MountedModel>();
-  const subscriptions = new WeakMap<
-    Model,
-    ReturnType<typeof createSubscribe>
-  >();
+  const mountedModels = new Map<string, MountedModel>();
+  const subscriptions = new Map<string, ReturnType<typeof createSubscribe>>();
   const mountingModelNames = new Set<string>();
   let lastState: any;
 
@@ -40,12 +37,12 @@ const createContext = (store: Store) => {
    * Add to exported models
    */
   const addModel: Context['apis']['addModel'] = (model, mountedModel) => {
-    mountedModels.set(model, mountedModel);
-    subscriptions.set(model, createSubscribe(context, model));
+    mountedModels.set(model._name, mountedModel);
+    subscriptions.set(model._name, createSubscribe(context, model));
   };
 
   const getModel: Context['apis']['getModel'] = model => {
-    const mountedModel = mountedModels.get(model);
+    const mountedModel = getModelByName(model._name);
 
     if (!mountedModel) {
       return null;
@@ -75,7 +72,7 @@ const createContext = (store: Store) => {
   // Get function to subscribe model
   const getModelSubscribe: Context['apis']['getModelSubscribe'] = (
     model: Model,
-  ) => subscriptions.get(model);
+  ) => subscriptions.get(model._name);
 
   const mountingModel = (name: string) => {
     if (mountingModelNames.has(name)) {
@@ -92,11 +89,11 @@ const createContext = (store: Store) => {
       return;
     }
 
-    const subscription = subscriptions.get(model);
+    const subscription = subscriptions.get(model._name);
     subscription.getUnsubscribe()?.();
 
-    mountedModels.delete(model);
-    subscriptions.delete(model);
+    mountedModels.delete(model._name);
+    subscriptions.delete(model._name);
 
     delete lastState[model._name];
     delete reducers[model._name];
@@ -123,7 +120,6 @@ const createContext = (store: Store) => {
       addModel,
       getModel,
       getModelSubscribe,
-      getModelByName,
       mountingModel,
       unmountModel,
     },
