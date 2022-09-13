@@ -1,5 +1,17 @@
 # @modern-js-reduck/react
 
+## 1.1.1
+
+### Patch Changes
+
+- chore: release v1.1.1
+- Updated dependencies
+  - @modern-js-reduck/plugin-auto-actions@1.1.1
+  - @modern-js-reduck/plugin-devtools@1.1.1
+  - @modern-js-reduck/plugin-effects@1.1.1
+  - @modern-js-reduck/plugin-immutable@1.1.1
+  - @modern-js-reduck/store@1.1.1
+
 ## 1.1.0
 
 ### Patch Changes

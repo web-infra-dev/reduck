@@ -1,5 +1,11 @@
 # @modern-js-reduck/store
 
+## 1.1.1
+
+### Patch Changes
+
+- chore: release v1.1.1
+
 ## 1.1.0
 
 ## 1.0.6
