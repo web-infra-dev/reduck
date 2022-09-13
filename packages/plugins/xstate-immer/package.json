@@ -60,7 +60,7 @@
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "workspace:^1.1.0",
+    "@modern-js-reduck/store": "workspace:^1.1.1",
     "@modern-js-reduck/plugin-xstate": "workspace:^1.1.0"
   },
   "publishConfig": {
