@@ -67,11 +67,11 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
-    "@modern-js/monorepo-tools": "^1.5.0",
-    "@modern-js/plugin-jarvis": "^1.2.14",
-    "@modern-js/tsconfig": "^1.2.0",
+    "@modern-js-reduck/scripts": "workspace:*",
+    "@modern-js/monorepo-tools": "^1.19.0",
+    "@modern-js/plugin-jarvis": "^1.19.0",
+    "@modern-js/tsconfig": "^1.19.0",
     "husky": "^8.0.0",
-    "webpack": "^5.54.0",
-    "@modern-js-reduck/scripts": "workspace:*"
+    "webpack": "^5.54.0"
   }
 }
