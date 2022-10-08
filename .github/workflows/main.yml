@@ -27,13 +27,13 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: install pnpm
-        run: npm i -g pnpm@6
+        run: npm i -g pnpm@7
 
       - name: build
         run: pnpm i --no-frozen-lockfile
 
       - name: test
-        run: pnpm -r test --filter ./packages && pnpm -r test-type --filter ./packages
+        run: pnpm -r --filter "./packages/**" test && pnpm -r --filter "./packages/**" test-type
 
       - name: Collect coverage
         uses: codecov/codecov-action@v3
