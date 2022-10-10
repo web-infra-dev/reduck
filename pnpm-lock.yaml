@@ -11,6 +11,7 @@ importers:
       '@modern-js/plugin-jarvis': ^1.19.0
       '@modern-js/tsconfig': ^1.19.0
       husky: ^8.0.0
+      lint-staged: ^11.2.6
       webpack: ^5.54.0
     devDependencies:
       '@commitlint/cli': 17.0.3
@@ -20,6 +21,7 @@ importers:
       '@modern-js/plugin-jarvis': 1.19.0
       '@modern-js/tsconfig': 1.19.0
       husky: 8.0.1
+      lint-staged: 11.2.6
       webpack: 5.74.0
 
   examples/todos:
