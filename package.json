@@ -70,7 +70,6 @@
     "@commitlint/config-conventional": "^17.0.0",
     "@modern-js-reduck/scripts": "workspace:*",
     "@modern-js/monorepo-tools": "^1.19.0",
-    "@modern-js/plugin-jarvis": "^1.19.0",
     "@modern-js/tsconfig": "^1.19.0",
     "husky": "^8.0.0",
     "lint-staged": "^11.2.6",
