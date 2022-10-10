@@ -1,4 +1,4 @@
-import { createStore } from '@modern-js-reduck/store';
+import { createStore, utils } from '@modern-js-reduck/store';
 import React, {
   createContext,
   useContext,
@@ -16,7 +16,6 @@ import autoActionsPlugin from '@modern-js-reduck/plugin-auto-actions';
 import devToolsPlugin, {
   DevToolsOptions,
 } from '@modern-js-reduck/plugin-devtools';
-import { isModel } from '@modern-js-reduck/store/utils';
 import { useIsomorphicLayoutEffect } from './utils/useIsomorphicLayoutEffect';
 import { createBatchManager } from './batchManager';
 
@@ -134,7 +133,7 @@ export const createApp = (config: Config = {}) => {
       const args = _args.flat();
       // don't depend on stateSelectors and actionSelectors,
       // since they are inline usually and their references always change
-      const deps: Model[] = args.filter(item => isModel(item));
+      const deps: Model[] = args.filter(item => utils.isModel(item));
       const initialValue = useMemo(() => store.use(...args), [store, ...deps]);
       const [modelValue, setModelValue] = useState(initialValue);
 
