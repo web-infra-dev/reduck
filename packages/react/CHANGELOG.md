@@ -1,5 +1,17 @@
 # @modern-js-reduck/react
 
+## 1.1.2
+
+### Patch Changes
+
+- feat: export util functions from main entry
+- Updated dependencies
+  - @modern-js-reduck/plugin-auto-actions@1.1.2
+  - @modern-js-reduck/plugin-devtools@1.1.2
+  - @modern-js-reduck/plugin-effects@1.1.2
+  - @modern-js-reduck/plugin-immutable@1.1.2
+  - @modern-js-reduck/store@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

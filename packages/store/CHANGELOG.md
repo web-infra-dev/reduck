@@ -1,5 +1,11 @@
 # @modern-js-reduck/store
 
+## 1.1.2
+
+### Patch Changes
+
+- feat: export util functions from main entry
+
 ## 1.1.1
 
 ### Patch Changes
