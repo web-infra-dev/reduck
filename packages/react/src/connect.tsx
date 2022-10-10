@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { ComponentType, NamedExoticComponent } from 'react';
 import { forwardRef, memo } from 'react';
-import { isModel } from '@modern-js-reduck/store/utils';
+import { utils } from '@modern-js-reduck/store';
 
 import type {
   Model,
@@ -394,7 +394,7 @@ function withProxy<P extends object, S extends object, A extends object>(
   const modelArr = Array.isArray(models) ? models : [models];
 
   for (const model of modelArr) {
-    if (isModel(model)) {
+    if (utils.isModel(model)) {
       actualModels.push(model);
     } else {
       selectors.push(model);

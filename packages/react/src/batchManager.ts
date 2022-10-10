@@ -1,6 +1,5 @@
-import { Store, Model } from '@modern-js-reduck/store';
+import { Store, Model, utils } from '@modern-js-reduck/store';
 import { unstable_batchedUpdates } from 'react-dom';
-import { isModel } from '@modern-js-reduck/store/utils';
 
 const combineSubscribe = (
   store: Store,
@@ -78,7 +77,7 @@ const createBatchManager = (store: Store) => {
 
   const changeModels = (action: 'remove' | 'add', ...models: Model[]) => {
     models.forEach(model => {
-      if (!isModel(model)) {
+      if (!utils.isModel(model)) {
         return;
       }
 

@@ -1,6 +1,7 @@
 import createStore from './store/createStore';
 import model from './model/model';
 import { createPlugin } from './plugin';
+import * as utils from './utils';
 
 export type {
   ModelDesc,
@@ -13,4 +14,4 @@ export type {
   Model,
 } from '@/types';
 
-export { createStore, model, createPlugin };
+export { createStore, model, createPlugin, utils };
