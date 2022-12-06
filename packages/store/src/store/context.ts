@@ -2,7 +2,7 @@ import { combineReducers, Reducer, Store } from 'redux';
 import { createUseModel } from '@/model/useModel';
 import { Context, Model, MountedModel } from '@/types';
 import { createPluginCore } from '@/plugin';
-import { createSubscribe } from '@/model/subscribe';
+import { createSubscribe, GetUnsubscribe } from '@/model/subscribe';
 
 const dummyReducer = '__REDUCK_DUMMY_REDUCER__';
 
@@ -90,7 +90,7 @@ const createContext = (store: Store) => {
     }
 
     const subscription = subscriptions.get(model._name);
-    subscription.getUnsubscribe()?.();
+    subscription[GetUnsubscribe]()?.();
 
     mountedModels.delete(model._name);
     subscriptions.delete(model._name);

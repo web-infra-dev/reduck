@@ -6,6 +6,7 @@ import * as utils from './utils';
 export type {
   ModelDesc,
   Store,
+  StoreConfig,
   GetActions,
   GetState,
   ModelDescOptions,

@@ -1,5 +1,7 @@
 import { Context, Model } from '@/types';
 
+export const GetUnsubscribe = Symbol('getUnsubscribe');
+
 const createSubscribe = (context: Context, model: Model) => {
   const mountedModel = context.apis.getModel(model);
 
@@ -45,8 +47,7 @@ const createSubscribe = (context: Context, model: Model) => {
   };
 
   // manually unsubscribe when model is unmounted
-  ret.getUnsubscribe = () => unsubscribeStore;
-
+  ret[GetUnsubscribe] = () => unsubscribeStore;
   return ret;
 };
 
