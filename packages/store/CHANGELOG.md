@@ -1,5 +1,11 @@
 # @modern-js-reduck/store
 
+## 1.1.4
+
+### Patch Changes
+
+- chore: modify export types
+
 ## 1.1.3
 
 ## 1.1.2
