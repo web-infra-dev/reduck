@@ -107,7 +107,7 @@ export const createApp = (config: Config = {}) => {
 
       const lastValueRef = useRef<ReturnType<typeof store.use>>(initialValue);
 
-      const getSnapshot = () => {
+      const getSnapshot = useCallback(() => {
         const newValue = store.use(...args);
         if (!shallowEqual(lastValueRef.current[0], newValue[0])) {
           lastValueRef.current = newValue;
@@ -115,11 +115,15 @@ export const createApp = (config: Config = {}) => {
         } else {
           return lastValueRef.current;
         }
-      };
+      }, [store, ...args]);
 
       const selectedState = useSyncExternalStore(
         initialValue[2],
-        useCallback(getSnapshot, [store, ...args]),
+        getSnapshot,
+        // The third parameter is required in SSR.
+        // The initial state should be set when createStore in hydration stage,
+        // so we can use the same getSnapshot to get state.
+        getSnapshot,
       );
 
       return selectedState;
