@@ -1,5 +1,16 @@
 # @modern-js-reduck/react
 
+## 1.1.5
+
+### Patch Changes
+
+- 11220b66: fix: memo Provider context value
+  - @modern-js-reduck/plugin-auto-actions@1.1.5
+  - @modern-js-reduck/plugin-devtools@1.1.5
+  - @modern-js-reduck/plugin-effects@1.1.5
+  - @modern-js-reduck/plugin-immutable@1.1.5
+  - @modern-js-reduck/store@1.1.5
+
 ## 1.1.4
 
 ### Patch Changes

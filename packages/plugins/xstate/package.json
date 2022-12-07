@@ -54,7 +54,7 @@
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "workspace:^1.1.4"
+    "@modern-js-reduck/store": "workspace:^1.1.5"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
