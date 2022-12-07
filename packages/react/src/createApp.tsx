@@ -89,14 +89,17 @@ export const createApp = (config: Config = {}) => {
     // user setting would override default plugins
     configFromProvider.plugins = configFromProvider.plugins || defaultPlugins;
 
-    const store = storeFromProps || createStore(configFromProvider);
-    const batchManager = createBatchManager(store);
+    const contextValue = useMemo(() => {
+      const store = storeFromProps || createStore(configFromProvider);
+      const batchManager = createBatchManager(store);
 
-    return (
-      <Context.Provider value={{ store, batchManager }}>
-        {children}
-      </Context.Provider>
-    );
+      return {
+        store,
+        batchManager,
+      };
+    }, [storeFromProps, _config]);
+
+    return <Context.Provider value={contextValue}>{children}</Context.Provider>;
   };
 
   const createUseModel =
