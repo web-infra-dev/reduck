@@ -29,6 +29,10 @@ const todoModel = model('todo').define((_, { use }) => ({
       return Promise.resolve([a]);
     },
 
+    async boolRetEffect() {
+      return Promise.resolve(false);
+    },
+
     loadThunk() {
       const actions = use(todoModel)[1];
 
@@ -55,8 +59,9 @@ describe('reduck effects plugin', () => {
 
     const [, actions] = store.use(todoModel);
 
-    await actions.load();
+    const res = await actions.load();
 
+    expect(res).toEqual(['1']);
     expect(store.use(todoModel)[0]).toEqual({ items: ['1'] });
   });
 
@@ -97,5 +102,18 @@ describe('reduck effects plugin', () => {
     const res = actions.voidEffect();
 
     expect(res).toEqual('success');
+  });
+
+  test('promise effect return bool', async () => {
+    const store = createStore({
+      plugins: [plugin],
+      middlewares: [logger],
+    });
+
+    const [, actions] = store.use(todoModel);
+
+    const res = await actions.boolRetEffect();
+
+    expect(res).toEqual(false);
   });
 });
