@@ -25,7 +25,11 @@ declare module '@modern-js-reduck/store' {
 }
 
 const isReduxPromiseFulfilled = (data: any) => {
-  return typeof data === 'object' && data.action && data.value;
+  return (
+    typeof data === 'object' &&
+    data.hasOwnProperty('action') &&
+    data.hasOwnProperty('value')
+  );
 };
 
 const isPromise = (value: any) => {
