@@ -46,7 +46,9 @@ const shallowEqual = (a: any, b: any) => {
     return false;
   }
 
-  return Object.keys(a).every(key => a[key] === b[key]);
+  return Object.keys(a).every(
+    key => b.hasOwnProperty(key) && a[key] === b[key],
+  );
 };
 
 export const getDefaultPlugins = (config?: PluginConfig) => {
