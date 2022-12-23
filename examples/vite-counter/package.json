@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@modern-js-reduck/react": "*",
+    "@modern-js-reduck/react": "latest",
     "react": "^18.0.2",
     "react-dom": "^18.0.2"
   },

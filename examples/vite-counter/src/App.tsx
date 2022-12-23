@@ -1,7 +1,7 @@
 import { useModel } from '@modern-js-reduck/react';
 import { modelA, modelB } from './model/count';
 function App() {
-  const [state, actions] = useModel([modelA, modelB]);
+  const [state, actions] = useModel(modelA, modelB);
 
   return (
     <div>

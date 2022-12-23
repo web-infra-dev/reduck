@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@modern-js-reduck/react": "*",
+    "@modern-js-reduck/react": "latest",
     "react": "^18.0.2",
     "react-dom": "^18.0.2",
     "react-scripts": "5.0.1",
