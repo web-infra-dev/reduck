@@ -134,7 +134,7 @@ export type MountedModel<M extends Model = Model> = {
  * after
  * {
  *   actions: {
- *     a: (state: State) => {};
+ *     a: (payload: string) => {};
  *   }
  * }
  */
@@ -153,8 +153,14 @@ type ModelType = Model;
 // eslint-disable-next-line @typescript-eslint/ban-types
 type ExcludeEmpty<T> = T extends infer P & {} ? P : T;
 
+type NeededUnionType<T extends any[]> = T[number];
+
 type GetModelsState<Models extends Model[]> = ExcludeEmpty<
-  UnionToIntersection<MountedModel<Models[number]>['state']>
+  UnionToIntersection<
+    NeededUnionType<{
+      [Index in keyof Models]: MountedModel<Models[Index]>['state'];
+    }>
+  >
 >;
 
 type GetModelsAction<Models extends Model[]> = Models extends [

@@ -44,7 +44,6 @@ describe('test computed', () => {
   test('depend on other models', () => {
     const use = () => store.use(modelA, modelB);
     const [state] = use();
-    // state.str
     expectType<StateA & StateB & { double: number } & { str: string }>(state);
   });
 });
