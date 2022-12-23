@@ -1,6 +1,7 @@
 import { expectType, expectAssignable } from 'tsd';
 import { useModel } from '@modern-js/runtime/model';
 import { model } from '..';
+import { ReduxAction } from '@/types';
 
 type StateManual = { count: number; name: 'a' | 'b' };
 const counterManual = model<StateManual>('counter').define({
@@ -50,7 +51,7 @@ describe('action and state manually type', () => {
   expectType<(s: StateManual) => void>(counterManual._.actions.empty);
   const [state, actions] = useModel(counterManual);
   expectType<StateManual>(state);
-  expectType<(n: number) => void>(actions.add);
+  expectType<(n: number) => ReduxAction<number>>(actions.add);
 });
 
 describe('action and state auto infer', () => {
@@ -61,7 +62,7 @@ describe('action and state auto infer', () => {
   expectType<(s: StateInfer) => void>(counterInfer._.actions.empty);
   const [state, actions] = useModel(counterInfer);
   expectType<StateInfer>(state);
-  expectType<(n: number) => void>(actions.add);
+  expectType<(n: number) => ReduxAction<number>>(actions.add);
 });
 
 describe('action and state union type', () => {
@@ -92,6 +93,6 @@ describe('action and state function Initial', () => {
     counter._.actions.add,
   );
   expectType<number>(state.c);
-  expectType<() => void>(actions.test.a);
-  expectType<(n: number) => void>(actions.test.b);
+  expectType<() => ReduxAction<undefined>>(actions.test.a);
+  expectType<(n: number) => ReduxAction<number>>(actions.test.b);
 });
