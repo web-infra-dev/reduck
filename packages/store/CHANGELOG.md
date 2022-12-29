@@ -1,5 +1,11 @@
 # @modern-js-reduck/store
 
+## 1.1.6
+
+### Patch Changes
+
+- 4a4e8925: fix: fix computed type
+
 ## 1.1.5
 
 ## 1.1.4

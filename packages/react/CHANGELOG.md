@@ -1,5 +1,18 @@
 # @modern-js-reduck/react
 
+## 1.1.6
+
+### Patch Changes
+
+- 29acadb3: fix: fix shallowEqual
+- Updated dependencies [35f03bc5]
+- Updated dependencies [4a4e8925]
+  - @modern-js-reduck/plugin-effects@1.1.6
+  - @modern-js-reduck/store@1.1.6
+  - @modern-js-reduck/plugin-auto-actions@1.1.6
+  - @modern-js-reduck/plugin-devtools@1.1.6
+  - @modern-js-reduck/plugin-immutable@1.1.6
+
 ## 1.1.5
 
 ### Patch Changes
