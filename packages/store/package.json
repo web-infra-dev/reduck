@@ -25,17 +25,9 @@
   ],
   "exports": {
     ".": {
-      "node": {
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
-      },
       "default": "./dist/js/treeshaking/index.js"
     },
     "./utils": {
-      "node": {
-        "import": "./dist/js/modern/utils/index.js",
-        "require": "./dist/js/node/utils/index.js"
-      },
       "default": "./dist/js/treeshaking/utils/index.js"
     }
   },
