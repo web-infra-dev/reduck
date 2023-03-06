@@ -25,9 +25,11 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/js/treeshaking/index.js"
     },
     "./utils": {
+      "types": "./dist/types/utils/index.d.ts",
       "default": "./dist/js/treeshaking/utils/index.js"
     }
   },
