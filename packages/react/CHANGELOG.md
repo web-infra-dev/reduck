@@ -1,5 +1,18 @@
 # @modern-js-reduck/react
 
+## 1.1.7
+
+### Patch Changes
+
+- 1b6773e: feat: remove node entry in all pkg package.json
+- Updated dependencies [856a79d]
+- Updated dependencies [1b6773e]
+  - @modern-js-reduck/store@1.1.7
+  - @modern-js-reduck/plugin-auto-actions@1.1.7
+  - @modern-js-reduck/plugin-devtools@1.1.7
+  - @modern-js-reduck/plugin-effects@1.1.7
+  - @modern-js-reduck/plugin-immutable@1.1.7
+
 ## 1.1.6
 
 ### Patch Changes
