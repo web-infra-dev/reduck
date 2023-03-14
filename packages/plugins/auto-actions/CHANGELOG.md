@@ -1,5 +1,14 @@
 # @modern-js-reduck/plugin-auto-actions
 
+## 1.1.7
+
+### Patch Changes
+
+- 1b6773e: feat: remove node entry in all pkg package.json
+- Updated dependencies [856a79d]
+- Updated dependencies [1b6773e]
+  - @modern-js-reduck/store@1.1.7
+
 ## 1.1.6
 
 ### Patch Changes

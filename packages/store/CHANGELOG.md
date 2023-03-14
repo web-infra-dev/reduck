@@ -1,5 +1,13 @@
 # @modern-js-reduck/store
 
+## 1.1.7
+
+### Patch Changes
+
+- 856a79d: fix: add the types field in package.json
+  fix: 在 package.json 中添加 types 字段
+- 1b6773e: feat: remove node entry in all pkg package.json
+
 ## 1.1.6
 
 ### Patch Changes
