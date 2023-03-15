@@ -1,5 +1,11 @@
 # @modern-js-reduck/plugin-auto-actions
 
+## 1.1.8
+
+### Patch Changes
+
+- @modern-js-reduck/store@1.1.8
+
 ## 1.1.7
 
 ### Patch Changes

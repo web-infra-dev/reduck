@@ -1,5 +1,17 @@
 # @modern-js-reduck/react
 
+## 1.1.8
+
+### Patch Changes
+
+- 7e3a0cc: fix: fix the types field in @modern-js-reduck/react
+  fix: 修复 @modern-js-reduck/react 中的 types 字段
+  - @modern-js-reduck/plugin-auto-actions@1.1.8
+  - @modern-js-reduck/plugin-devtools@1.1.8
+  - @modern-js-reduck/plugin-effects@1.1.8
+  - @modern-js-reduck/plugin-immutable@1.1.8
+  - @modern-js-reduck/store@1.1.8
+
 ## 1.1.7
 
 ### Patch Changes
