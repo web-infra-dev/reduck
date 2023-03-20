@@ -1,4 +1,4 @@
-import { ModelDesc } from '@modern-js-reduck/store/dist/types';
+import { ModelDesc } from '@modern-js-reduck/store/types';
 
 const mergeActions = (modelDesc: ModelDesc, actions: any) => ({
   ...modelDesc,

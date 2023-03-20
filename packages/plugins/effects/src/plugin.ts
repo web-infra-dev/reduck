@@ -1,5 +1,5 @@
 import { createPlugin } from '@modern-js-reduck/store';
-import { Model } from '@modern-js-reduck/store/dist/types/types';
+import { Model } from '@modern-js-reduck/store/types';
 import { createPromise } from 'redux-promise-middleware';
 
 type AsyncEffect = (...args: any[]) => Promise<any>;

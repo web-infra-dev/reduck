@@ -1,5 +1,5 @@
 import { createPlugin, utils } from '@modern-js-reduck/store';
-import { Model } from '@modern-js-reduck/store/dist/types/types';
+import { Model } from '@modern-js-reduck/store/types';
 import { mergeActions } from './utils';
 import * as primitiveActions from './primitive';
 import { ArrayDispatchActions } from './array';

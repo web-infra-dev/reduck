@@ -9,7 +9,7 @@ import React, {
   useCallback,
 } from 'react';
 import invariant from 'invariant';
-import { Model, UseModel } from '@modern-js-reduck/store/dist/types/types';
+import { Model, UseModel } from '@modern-js-reduck/store/types';
 import effectsPlugin from '@modern-js-reduck/plugin-effects';
 import immerPlugin from '@modern-js-reduck/plugin-immutable';
 import autoActionsPlugin from '@modern-js-reduck/plugin-auto-actions';
