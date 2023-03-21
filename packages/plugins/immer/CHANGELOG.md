@@ -1,5 +1,12 @@
 # @modern-js-reduck/plugin-immutable
 
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies [d5d5f8b]
+  - @modern-js-reduck/store@1.1.9
+
 ## 1.1.8
 
 ### Patch Changes
