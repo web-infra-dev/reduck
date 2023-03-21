@@ -1,5 +1,12 @@
 # @modern-js-reduck/store
 
+## 1.1.9
+
+### Patch Changes
+
+- d5d5f8b: chore: add subpath exports "types" in @modern-js-reduck/store
+  chore: 添加 @modern-js-reduck/store 的 types 子路径导出
+
 ## 1.1.8
 
 ## 1.1.7
