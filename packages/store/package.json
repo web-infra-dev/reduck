@@ -28,6 +28,10 @@
       "types": "./dist/types/index.d.ts",
       "default": "./dist/js/treeshaking/index.js"
     },
+    "./types": {
+      "types": "./dist/types/types/index.d.ts",
+      "default": "./dist/js/treeshaking/types/index.js"
+    },
     "./utils": {
       "types": "./dist/types/utils/index.d.ts",
       "default": "./dist/js/treeshaking/utils/index.js"
@@ -37,6 +41,9 @@
     "*": {
       ".": [
         "./dist/types/index.d.ts"
+      ],
+      "types": [
+        "./dist/types/types/index.d.ts"
       ],
       "utils": [
         "./dist/types/utils/index.d.ts"

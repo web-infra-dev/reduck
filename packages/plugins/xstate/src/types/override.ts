@@ -1,4 +1,4 @@
-import { Model } from '@modern-js-reduck/store/dist/types/types';
+import { Model } from '@modern-js-reduck/store/types';
 import { Interpreter } from 'xstate/lib/interpreter';
 import {
   StateMachine,
