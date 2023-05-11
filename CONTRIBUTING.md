@@ -1,6 +1,6 @@
-# Modern.js Contributing Guide
+# Reduck Contributing Guide
 
-Thanks for that you are interested in contributing to Modern.js.
+Thanks for that you are interested in contributing to Reduck.
 
 ## Developing
 
@@ -34,11 +34,8 @@ To develop locally:
     cd ./packages/
     ```
 
-6. Start developing and watch for code changes:
+6. Start developing.
 
-   ```zsh
-   pnpm dev
-   ```
 
 ## Building
 
@@ -52,7 +49,7 @@ pnpm build
 build all packages, with:
 
 ```zsh
-pnpm prepare
+pnpm -r prepare
 ```
 
 If you need to clean all `node_modules/*` the project for any reason, with
@@ -63,14 +60,14 @@ pnpm reset
 
 ## Testing
 
-You need write th new tests for new feature or modify exist tests for changes.
+You need write new test cases for new feature or modify existing test cases for changes.
 
-We wish you write unit tests at `PACKAGE_DIR/tests`. Test syntax is based on [jest](https://jestjs.io/).
+We wish you write unit tests at `PACKAGE_DIR/__test__`. Test syntax is based on [jest](https://jestjs.io/).
 
 ### Run Testing
 
 ```sh
-pnpm test
+pnpm -r test
 ```
 
 ## Linting
@@ -94,25 +91,19 @@ Repository maintainers can publish a new version of all packages to npm.
     pnpm run setup
     ```
 
-3. Prepare
-
-    ```zsh
-    pnpm prepare
-    ```
-
-4. Add changeset
+3. Add changeset
 
    ```zsh
    pnpm change
    ```
 
-5. Bump version
+4. Bump version
 
    ```zsh
    pnpm bump
    ```
 
-6. Commit version change. The format of commit message should be `chore: va.b.c` which is the main version of current release.
+5. Commit version change. The format of commit message should be `chore: va.b.c` which is the main version of current release.
 
     ```zsh
     git add .
