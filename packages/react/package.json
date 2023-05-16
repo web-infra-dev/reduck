@@ -7,8 +7,8 @@
   ],
   "jsnext:source": "./src/index.ts",
   "types": "./type.d.ts",
-  "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
@@ -25,7 +25,7 @@
   "exports": {
     ".": {
       "types": "./type.d.ts",
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/esm/index.js"
     }
   },
   "scripts": {
@@ -36,7 +36,7 @@
     "test": "modern test"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
+    "@swc/helpers": "0.5.1",
     "@modern-js-reduck/store": "workspace:*",
     "@modern-js-reduck/plugin-effects": "workspace:*",
     "@modern-js-reduck/plugin-immutable": "workspace:*",
@@ -46,11 +46,12 @@
     "invariant": "^2.2.4"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.7.1",
-    "@modern-js/plugin-testing": "^1.6.0",
+    "@modern-js/module-tools": "2.21.1",
+    "@modern-js/plugin-testing": "2.21.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/react-12": "npm:@testing-library/react@^12",
+    "@types/hoist-non-react-statics": "3.3.1",
     "@types/invariant": "^2.2.34",
     "@types/jest": "^27.5.1",
     "@types/node": "^14",
