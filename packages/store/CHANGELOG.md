@@ -1,5 +1,11 @@
 # @modern-js-reduck/store
 
+## 1.1.10
+
+### Patch Changes
+
+- 8b81fc9: fix: fix initial state missing
+
 ## 1.1.9
 
 ### Patch Changes

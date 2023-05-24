@@ -1,5 +1,12 @@
 # @modern-js-reduck/plugin-devtools
 
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [8b81fc9]
+  - @modern-js-reduck/store@1.1.10
+
 ## 1.1.9
 
 ### Patch Changes
