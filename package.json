@@ -24,7 +24,8 @@
     "pre": "modern pre",
     "release": "modern release",
     "prepare": "husky install",
-    "preinstall": "only-allow-pnpm"
+    "preinstall": "only-allow-pnpm",
+    "gen-release-note": "modern gen-release-note"
   },
   "engines": {
     "node": ">=12.13.0"
