@@ -1,7 +1,7 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable max-lines */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import type { ComponentType, NamedExoticComponent } from 'react';
 import { forwardRef, memo } from 'react';
 import { utils } from '@modern-js-reduck/store';
@@ -11,7 +11,7 @@ import type {
   GetModelActions,
   GetModelState,
 } from '@modern-js-reduck/store';
-// @ts-expect-error
+
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { useModel } from './hook';
 

@@ -1,0 +1,7 @@
+{
+  "name": "common",
+  "private": true,
+  "devDependencies": {
+    "@modern-js/module-tools": "2.21.1"
+  }
+}

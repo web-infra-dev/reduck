@@ -1,3 +1,8 @@
+const {
+  default: moduleTools,
+  defineConfig,
+} = require('@modern-js/module-tools');
+const test = require('@modern-js/plugin-testing').default;
 const config = require('../../common/config');
 
 const react17Config = {
@@ -13,9 +18,10 @@ const react18Config = {
   displayName: 'ReactDOM 18',
 };
 
-module.exports = {
+module.exports = defineConfig({
   ...config,
-  tools: {
+  plugins: [moduleTools(), test()],
+  testing: {
     jest: options => {
       const { moduleNameMapper } = options;
       delete options.moduleNameMapper;
@@ -38,4 +44,4 @@ module.exports = {
       };
     },
   },
-};
+});

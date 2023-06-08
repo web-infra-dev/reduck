@@ -6,9 +6,8 @@
   ],
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
-  "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/reduck/issues",
@@ -24,7 +23,7 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/esm/index.js"
     }
   },
   "scripts": {
@@ -35,12 +34,12 @@
     "test": "modern test"
   },
   "dependencies": {
-    "@babel/runtime": "^7"
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js-reduck/store": "workspace:*",
-    "@modern-js/module-tools": "^1.7.1",
-    "@modern-js/plugin-testing": "^1.6.0",
+    "@modern-js/module-tools": "2.21.1",
+    "@modern-js/plugin-testing": "2.21.1",
     "@types/jest": "^27.5.1",
     "@types/node": "^14",
     "typescript": "^4",

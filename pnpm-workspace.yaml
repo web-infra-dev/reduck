@@ -5,3 +5,4 @@ packages:
   - 'packages/**'
   - 'examples/**'
   - 'scripts'
+  - 'common'

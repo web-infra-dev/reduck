@@ -1,24 +1,24 @@
+/**
+ * @typedef {import('@modern-js/module-tools').ModuleUserConfig} ModuleUserConfig
+*/
+
+/**
+ * @type {ModuleUserConfig}
+ */
 module.exports = {
-  tools: {
-    babel: config => {
-      const { presets } = config;
-      for (const preset of presets) {
-        if (
-          preset[0].includes('@babel/preset-env') &&
-          preset[1].modules !== 'commonjs' // exclude dist for node directory
-        ) {
-          preset[1] = {
-            targets: {
-              esmodules: true,
-            },
-            // Use the equivalent of `babel-preset-modules`
-            bugfixes: true,
-            modules: false,
-            loose: true,
-          };
-        }
+  buildPreset({ preset }) {
+    return preset['modern-js-universal'].filter(config => {
+      // remove esm code that run in node environment.
+      return !config.outDir.includes('esm-node');
+    }).map(config => {
+      // check es5 config, instead of es2015
+      if (config.target === 'es5') {
+        config.target = 'es2015';
       }
-    },
+      return config;
+    });
+  },
+  testing: {
     jest: {
       collectCoverage: true,
       collectCoverageFrom: [
