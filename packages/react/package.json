@@ -25,6 +25,7 @@
   "exports": {
     ".": {
       "types": "./type.d.ts",
+      "node": "./dist/cjs/index.js",
       "default": "./dist/esm/index.js"
     }
   },
