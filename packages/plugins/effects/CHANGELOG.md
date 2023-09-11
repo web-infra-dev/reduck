@@ -1,5 +1,18 @@
 # @modern-js-reduck/plugin-effects
 
+## 1.1.11
+
+### Patch Changes
+
+- 1b6f119: chore: update build tools and build config, reduck product size.
+  chore: 更新构建工具和配置,减少产物体积
+- 3979805: fix: add node to package.json exports
+- 96afcec: fix: correct exports
+- Updated dependencies [1b6f119]
+- Updated dependencies [3979805]
+- Updated dependencies [96afcec]
+  - @modern-js-reduck/store@1.1.11
+
 ## 1.1.10
 
 ### Patch Changes
