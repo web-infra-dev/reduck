@@ -47,7 +47,7 @@ const shallowEqual = (a: any, b: any) => {
   }
 
   return Object.keys(a).every(
-    key => b.hasOwnProperty(key) && a[key] === b[key],
+    key => Object.prototype.hasOwnProperty.call(b, key) && a[key] === b[key],
   );
 };
 
