@@ -1,5 +1,11 @@
 # @modern-js-reduck/plugin-effects
 
+## 1.1.12
+
+### Patch Changes
+
+- @modern-js-reduck/store@1.1.12
+
 ## 1.1.11
 
 ### Patch Changes
