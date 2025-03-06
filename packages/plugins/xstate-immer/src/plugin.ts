@@ -34,7 +34,6 @@ export const plugin = createPlugin(() => ({
         const isAssignObj =
           Object.keys(obj[key]) === ['type', 'assignment'] &&
           obj[key].type === 'xstate.assign';
-
         if (isOnActions && isFunction) {
           obj[key] = assign(obj[key]);
         } else if (isAssignObj) {

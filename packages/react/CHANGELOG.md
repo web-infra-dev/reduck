@@ -1,5 +1,19 @@
 # @modern-js-reduck/react
 
+## 1.1.12
+
+### Patch Changes
+
+- 84fbb3f: fix: use Object.prototype.hasOwnProperty(obj) instead obj.hasOwnProperty
+
+  fix: 修复了对象可能有 Object.create(null) 创建，没有对象属性的问题
+
+  - @modern-js-reduck/plugin-auto-actions@1.1.12
+  - @modern-js-reduck/plugin-devtools@1.1.12
+  - @modern-js-reduck/plugin-effects@1.1.12
+  - @modern-js-reduck/plugin-immutable@1.1.12
+  - @modern-js-reduck/store@1.1.12
+
 ## 1.1.11
 
 ### Patch Changes
