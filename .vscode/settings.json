@@ -119,7 +119,7 @@
   "prettier.jsxBracketSameLine": true,
   //
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "editor.codeActionsOnSaveTimeout": 5000,
   "editor.defaultFormatter": "EditorConfig.EditorConfig",

@@ -25,7 +25,8 @@
     "release": "modern release",
     "prepare": "husky install",
     "preinstall": "only-allow-pnpm",
-    "gen-release-note": "modern gen-release-note"
+    "gen-release-note": "modern gen-release-note",
+    "get-release-version": "cd scripts && pnpm run get-release-version"
   },
   "engines": {
     "node": ">=12.13.0"
