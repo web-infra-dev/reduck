@@ -1,5 +1,17 @@
 # @modern-js-reduck/react
 
+## 1.1.13
+
+### Patch Changes
+
+- d5d3a2c: fix: should run prepare before publish
+- Updated dependencies [d5d3a2c]
+  - @modern-js-reduck/plugin-auto-actions@1.1.13
+  - @modern-js-reduck/plugin-devtools@1.1.13
+  - @modern-js-reduck/plugin-effects@1.1.13
+  - @modern-js-reduck/plugin-immutable@1.1.13
+  - @modern-js-reduck/store@1.1.13
+
 ## 1.1.12
 
 ### Patch Changes
