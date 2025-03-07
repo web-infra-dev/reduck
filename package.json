@@ -23,7 +23,8 @@
     "bump": "modern bump",
     "pre": "modern pre",
     "release": "modern release",
-    "prepare": "pnpm run --filter './packages/**' prepare && husky install",
+    "prepare": "husky install",
+    "build": "pnpm run --filter './packages/**' prepare",
     "preinstall": "only-allow-pnpm",
     "gen-release-note": "modern gen-release-note",
     "get-release-version": "cd scripts && pnpm run get-release-version"
