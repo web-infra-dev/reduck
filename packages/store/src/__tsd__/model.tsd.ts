@@ -1,5 +1,5 @@
 import { expectType, expectAssignable } from 'tsd';
-import { useModel } from '../../../react';
+import { useModel } from '../../../react/src';
 import { model } from '..';
 import { ReduxAction } from '@/types';
 
