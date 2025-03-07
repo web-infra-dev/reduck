@@ -1,5 +1,11 @@
 # @modern-js-reduck/store
 
+## 1.1.13
+
+### Patch Changes
+
+- d5d3a2c: fix: should run prepare before publish
+
 ## 1.1.12
 
 ## 1.1.11

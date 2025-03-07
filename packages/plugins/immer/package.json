@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-reduck/plugin-immutable",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "files": [
     "dist"
   ],
@@ -50,7 +50,7 @@
   "modernSettings": {},
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js-reduck/store": "workspace:^1.1.12"
+    "@modern-js-reduck/store": "workspace:^1.1.13"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
