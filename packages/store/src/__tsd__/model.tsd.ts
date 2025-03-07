@@ -1,5 +1,5 @@
 import { expectType, expectAssignable } from 'tsd';
-import { useModel } from '@modern-js/runtime/model';
+import { useModel } from '../../../react';
 import { model } from '..';
 import { ReduxAction } from '@/types';
 
